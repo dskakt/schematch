@@ -23,10 +23,15 @@ export default function EventPage() {
   const { toast } = useToast();
   const eventId = params.id;
 
-  const { data, isLoading } = useQuery<{ event: Event; timeSlots: TimeSlot[] }>({
+  const { data, isLoading, error } = useQuery<{ event: Event; timeSlots: TimeSlot[] }>({
     queryKey: ["/api/events", eventId],
     enabled: !!eventId,
   });
+
+  // Log errors for debugging
+  if (error) {
+    console.error("Error loading event:", error);
+  }
 
   const submitResponseMutation = useMutation({
     mutationFn: async (responseData: { name: string; availability: string[] }) => {

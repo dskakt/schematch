@@ -23,17 +23,25 @@ export default function ResultsPage() {
   const params = useParams();
   const eventId = params.id;
 
-  const { data: eventData, isLoading: isLoadingEvent } = useQuery<{ event: Event; timeSlots: TimeSlot[] }>({
+  const { data: eventData, isLoading: isLoadingEvent, error: eventError } = useQuery<{ event: Event; timeSlots: TimeSlot[] }>({
     queryKey: ["/api/events", eventId],
     enabled: !!eventId,
   });
 
-  const { data: responsesData, isLoading: isLoadingResponses } = useQuery<Response[]>({
+  const { data: responsesData, isLoading: isLoadingResponses, error: responsesError } = useQuery<Response[]>({
     queryKey: ["/api/events", eventId, "responses"],
     enabled: !!eventId,
   });
 
   const isLoading = isLoadingEvent || isLoadingResponses;
+
+  // Log errors for debugging
+  if (eventError) {
+    console.error("Error loading event:", eventError);
+  }
+  if (responsesError) {
+    console.error("Error loading responses:", responsesError);
+  }
 
   if (isLoading) {
     return (
