@@ -115,10 +115,10 @@ export default function CreateEvent() {
                 <div className="space-y-3">
                   <div>
                     <h3 className="text-lg font-semibold" data-testid="text-time-selection-title">
-                      候補日時を選択
+                      Select Time Slots
                     </h3>
                     <p className="text-sm text-muted-foreground mt-1" data-testid="text-time-selection-description">
-                      参加者が選択できる候補日時をカレンダーからクリックして選んでください。複数の候補を選択できます。
+                      Click on the calendar to select possible meeting times. You can select multiple time slots.
                     </p>
                   </div>
 
