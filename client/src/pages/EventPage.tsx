@@ -1,10 +1,12 @@
 import { useState } from "react";
-import { useParams, useLocation } from "wouter";
+import { useParams, useLocation, Link } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import Header from "@/components/Header";
 import ParticipantResponse from "@/components/ParticipantResponse";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { Button } from "@/components/ui/button";
+import { BarChart3 } from "lucide-react";
 
 interface TimeSlot {
   id: string;
@@ -104,11 +106,21 @@ export default function EventPage() {
     <div className="min-h-screen bg-background" data-testid="page-event">
       <Header />
       <main className="py-12 px-6">
-        <ParticipantResponse
-          eventTitle={data.event.title}
-          timeSlots={formattedSlots}
-          onSubmit={handleSubmit}
-        />
+        <div className="max-w-6xl mx-auto space-y-6">
+          <div className="flex justify-center">
+            <Link href={`/event/${eventId}/results`}>
+              <Button variant="outline" data-testid="link-view-results">
+                <BarChart3 className="w-4 h-4 mr-2" />
+                View Results
+              </Button>
+            </Link>
+          </div>
+          <ParticipantResponse
+            eventTitle={data.event.title}
+            timeSlots={formattedSlots}
+            onSubmit={handleSubmit}
+          />
+        </div>
       </main>
     </div>
   );
