@@ -47,7 +47,9 @@ export default function ParticipantResponse({
         slots: []
       };
     }
-    acc[dateKey].slots.push({ ...slot, id: `slot-${index}` });
+    // If slot already has an id (from backend), use it; otherwise generate one
+    const slotId = 'id' in slot && typeof slot.id === 'string' ? slot.id : `slot-${index}`;
+    acc[dateKey].slots.push({ ...slot, id: slotId });
     return acc;
   }, {} as Record<string, { date: Date; slots: Array<TimeSlot & { id: string }> }>);
 
