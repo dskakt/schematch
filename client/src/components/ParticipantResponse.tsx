@@ -64,7 +64,7 @@ export default function ParticipantResponse({
         <CardHeader>
           <CardTitle data-testid="text-form-title">Mark Your Availability</CardTitle>
           <CardDescription data-testid="text-form-description">
-            Select all times when you're available
+            Click on times when you can attend
           </CardDescription>
         </CardHeader>
         <CardContent>
