@@ -124,18 +124,28 @@ export default function EventConfirmation({
         </CardContent>
       </Card>
 
-      <div className="flex gap-3">
-        <Button
-          variant="outline"
-          onClick={() => window.location.href = participantLink}
-          className="flex-1"
-          data-testid="button-view-event"
-        >
-          View Event
-        </Button>
+      <div className="flex flex-col gap-3">
+        <div className="flex gap-3">
+          <Button
+            variant="outline"
+            onClick={() => window.location.href = participantLink}
+            className="flex-1"
+            data-testid="button-view-event"
+          >
+            View Event
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => window.location.href = `/event/${eventId}/results`}
+            className="flex-1"
+            data-testid="button-view-results"
+          >
+            View Results
+          </Button>
+        </div>
         <Button
           onClick={() => window.location.href = '/'}
-          className="flex-1"
+          className="w-full"
           data-testid="button-create-another"
         >
           Create Another Event
