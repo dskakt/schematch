@@ -11,10 +11,10 @@ interface WeeklyCalendarProps {
 }
 
 const TIMES = [
-  "8:00 AM", "8:30 AM", "9:00 AM", "9:30 AM", "10:00 AM", "10:30 AM",
-  "11:00 AM", "11:30 AM", "12:00 PM", "12:30 PM", "1:00 PM", "1:30 PM",
-  "2:00 PM", "2:30 PM", "3:00 PM", "3:30 PM", "4:00 PM", "4:30 PM",
-  "5:00 PM", "5:30 PM", "6:00 PM", "6:30 PM", "7:00 PM", "7:30 PM"
+  "8:00-8:30", "8:30-9:00", "9:00-9:30", "9:30-10:00", "10:00-10:30", "10:30-11:00",
+  "11:00-11:30", "11:30-12:00", "12:00-12:30", "12:30-13:00", "13:00-13:30", "13:30-14:00",
+  "14:00-14:30", "14:30-15:00", "15:00-15:30", "15:30-16:00", "16:00-16:30", "16:30-17:00",
+  "17:00-17:30", "17:30-18:00", "18:00-18:30", "18:30-19:00", "19:00-19:30", "19:30-20:00"
 ];
 
 const getInitialWeekStart = (
@@ -133,16 +133,24 @@ export default function WeeklyCalendar({
             <div className="bg-muted p-2 font-medium text-sm text-center sticky left-0 z-10" data-testid="header-time">
               Time
             </div>
-            {weekDays.map((day) => (
-              <div
-                key={day.toISOString()}
-                className="bg-muted p-2 text-center"
-                data-testid={`header-day-${format(day, 'yyyy-MM-dd')}`}
-              >
-                <div className="text-xs text-muted-foreground">{format(day, 'EEE')}</div>
-                <div className="font-medium">{format(day, 'd')}</div>
-              </div>
-            ))}
+            {weekDays.map((day, index) => {
+              const isSunday = index === 0;
+              const isSaturday = index === 6;
+              return (
+                <div
+                  key={day.toISOString()}
+                  className="bg-muted p-2 text-center"
+                  data-testid={`header-day-${format(day, 'yyyy-MM-dd')}`}
+                >
+                  <div className={`text-xs ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : 'text-muted-foreground'}`}>
+                    {format(day, 'EEE')}
+                  </div>
+                  <div className={`font-medium ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : ''}`}>
+                    {format(day, 'd')}
+                  </div>
+                </div>
+              );
+            })}
 
             {TIMES.map((time) => (
               <div key={time} className="contents">
@@ -152,10 +160,12 @@ export default function WeeklyCalendar({
                 >
                   {time}
                 </div>
-                {weekDays.map((day) => {
+                {weekDays.map((day, dayIndex) => {
                   const selected = isSlotSelected(day, time);
                   const available = isSlotAvailable(day, time);
                   const isDisabled = mode === "respond" && !available;
+                  const isSunday = dayIndex === 0;
+                  const isSaturday = dayIndex === 6;
 
                   return (
                     <button
@@ -163,11 +173,13 @@ export default function WeeklyCalendar({
                       onClick={() => toggleSlot(day, time)}
                       disabled={isDisabled}
                       className={`
-                        bg-background p-2 min-h-[40px] transition-colors
+                        p-2 min-h-[40px] transition-colors
                         ${!isDisabled && 'hover-elevate cursor-pointer'}
                         ${selected && 'bg-primary text-primary-foreground'}
                         ${isDisabled && 'opacity-30 cursor-not-allowed'}
-                        ${!selected && !isDisabled && available && mode === "respond" && 'bg-primary/10'}
+                        ${!selected && !isDisabled && available && mode === "respond" && 'bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700'}
+                        ${!selected && !isDisabled && !available && mode === "respond" && 'bg-background'}
+                        ${!selected && mode === "create" && (isSunday ? 'bg-red-50 dark:bg-red-950/20' : isSaturday ? 'bg-blue-50 dark:bg-blue-950/20' : 'bg-background')}
                       `}
                       data-testid={`slot-${format(day, 'yyyy-MM-dd')}-${time.replace(/[:\s]/g, '-')}`}
                     />
@@ -180,8 +192,17 @@ export default function WeeklyCalendar({
       </div>
 
       {mode === "respond" && (
-        <div className="text-sm text-muted-foreground text-center">
-          Click on the available time slots to mark your availability
+        <div className="space-y-2">
+          <div className="flex items-center justify-center gap-4 text-sm">
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded"></div>
+              <span className="text-muted-foreground">Available slots</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-primary rounded"></div>
+              <span className="text-muted-foreground">Your selection</span>
+            </div>
+          </div>
         </div>
       )}
     </div>

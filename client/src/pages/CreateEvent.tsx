@@ -1,23 +1,19 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import Header from "@/components/Header";
-import EventDetailsForm from "@/components/EventDetailsForm";
 import WeeklyCalendar from "@/components/WeeklyCalendar";
 import EventConfirmation from "@/components/EventConfirmation";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
 import { apiRequest } from "@/lib/queryClient";
 import { format } from "date-fns";
 
-interface EventDetails {
-  title: string;
-  email: string;
-}
-
 export default function CreateEvent() {
   const [, setLocation] = useLocation();
-  const [showForm, setShowForm] = useState(true);
-  const [eventDetails, setEventDetails] = useState<EventDetails | null>(null);
+  const [title, setTitle] = useState("");
+  const [email, setEmail] = useState("");
   const [selectedSlots, setSelectedSlots] = useState<{ date: Date; time: string }[]>([]);
   const [createdEvent, setCreatedEvent] = useState<{
     eventId: string;
@@ -27,13 +23,9 @@ export default function CreateEvent() {
   } | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
-  const handleEventDetailsSubmit = (data: EventDetails) => {
-    setEventDetails(data);
-    setShowForm(false);
-  };
-
-  const handleCreateEvent = async () => {
-    if (!eventDetails || selectedSlots.length === 0) return;
+  const handleCreateEvent = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!title || !email || selectedSlots.length === 0) return;
     
     setIsCreating(true);
     
@@ -44,8 +36,8 @@ export default function CreateEvent() {
       }));
 
       const res = await apiRequest("POST", "/api/events", {
-        title: eventDetails.title,
-        organizerEmail: eventDetails.email,
+        title,
+        organizerEmail: email,
         timeSlots: flattenedSlots,
       });
       
@@ -90,43 +82,53 @@ export default function CreateEvent() {
     <div className="min-h-screen bg-background" data-testid="page-create-event">
       <Header />
       <main className="py-12 px-6">
-        <div className="max-w-6xl mx-auto space-y-6">
-          {showForm ? (
-            <EventDetailsForm onNext={handleEventDetailsSubmit} />
-          ) : (
-            <>
-              <Card>
-                <CardHeader>
-                  <CardTitle data-testid="text-event-title">{eventDetails?.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <WeeklyCalendar
-                    selectedSlots={selectedSlots}
-                    onSlotsChange={setSelectedSlots}
-                    mode="create"
-                  />
-                  <div className="flex gap-3 mt-6">
-                    <Button
-                      variant="outline"
-                      onClick={() => setShowForm(true)}
-                      className="flex-1"
-                      data-testid="button-back"
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      onClick={handleCreateEvent}
-                      disabled={selectedSlots.length === 0 || isCreating}
-                      className="flex-1"
-                      data-testid="button-create"
-                    >
-                      {isCreating ? "Creating..." : "Create Event"}
-                    </Button>
+        <div className="max-w-6xl mx-auto">
+          <Card>
+            <CardContent className="pt-6">
+              <form onSubmit={handleCreateEvent} className="space-y-6">
+                <div className="grid md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="title" data-testid="label-title">Event Name</Label>
+                    <Input
+                      id="title"
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
+                      placeholder="e.g., Team Meeting"
+                      required
+                      data-testid="input-title"
+                    />
                   </div>
-                </CardContent>
-              </Card>
-            </>
-          )}
+                  <div className="space-y-2">
+                    <Label htmlFor="email" data-testid="label-email">Your Email</Label>
+                    <Input
+                      id="email"
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="organizer@example.com"
+                      required
+                      data-testid="input-email"
+                    />
+                  </div>
+                </div>
+
+                <WeeklyCalendar
+                  selectedSlots={selectedSlots}
+                  onSlotsChange={setSelectedSlots}
+                  mode="create"
+                />
+
+                <Button
+                  type="submit"
+                  disabled={selectedSlots.length === 0 || isCreating}
+                  className="w-full"
+                  data-testid="button-create"
+                >
+                  {isCreating ? "Creating..." : "Create Event"}
+                </Button>
+              </form>
+            </CardContent>
+          </Card>
         </div>
       </main>
     </div>
