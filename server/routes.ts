@@ -19,6 +19,36 @@ const createResponseRequestSchema = z.object({
   availableSlotIds: z.array(z.string()),
 });
 
+// Helper function to send organizer email
+async function sendOrganizerEmail(
+  organizerEmail: string,
+  eventTitle: string,
+  eventId: string,
+  editToken: string
+) {
+  const baseUrl = process.env.REPL_SLUG 
+    ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`
+    : "http://localhost:5000";
+  
+  const participantLink = `${baseUrl}/event/${eventId}`;
+  const editLink = `${baseUrl}/event/${eventId}/edit?token=${editToken}`;
+  
+  // TODO: Implement actual email sending with Resend integration
+  // For now, log the email content
+  console.log("\n=== Email to Organizer ===");
+  console.log(`To: ${organizerEmail}`);
+  console.log(`Subject: Your MeetSync Event "${eventTitle}" has been created`);
+  console.log("\n--- Email Content ---");
+  console.log(`Hi there!`);
+  console.log(`\nYour event "${eventTitle}" has been successfully created.`);
+  console.log(`\nShare this link with participants:`);
+  console.log(participantLink);
+  console.log(`\nEdit your event (organizer only):`);
+  console.log(editLink);
+  console.log(`\nThank you for using MeetSync!`);
+  console.log("======================\n");
+}
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Create event with time slots
   app.post("/api/events", async (req, res) => {
@@ -41,6 +71,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
           time: normalizeTimeSlot(slot.time),
         }))
       );
+      
+      // Send email to organizer (non-blocking)
+      sendOrganizerEmail(
+        event.organizerEmail,
+        event.title,
+        event.id,
+        editToken
+      ).catch(error => {
+        console.error("Failed to send organizer email:", error);
+        // Don't fail the request if email sending fails
+      });
       
       res.json({
         event,

@@ -100,3 +100,26 @@ Preferred communication style: Simple, everyday language.
 **Font Loading:**
 - Google Fonts (Inter, Architects Daughter, DM Sans, Fira Code, Geist Mono)
 - Loaded via CDN in HTML head
+
+## Recent Changes
+
+### November 9, 2025
+
+**UI Improvements:**
+- Implemented sticky calendar headers that remain fixed when scrolling
+  - Date/day headers stay at top during vertical scroll
+  - Time labels stay fixed on left during horizontal scroll
+  - Maximum calendar height set to 600px with overflow scrolling
+  - Applied to both WeeklyCalendar and ResultsCalendar components
+
+**Email Notification System:**
+- Added organizer email notification on event creation
+- Email includes:
+  - Participant link for sharing
+  - Edit link with secure token for organizer-only access
+- Implementation: Currently logs to console in development
+- **Production Setup Required**: To enable actual email delivery, set up a Replit email integration:
+  - Recommended: Resend (`connector:ccfg_resend_01K69QKYK789WN202XSE3QS17V`)
+  - Alternative: SendGrid (`connector:ccfg_sendgrid_01K69QKAPBPJ4SWD8GQHGY03D5`)
+  - Email sending is non-blocking - event creation succeeds even if email fails
+  - Email send failures are logged but don't impact user experience

@@ -130,39 +130,40 @@ export default function WeeklyCalendar({
         </Button>
       </div>
 
-      <div className="overflow-x-auto">
-        <div className="inline-block min-w-full">
-          <div className="grid gap-px bg-border rounded-lg overflow-hidden" style={{ gridTemplateColumns: "80px repeat(7, minmax(80px, 1fr))" }}>
-            <div className="bg-muted p-2 font-medium text-sm text-center sticky left-0 z-10" data-testid="header-time">
-              Time
-            </div>
-            {weekDays.map((day, index) => {
-              const isSunday = index === 0;
-              const isSaturday = index === 6;
-              return (
-                <div
-                  key={day.toISOString()}
-                  className="bg-muted p-2 text-center"
-                  data-testid={`header-day-${format(day, 'yyyy-MM-dd')}`}
-                >
-                  <div className={`text-xs ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : 'text-muted-foreground'}`}>
-                    {format(day, 'EEE')}
+      <div className="border rounded-lg bg-border overflow-hidden">
+        <div className="overflow-auto max-h-[600px]">
+          <div className="inline-block min-w-full">
+            <div className="grid gap-px" style={{ gridTemplateColumns: "80px repeat(7, minmax(80px, 1fr))" }}>
+              <div className="bg-muted p-2 font-medium text-sm text-center sticky left-0 top-0 z-20" data-testid="header-time">
+                Time
+              </div>
+              {weekDays.map((day, index) => {
+                const isSunday = index === 0;
+                const isSaturday = index === 6;
+                return (
+                  <div
+                    key={day.toISOString()}
+                    className="bg-muted p-2 text-center sticky top-0 z-10"
+                    data-testid={`header-day-${format(day, 'yyyy-MM-dd')}`}
+                  >
+                    <div className={`text-xs ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : 'text-muted-foreground'}`}>
+                      {format(day, 'EEE')}
+                    </div>
+                    <div className={`font-medium ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : ''}`}>
+                      {format(day, 'd')}
+                    </div>
                   </div>
-                  <div className={`font-medium ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : ''}`}>
-                    {format(day, 'd')}
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })}
 
-            {TIMES.map((time) => (
-              <div key={time} className="contents">
-                <div
-                  className="bg-background p-2 text-sm text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center"
-                  data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
-                >
-                  {time}
-                </div>
+              {TIMES.map((time) => (
+                <div key={time} className="contents">
+                  <div
+                    className="bg-background p-2 text-sm text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center"
+                    data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
+                  >
+                    {time}
+                  </div>
                 {weekDays.map((day, dayIndex) => {
                   const selected = isSlotSelected(day, time);
                   const available = isSlotAvailable(day, time);
@@ -191,6 +192,7 @@ export default function WeeklyCalendar({
                 })}
               </div>
             ))}
+            </div>
           </div>
         </div>
       </div>
