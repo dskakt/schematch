@@ -90,6 +90,7 @@ export default function EventPage() {
   }
 
   const formattedSlots = data.timeSlots.map(slot => ({
+    id: slot.id,
     date: new Date(slot.date),
     time: slot.time,
   }));
