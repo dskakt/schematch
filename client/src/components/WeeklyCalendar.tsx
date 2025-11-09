@@ -202,7 +202,7 @@ export default function WeeklyCalendar({
           <div className="flex items-center justify-center gap-4 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded"></div>
-              <span className="text-muted-foreground">Available slots</span>
+              <span className="text-muted-foreground">Possible time slots</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-primary rounded"></div>
