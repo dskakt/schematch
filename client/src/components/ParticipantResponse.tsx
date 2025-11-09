@@ -7,6 +7,7 @@ import WeeklyCalendar from "@/components/WeeklyCalendar";
 import { normalizeTimeSlot } from "@shared/timeUtils";
 import { format } from "date-fns";
 import { Calendar } from "lucide-react";
+import { Link } from "wouter";
 
 interface TimeSlot {
   id?: string;
@@ -15,12 +16,14 @@ interface TimeSlot {
 }
 
 interface ParticipantResponseProps {
+  eventId: string;
   eventTitle: string;
   timeSlots: TimeSlot[];
   onSubmit: (data: { name: string; availability: string[] }) => void;
 }
 
 export default function ParticipantResponse({
+  eventId,
   eventTitle,
   timeSlots,
   onSubmit,
@@ -89,15 +92,16 @@ export default function ParticipantResponse({
             />
 
             <div className="flex gap-3 pt-4">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => window.location.href = '/results'}
-                className="flex-1"
-                data-testid="button-view-results"
-              >
-                View Results
-              </Button>
+              <Link href={`/event/${eventId}/results`}>
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="w-full"
+                  data-testid="button-view-results"
+                >
+                  View Results
+                </Button>
+              </Link>
               <Button type="submit" className="flex-1" data-testid="button-submit">
                 Submit Response
               </Button>

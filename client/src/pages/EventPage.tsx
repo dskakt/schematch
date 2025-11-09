@@ -116,6 +116,7 @@ export default function EventPage() {
             </Link>
           </div>
           <ParticipantResponse
+            eventId={eventId!}
             eventTitle={data.event.title}
             timeSlots={formattedSlots}
             onSubmit={handleSubmit}
