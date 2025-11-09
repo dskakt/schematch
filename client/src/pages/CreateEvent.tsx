@@ -88,7 +88,7 @@ export default function CreateEvent() {
               <form onSubmit={handleCreateEvent} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="title" data-testid="label-title">Event Name</Label>
+                    <Label htmlFor="title" className="text-lg font-semibold" data-testid="label-title">Event Name</Label>
                     <Input
                       id="title"
                       value={title}
@@ -99,7 +99,7 @@ export default function CreateEvent() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email" data-testid="label-email">Your Email</Label>
+                    <Label htmlFor="email" className="text-lg font-semibold" data-testid="label-email">Your Email</Label>
                     <Input
                       id="email"
                       type="email"
