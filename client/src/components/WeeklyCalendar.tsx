@@ -94,6 +94,7 @@ export default function WeeklyCalendar({
     <div className="space-y-4" data-testid="weekly-calendar">
       <div className="flex items-center justify-between gap-3">
         <Button
+          type="button"
           variant="outline"
           size="sm"
           onClick={goToPreviousWeek}
@@ -107,6 +108,7 @@ export default function WeeklyCalendar({
             {format(weekDays[0], 'MMM d')} - {format(weekDays[6], 'MMM d, yyyy')}
           </div>
           <Button
+            type="button"
             variant="ghost"
             size="sm"
             onClick={goToThisWeek}
@@ -117,6 +119,7 @@ export default function WeeklyCalendar({
           </Button>
         </div>
         <Button
+          type="button"
           variant="outline"
           size="sm"
           onClick={goToNextWeek}
@@ -169,6 +172,7 @@ export default function WeeklyCalendar({
 
                   return (
                     <button
+                      type="button"
                       key={`${day.toISOString()}-${time}`}
                       onClick={() => toggleSlot(day, time)}
                       disabled={isDisabled}
