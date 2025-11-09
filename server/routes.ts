@@ -1,6 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
+import { normalizeTimeSlot } from "../shared/timeUtils";
 import { z } from "zod";
 import { randomBytes } from "crypto";
 
@@ -37,7 +38,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         data.timeSlots.map(slot => ({
           eventId: "", // Will be set by the transaction
           date: slot.date,
-          time: slot.time,
+          time: normalizeTimeSlot(slot.time),
         }))
       );
       
@@ -66,9 +67,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const timeSlots = await storage.getTimeSlotsByEvent(event.id);
       
+      // Normalize time slots for consistent format
+      const normalizedTimeSlots = timeSlots.map(slot => ({
+        ...slot,
+        time: normalizeTimeSlot(slot.time),
+      }));
+      
       res.json({
         event,
-        timeSlots,
+        timeSlots: normalizedTimeSlots,
       });
     } catch (error) {
       console.error("Error fetching event:", error);

@@ -1,8 +1,7 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
 import { Calendar, Users, Check, X } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
+import ResultsCalendar from "./ResultsCalendar";
 
 interface Response {
   name: string;
@@ -28,41 +27,15 @@ export default function ResultsView({
   responses,
   isOrganizer = false,
 }: ResultsViewProps) {
-  const getAvailabilityCount = (slotId: string) => {
-    return responses.filter(r => r.availability.includes(slotId)).length;
-  };
-
-  const groupedSlots = timeSlots.reduce((acc, slot) => {
-    const dateKey = format(slot.date, 'yyyy-MM-dd');
-    if (!acc[dateKey]) {
-      acc[dateKey] = {
-        date: slot.date,
-        slots: []
-      };
-    }
-    acc[dateKey].slots.push(slot);
-    return acc;
-  }, {} as Record<string, { date: Date; slots: TimeSlot[] }>);
-
-  const maxAvailable = Math.max(...timeSlots.map(slot => getAvailabilityCount(slot.id)), 0);
 
   return (
     <div className="max-w-5xl mx-auto space-y-6" data-testid="results-view">
       <Card data-testid="card-event-header">
         <CardHeader>
-          <div className="flex items-start justify-between">
-            <div className="space-y-1">
-              <CardTitle className="flex items-center gap-2" data-testid="text-event-title">
-                <Calendar className="w-5 h-5" />
-                {eventTitle}
-              </CardTitle>
-            </div>
-            {isOrganizer && (
-              <Button variant="outline" data-testid="button-edit">
-                Edit Event
-              </Button>
-            )}
-          </div>
+          <CardTitle className="flex items-center gap-2" data-testid="text-event-title">
+            <Calendar className="w-5 h-5" />
+            {eventTitle}
+          </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -75,66 +48,9 @@ export default function ResultsView({
       <Card data-testid="card-availability-grid">
         <CardHeader>
           <CardTitle data-testid="text-grid-title">Availability Overview</CardTitle>
-          <CardDescription data-testid="text-grid-description">
-            Green indicates more people are available
-          </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="space-y-6">
-            {Object.values(groupedSlots).map(({ date, slots }) => (
-              <div key={format(date, 'yyyy-MM-dd')} className="space-y-3" data-testid={`date-section-${format(date, 'yyyy-MM-dd')}`}>
-                <h4 className="font-medium" data-testid={`text-date-${format(date, 'yyyy-MM-dd')}`}>
-                  {format(date, 'EEEE, MMMM d, yyyy')}
-                </h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                  {slots.map((slot) => {
-                    const count = getAvailabilityCount(slot.id);
-                    const percentage = responses.length > 0 ? (count / responses.length) * 100 : 0;
-                    const isTopChoice = count === maxAvailable && count > 0;
-
-                    return (
-                      <div
-                        key={slot.id}
-                        className={`p-4 rounded-lg border ${
-                          isTopChoice
-                            ? "border-primary bg-primary/5"
-                            : "border-border"
-                        }`}
-                        data-testid={`slot-${slot.id}`}
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="font-medium" data-testid={`text-time-${slot.id}`}>
-                            {slot.time}
-                          </span>
-                          {isTopChoice && (
-                            <Badge variant="default" data-testid={`badge-top-${slot.id}`}>
-                              Best
-                            </Badge>
-                          )}
-                        </div>
-                        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <Users className="w-4 h-4" />
-                          <span data-testid={`text-count-${slot.id}`}>
-                            {count} / {responses.length}
-                          </span>
-                          <span data-testid={`text-percentage-${slot.id}`}>
-                            ({Math.round(percentage)}%)
-                          </span>
-                        </div>
-                        <div className="mt-2 w-full bg-secondary rounded-full h-2">
-                          <div
-                            className="bg-primary h-2 rounded-full transition-all"
-                            style={{ width: `${percentage}%` }}
-                            data-testid={`progress-${slot.id}`}
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-          </div>
+          <ResultsCalendar timeSlots={timeSlots} responses={responses} />
         </CardContent>
       </Card>
 
@@ -197,11 +113,6 @@ export default function ResultsView({
         </CardContent>
       </Card>
 
-      <div className="flex justify-center">
-        <Button data-testid="button-add-response">
-          Add Your Availability
-        </Button>
-      </div>
     </div>
   );
 }

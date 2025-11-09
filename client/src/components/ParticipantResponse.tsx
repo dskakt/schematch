@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import WeeklyCalendar from "@/components/WeeklyCalendar";
+import { normalizeTimeSlot } from "@shared/timeUtils";
 import { format } from "date-fns";
 import { Calendar } from "lucide-react";
 
@@ -31,10 +32,11 @@ export default function ParticipantResponse({
     e.preventDefault();
     
     const slotIds = selectedSlots.map(selected => {
+      const normalizedSelectedTime = normalizeTimeSlot(selected.time);
       const matchingSlot = timeSlots.find(
         slot =>
           format(slot.date, 'yyyy-MM-dd') === format(selected.date, 'yyyy-MM-dd') &&
-          slot.time === selected.time
+          normalizeTimeSlot(slot.time) === normalizedSelectedTime
       );
       return matchingSlot?.id || '';
     }).filter(Boolean);
