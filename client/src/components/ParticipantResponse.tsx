@@ -3,11 +3,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
+import WeeklyCalendar from "@/components/WeeklyCalendar";
 import { format } from "date-fns";
-import { Calendar, Clock } from "lucide-react";
+import { Calendar } from "lucide-react";
 
 interface TimeSlot {
+  id?: string;
   date: Date;
   time: string;
 }
@@ -24,37 +25,30 @@ export default function ParticipantResponse({
   onSubmit,
 }: ParticipantResponseProps) {
   const [name, setName] = useState("");
-  const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
-
-  const handleSlotToggle = (slotId: string) => {
-    setSelectedSlots(prev =>
-      prev.includes(slotId)
-        ? prev.filter(id => id !== slotId)
-        : [...prev, slotId]
-    );
-  };
+  const [selectedSlots, setSelectedSlots] = useState<{ date: Date; time: string }[]>([]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSubmit({ name, availability: selectedSlots });
+    
+    const slotIds = selectedSlots.map(selected => {
+      const matchingSlot = timeSlots.find(
+        slot =>
+          format(slot.date, 'yyyy-MM-dd') === format(selected.date, 'yyyy-MM-dd') &&
+          slot.time === selected.time
+      );
+      return matchingSlot?.id || '';
+    }).filter(Boolean);
+
+    onSubmit({ name, availability: slotIds });
   };
 
-  const groupedSlots = timeSlots.reduce((acc, slot, index) => {
-    const dateKey = format(slot.date, 'yyyy-MM-dd');
-    if (!acc[dateKey]) {
-      acc[dateKey] = {
-        date: slot.date,
-        slots: []
-      };
-    }
-    // If slot already has an id (from backend), use it; otherwise generate one
-    const slotId = 'id' in slot && typeof slot.id === 'string' ? slot.id : `slot-${index}`;
-    acc[dateKey].slots.push({ ...slot, id: slotId });
-    return acc;
-  }, {} as Record<string, { date: Date; slots: Array<TimeSlot & { id: string }> }>);
+  const availableSlots = timeSlots.map(slot => ({
+    date: slot.date,
+    time: slot.time,
+  }));
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6" data-testid="participant-response">
+    <div className="max-w-6xl mx-auto space-y-6" data-testid="participant-response">
       <Card data-testid="card-event-info">
         <CardHeader>
           <CardTitle className="flex items-center gap-2" data-testid="text-event-title">
@@ -85,38 +79,12 @@ export default function ParticipantResponse({
               />
             </div>
 
-            <div className="space-y-4">
-              <Label data-testid="label-availability">Available Times</Label>
-              <div className="space-y-4">
-                {Object.values(groupedSlots).map(({ date, slots }) => (
-                  <div key={format(date, 'yyyy-MM-dd')} className="space-y-2" data-testid={`date-group-${format(date, 'yyyy-MM-dd')}`}>
-                    <h4 className="font-medium text-sm" data-testid={`text-date-${format(date, 'yyyy-MM-dd')}`}>
-                      {format(date, 'EEEE, MMMM d, yyyy')}
-                    </h4>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-2 pl-4">
-                      {slots.map(({ id, time }) => (
-                        <div key={id} className="flex items-center space-x-2" data-testid={`slot-${id}`}>
-                          <Checkbox
-                            id={id}
-                            checked={selectedSlots.includes(id)}
-                            onCheckedChange={() => handleSlotToggle(id)}
-                            data-testid={`checkbox-${id}`}
-                          />
-                          <label
-                            htmlFor={id}
-                            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 flex items-center gap-1 cursor-pointer"
-                            data-testid={`label-${id}`}
-                          >
-                            <Clock className="w-3 h-3" />
-                            {time}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+            <WeeklyCalendar
+              selectedSlots={selectedSlots}
+              onSlotsChange={setSelectedSlots}
+              mode="respond"
+              availableSlots={availableSlots}
+            />
 
             <div className="flex gap-3 pt-4">
               <Button
