@@ -90,6 +90,7 @@ Preferred communication style: Simple, everyday language.
 - drizzle-zod - Integration between Drizzle ORM and Zod
 - class-variance-authority - Variant-based component styling
 - tailwind-merge & clsx - Conditional className utilities
+- resend - Email delivery service for transactional emails
 
 **Development Tools:**
 - TypeScript - Type safety across frontend and backend
@@ -113,13 +114,15 @@ Preferred communication style: Simple, everyday language.
   - Applied to both WeeklyCalendar and ResultsCalendar components
 
 **Email Notification System:**
-- Added organizer email notification on event creation
-- Email includes:
+- Implemented email notification system using Resend
+- Created `server/email.ts` module for email handling
+- Email automatically sent to organizer on event creation with:
   - Participant link for sharing
   - Edit link with secure token for organizer-only access
-- Implementation: Currently logs to console in development
-- **Production Setup Required**: To enable actual email delivery, set up a Replit email integration:
-  - Recommended: Resend (`connector:ccfg_resend_01K69QKYK789WN202XSE3QS17V`)
-  - Alternative: SendGrid (`connector:ccfg_sendgrid_01K69QKAPBPJ4SWD8GQHGY03D5`)
-  - Email sending is non-blocking - event creation succeeds even if email fails
-  - Email send failures are logged but don't impact user experience
+  - HTML-formatted email with clear visual sections
+- **Configuration:**
+  - Set `RESEND_API_KEY` environment variable to enable actual email delivery
+  - Without API key: Falls back to console logging (development mode)
+  - With API key: Sends actual emails via Resend service
+- Email sending is non-blocking - event creation succeeds even if email fails
+- Installed `resend` npm package for email delivery
