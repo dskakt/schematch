@@ -21,7 +21,6 @@ export default function EventPage() {
       <main className="py-12 px-6">
         <ParticipantResponse
           eventTitle="Team Planning Meeting"
-          eventDescription="Let's find the best time for our quarterly planning session"
           timeSlots={mockSlots}
           onSubmit={handleSubmit}
         />

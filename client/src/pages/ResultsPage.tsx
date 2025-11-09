@@ -24,7 +24,6 @@ export default function ResultsPage() {
       <main className="py-12 px-6">
         <ResultsView
           eventTitle="Team Planning Meeting"
-          eventDescription="Let's find the best time for our quarterly planning session"
           timeSlots={mockTimeSlots}
           responses={mockResponses}
           isOrganizer={true}

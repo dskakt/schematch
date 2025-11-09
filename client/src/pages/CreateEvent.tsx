@@ -12,7 +12,6 @@ interface DateTimeSlot {
 
 interface EventDetails {
   title: string;
-  description: string;
   email: string;
 }
 

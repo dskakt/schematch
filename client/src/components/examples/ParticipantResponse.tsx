@@ -13,7 +13,6 @@ export default function ParticipantResponseExample() {
   return (
     <ParticipantResponse
       eventTitle="Team Planning Meeting"
-      eventDescription="Let's find the best time for our quarterly planning session"
       timeSlots={mockSlots}
       onSubmit={(data) => console.log('Submitted:', data)}
     />

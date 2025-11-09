@@ -2,21 +2,19 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface EventDetailsFormProps {
-  onNext: (data: { title: string; description: string; email: string }) => void;
+  onNext: (data: { title: string; email: string }) => void;
 }
 
 export default function EventDetailsForm({ onNext }: EventDetailsFormProps) {
   const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onNext({ title, description, email });
+    onNext({ title, email });
   };
 
   return (
@@ -38,18 +36,6 @@ export default function EventDetailsForm({ onNext }: EventDetailsFormProps) {
               placeholder="e.g., Team Meeting, Coffee Chat"
               required
               data-testid="input-title"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="description" data-testid="label-description">Description (Optional)</Label>
-            <Textarea
-              id="description"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder="Add any details participants should know..."
-              className="resize-none h-32"
-              data-testid="input-description"
             />
           </div>
 

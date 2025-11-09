@@ -14,14 +14,12 @@ interface TimeSlot {
 
 interface ParticipantResponseProps {
   eventTitle: string;
-  eventDescription: string;
   timeSlots: TimeSlot[];
   onSubmit: (data: { name: string; availability: string[] }) => void;
 }
 
 export default function ParticipantResponse({
   eventTitle,
-  eventDescription,
   timeSlots,
   onSubmit,
 }: ParticipantResponseProps) {
@@ -61,11 +59,6 @@ export default function ParticipantResponse({
             <Calendar className="w-5 h-5" />
             {eventTitle}
           </CardTitle>
-          {eventDescription && (
-            <CardDescription data-testid="text-event-description">
-              {eventDescription}
-            </CardDescription>
-          )}
         </CardHeader>
       </Card>
 

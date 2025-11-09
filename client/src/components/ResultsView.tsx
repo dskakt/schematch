@@ -17,7 +17,6 @@ interface TimeSlot {
 
 interface ResultsViewProps {
   eventTitle: string;
-  eventDescription: string;
   timeSlots: TimeSlot[];
   responses: Response[];
   isOrganizer?: boolean;
@@ -25,7 +24,6 @@ interface ResultsViewProps {
 
 export default function ResultsView({
   eventTitle,
-  eventDescription,
   timeSlots,
   responses,
   isOrganizer = false,
@@ -58,11 +56,6 @@ export default function ResultsView({
                 <Calendar className="w-5 h-5" />
                 {eventTitle}
               </CardTitle>
-              {eventDescription && (
-                <CardDescription data-testid="text-event-description">
-                  {eventDescription}
-                </CardDescription>
-              )}
             </div>
             {isOrganizer && (
               <Button variant="outline" data-testid="button-edit">
