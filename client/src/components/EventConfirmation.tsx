@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -18,6 +19,7 @@ export default function EventConfirmation({
   participantLink,
   organizerLink,
 }: EventConfirmationProps) {
+  const [, setLocation] = useLocation();
   const [copiedParticipant, setCopiedParticipant] = useState(false);
   const [copiedOrganizer, setCopiedOrganizer] = useState(false);
   const { toast } = useToast();
@@ -124,31 +126,21 @@ export default function EventConfirmation({
         </CardContent>
       </Card>
 
-      <div className="flex flex-col gap-3">
-        <div className="flex gap-3">
-          <Button
-            variant="outline"
-            onClick={() => window.location.href = participantLink}
-            className="flex-1"
-            data-testid="button-view-event"
-          >
-            View Event
-          </Button>
-          <Button
-            variant="outline"
-            onClick={() => window.location.href = `/event/${eventId}/results`}
-            className="flex-1"
-            data-testid="button-view-results"
-          >
-            View Results
-          </Button>
-        </div>
+      <div className="flex gap-3">
         <Button
-          onClick={() => window.location.href = '/'}
-          className="w-full"
-          data-testid="button-create-another"
+          variant="outline"
+          onClick={() => setLocation(`/event/${eventId}`)}
+          className="flex-1"
+          data-testid="button-view-event"
         >
-          Create Another Event
+          View Event
+        </Button>
+        <Button
+          onClick={() => setLocation(`/event/${eventId}/results`)}
+          className="flex-1"
+          data-testid="button-view-results"
+        >
+          View Results
         </Button>
       </div>
     </div>
