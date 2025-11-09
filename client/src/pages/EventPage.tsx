@@ -106,22 +106,12 @@ export default function EventPage() {
     <div className="min-h-screen bg-background" data-testid="page-event">
       <Header />
       <main className="py-12 px-6">
-        <div className="max-w-6xl mx-auto space-y-6">
-          <div className="flex justify-center">
-            <Link href={`/event/${eventId}/results`}>
-              <Button variant="outline" data-testid="link-view-results">
-                <BarChart3 className="w-4 h-4 mr-2" />
-                View Results
-              </Button>
-            </Link>
-          </div>
-          <ParticipantResponse
-            eventId={eventId!}
-            eventTitle={data.event.title}
-            timeSlots={formattedSlots}
-            onSubmit={handleSubmit}
-          />
-        </div>
+        <ParticipantResponse
+          eventId={eventId!}
+          eventTitle={data.event.title}
+          timeSlots={formattedSlots}
+          onSubmit={handleSubmit}
+        />
       </main>
     </div>
   );
