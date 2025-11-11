@@ -111,6 +111,9 @@ export default function CreateEvent() {
                       required
                       data-testid="input-email"
                     />
+                    <p className="text-sm text-muted-foreground" data-testid="text-email-description">
+                      参加者の予定を送信します
+                    </p>
                   </div>
                 </div>
 

@@ -34,11 +34,11 @@ export default function Contact() {
                   以下のメールアドレスまでお気軽にご連絡ください。
                 </p>
                 <a 
-                  href="mailto:support@example.com" 
+                  href="mailto:schematch.office@gmail.com" 
                   className="text-primary hover:underline font-medium"
                   data-testid="link-email-contact"
                 >
-                  support@example.com
+                  schematch.office@gmail.com
                 </a>
               </div>
 
