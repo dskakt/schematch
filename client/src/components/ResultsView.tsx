@@ -6,6 +6,7 @@ import ResultsCalendar from "./ResultsCalendar";
 interface Response {
   name: string;
   availability: string[];
+  notes?: string;
 }
 
 interface TimeSlot {
@@ -112,6 +113,28 @@ export default function ResultsView({
           </div>
         </CardContent>
       </Card>
+
+      {responses.some(r => r.notes) && (
+        <Card data-testid="card-notes">
+          <CardHeader>
+            <CardTitle data-testid="text-notes-title">Participant Notes</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {responses.filter(r => r.notes).map((response, index) => (
+                <div key={index} className="border-l-4 border-primary pl-4 py-2" data-testid={`note-${index}`}>
+                  <div className="font-medium mb-1" data-testid={`note-name-${index}`}>
+                    {response.name}
+                  </div>
+                  <div className="text-sm text-muted-foreground whitespace-pre-wrap" data-testid={`note-text-${index}`}>
+                    {response.notes}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
     </div>
   );

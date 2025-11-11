@@ -36,10 +36,11 @@ export default function EventPage() {
   }
 
   const submitResponseMutation = useMutation({
-    mutationFn: async (responseData: { name: string; availability: string[] }) => {
+    mutationFn: async (responseData: { name: string; availability: string[]; notes?: string }) => {
       const res = await apiRequest("POST", `/api/events/${eventId}/responses`, {
         participantName: responseData.name,
         availableSlotIds: responseData.availability,
+        notes: responseData.notes,
       });
       return res.json();
     },
@@ -64,7 +65,7 @@ export default function EventPage() {
     },
   });
 
-  const handleSubmit = (responseData: { name: string; availability: string[] }) => {
+  const handleSubmit = (responseData: { name: string; availability: string[]; notes?: string }) => {
     submitResponseMutation.mutate(responseData);
   };
 

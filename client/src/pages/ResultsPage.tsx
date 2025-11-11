@@ -17,6 +17,7 @@ interface Event {
 interface Response {
   participantName: string;
   availableSlotIds: string[];
+  notes?: string;
 }
 
 export default function ResultsPage() {
@@ -80,6 +81,7 @@ export default function ResultsPage() {
   const formattedResponses = (responsesData || []).map(response => ({
     name: response.participantName,
     availability: response.availableSlotIds,
+    notes: response.notes,
   }));
 
   return (
