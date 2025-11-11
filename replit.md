@@ -42,6 +42,7 @@ Preferred communication style: Simple, everyday language.
 **API Design:**
 - RESTful API endpoints under `/api` prefix
 - POST `/api/events` - Create event with time slots
+- PUT `/api/events/:id` - Update event title and time slots (requires edit token)
 - POST `/api/events/:id/responses` - Submit participant availability
 - GET `/api/events/:id` - Retrieve event details
 - GET `/api/events/:id/responses` - Retrieve all responses
@@ -103,6 +104,34 @@ Preferred communication style: Simple, everyday language.
 - Loaded via CDN in HTML head
 
 ## Recent Changes
+
+### November 11, 2025
+
+**Organizer Edit Functionality:**
+- Implemented event update functionality for organizers
+- Backend: Added PUT `/api/events/:id` endpoint with edit token verification
+- Storage: Added `updateEventWithSlots` method using database transactions
+  - Atomically deletes existing time slots and creates new ones
+  - Updates event title in the same transaction
+- Frontend: EditEventPage now fully functional
+  - Organizers can modify event title and time slots
+  - Success/error toast notifications
+  - Cache invalidation after successful update
+- Removed "currently in development" notice from edit page
+
+**Results Display Improvements:**
+- Changed availability display from icons to Japanese text symbols
+- Participant availability now shown as:
+  - 参加可能（available）: ○ (blue, bold)
+  - 参加不可（unavailable）: × (gray, bold)
+- Updated ResultsView component to use text spans instead of Lucide icons
+- Improved visual clarity with larger, bolder symbols
+
+**Localization:**
+- Fully localized EditEventPage to Japanese
+  - All error messages, labels, and buttons
+  - Placeholder text updated to Japanese examples
+  - Toast notifications in Japanese
 
 ### November 9, 2025
 
