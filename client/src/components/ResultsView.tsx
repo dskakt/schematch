@@ -114,7 +114,7 @@ export default function ResultsView({
                       {responses.map((response, index) => (
                         <th
                           key={index}
-                          className="text-center py-3 px-2 font-medium text-sm"
+                          className="text-left py-3 px-2 font-medium text-sm"
                           data-testid={`header-name-${index}`}
                         >
                           {response.name}
