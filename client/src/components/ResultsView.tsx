@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
+import { ja } from "date-fns/locale";
 import { Calendar, Users, Check, X } from "lucide-react";
 import ResultsCalendar from "./ResultsCalendar";
 
@@ -79,7 +80,7 @@ export default function ResultsView({
                           className="text-center py-3 px-2 font-medium text-sm"
                           data-testid={`header-slot-${slot.id}`}
                         >
-                          <div>{format(slot.date, 'MMM d')}</div>
+                          <div>{format(slot.date, 'M月d日', { locale: ja })}</div>
                           <div className="text-xs text-muted-foreground">{slot.time}</div>
                         </th>
                       ))}

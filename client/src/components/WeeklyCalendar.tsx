@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { format, addDays, startOfWeek, isSameDay, parse } from "date-fns";
+import { ja } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -147,10 +148,10 @@ export default function WeeklyCalendar({
                     data-testid={`header-day-${format(day, 'yyyy-MM-dd')}`}
                   >
                     <div className={`text-xs ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : 'text-muted-foreground'}`}>
-                      {format(day, 'EEE')}
+                      {format(day, 'E', { locale: ja })}
                     </div>
                     <div className={`font-medium ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : ''}`}>
-                      {format(day, 'd')}
+                      {format(day, 'd')}日
                     </div>
                   </div>
                 );
