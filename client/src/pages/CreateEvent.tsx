@@ -40,6 +40,7 @@ export default function CreateEvent() {
         title,
         organizerEmail: email,
         timeSlots: flattenedSlots,
+        origin: window.location.origin,
       });
       
       const response = await res.json() as { event: { id: string; title: string }; editToken: string };

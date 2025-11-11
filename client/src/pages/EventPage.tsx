@@ -41,6 +41,7 @@ export default function EventPage() {
         participantName: responseData.name,
         availableSlotIds: responseData.availability,
         notes: responseData.notes,
+        origin: window.location.origin,
       });
       return res.json();
     },

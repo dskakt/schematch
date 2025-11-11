@@ -43,12 +43,14 @@ const createEventRequestSchema = z.object({
     date: z.string(),
     time: z.string(),
   })).min(1),
+  origin: z.string().url().optional(),
 });
 
 const createResponseRequestSchema = z.object({
   participantName: z.string().min(1),
   availableSlotIds: z.array(z.string()),
   notes: z.string().optional(),
+  origin: z.string().url().optional(),
 });
 
 const updateEventRequestSchema = z.object({
@@ -83,8 +85,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }))
       );
       
-      // Construct URLs for email using trusted base URL
-      const baseUrl = getTrustedBaseUrl();
+      // Construct URLs for email
+      // Priority: use origin from request if provided and valid, otherwise use trusted base URL
+      let baseUrl = getTrustedBaseUrl();
+      if (data.origin && (baseUrl.includes('localhost') || baseUrl.includes('127.0.0.1'))) {
+        // If environment is set to localhost but frontend provides a real URL, use it
+        baseUrl = data.origin;
+      }
       const participantLink = `${baseUrl}/event/${event.id}`;
       const resultsLink = `${baseUrl}/event/${event.id}/results`;
       
@@ -171,8 +178,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         notes: data.notes,
       });
 
-      // Construct URLs for email using trusted base URL
-      const baseUrl = getTrustedBaseUrl();
+      // Construct URLs for email
+      // Priority: use origin from request if provided and valid, otherwise use trusted base URL
+      let baseUrl = getTrustedBaseUrl();
+      if (data.origin && (baseUrl.includes('localhost') || baseUrl.includes('127.0.0.1'))) {
+        // If environment is set to localhost but frontend provides a real URL, use it
+        baseUrl = data.origin;
+      }
       const participantLink = `${baseUrl}/event/${event.id}`;
       const resultsLink = `${baseUrl}/event/${event.id}/results`;
 
