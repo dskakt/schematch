@@ -60,9 +60,9 @@ export default function EditEventPage() {
         <main className="py-12 px-6">
           <div className="max-w-3xl mx-auto text-center">
             <AlertCircle className="w-12 h-12 text-destructive mx-auto mb-4" />
-            <h2 className="text-2xl font-semibold mb-2">Access Denied</h2>
+            <h2 className="text-2xl font-semibold mb-2">アクセス拒否</h2>
             <p className="text-muted-foreground">
-              This page requires an edit token. Please use the link from your confirmation email.
+              このページには編集トークンが必要です。確認メールのリンクを使用してください。
             </p>
           </div>
         </main>
@@ -77,7 +77,7 @@ export default function EditEventPage() {
         <main className="py-12 px-6">
           <div className="max-w-3xl mx-auto text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading event...</p>
+            <p className="text-muted-foreground">読み込み中...</p>
           </div>
         </main>
       </div>
@@ -90,8 +90,8 @@ export default function EditEventPage() {
         <Header />
         <main className="py-12 px-6">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl font-semibold mb-2">Event Not Found</h2>
-            <p className="text-muted-foreground">The event you're looking for doesn't exist.</p>
+            <h2 className="text-2xl font-semibold mb-2">イベントが見つかりません</h2>
+            <p className="text-muted-foreground">お探しのイベントは存在しません。</p>
           </div>
         </main>
       </div>
@@ -103,8 +103,8 @@ export default function EditEventPage() {
     
     if (selectedSlots.length === 0) {
       toast({
-        title: "Error",
-        description: "Please select at least one time slot.",
+        title: "エラー",
+        description: "少なくとも1つの候補日時を選択してください。",
         variant: "destructive",
       });
       return;
@@ -112,8 +112,8 @@ export default function EditEventPage() {
 
     setIsUpdating(true);
     toast({
-      title: "Note",
-      description: "Event editing is currently view-only. Update functionality coming soon.",
+      title: "お知らせ",
+      description: "イベント編集機能は現在閲覧のみです。更新機能は近日公開予定です。",
     });
     setIsUpdating(false);
   };
@@ -124,9 +124,9 @@ export default function EditEventPage() {
       <main className="py-12 px-6">
         <div className="max-w-6xl mx-auto space-y-6">
           <div className="text-center">
-            <h1 className="text-3xl font-bold mb-2">Edit Event</h1>
+            <h1 className="text-3xl font-bold mb-2">イベントを編集</h1>
             <p className="text-muted-foreground">
-              Update your event details and available time slots
+              イベント詳細と候補日時を更新
             </p>
           </div>
 
@@ -135,18 +135,18 @@ export default function EditEventPage() {
               <form onSubmit={handleUpdate} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="title" data-testid="label-title">Event Name</Label>
+                    <Label htmlFor="title" data-testid="label-title">イベント名</Label>
                     <Input
                       id="title"
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
-                      placeholder="e.g., Team Meeting"
+                      placeholder="例：チームミーティング"
                       required
                       data-testid="input-title"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email" data-testid="label-email">Organizer Email</Label>
+                    <Label htmlFor="email" data-testid="label-email">主催者メールアドレス</Label>
                     <Input
                       id="email"
                       type="email"
@@ -161,10 +161,10 @@ export default function EditEventPage() {
                 <div className="space-y-3">
                   <div>
                     <h3 className="text-lg font-semibold" data-testid="text-time-selection-title">
-                      Select Time Slots
+                      候補日時を選択
                     </h3>
                     <p className="text-sm text-muted-foreground mt-1" data-testid="text-time-selection-description">
-                      Click on the calendar to select possible meeting times. You can select multiple time slots.
+                      カレンダーをクリックして候補日時を選択してください。複数選択できます。
                     </p>
                   </div>
 
@@ -183,7 +183,7 @@ export default function EditEventPage() {
                     className="flex-1"
                     data-testid="button-view-results"
                   >
-                    View Results
+                    結果を見る
                   </Button>
                   <Button
                     type="submit"
@@ -191,7 +191,7 @@ export default function EditEventPage() {
                     className="flex-1"
                     data-testid="button-update"
                   >
-                    {isUpdating ? "Updating..." : "Update Event"}
+                    {isUpdating ? "更新中..." : "イベントを更新"}
                   </Button>
                 </div>
               </form>
@@ -200,8 +200,8 @@ export default function EditEventPage() {
 
           <div className="bg-muted/50 border border-border rounded-lg p-4">
             <p className="text-sm text-muted-foreground text-center">
-              <strong>Note:</strong> Event editing functionality is currently in development. 
-              You can view your event settings here, but updates are not yet saved.
+              <strong>お知らせ：</strong>イベント編集機能は現在開発中です。
+              イベント設定を確認できますが、更新はまだ保存されません。
             </p>
           </div>
         </div>
