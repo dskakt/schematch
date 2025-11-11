@@ -44,7 +44,7 @@ export default function CreateEvent() {
       const response = await res.json() as { event: { id: string; title: string }; editToken: string };
 
       const participantLink = `${window.location.origin}/event/${response.event.id}`;
-      const organizerLink = `${window.location.origin}/event/${response.event.id}/edit?token=${response.editToken}`;
+      const organizerLink = `${window.location.origin}/event/${response.event.id}/results`;
 
       setCreatedEvent({
         eventId: response.event.id,

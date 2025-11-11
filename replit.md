@@ -42,13 +42,11 @@ Preferred communication style: Simple, everyday language.
 **API Design:**
 - RESTful API endpoints under `/api` prefix
 - POST `/api/events` - Create event with time slots
-- PUT `/api/events/:id` - Update event title and time slots (requires edit token)
 - POST `/api/events/:id/responses` - Submit participant availability
 - GET `/api/events/:id` - Retrieve event details
 - GET `/api/events/:id/responses` - Retrieve all responses
 
 **Security:**
-- Edit tokens for organizer-only access (32-byte random hex strings)
 - Email validation using Zod schemas
 - Input validation on all endpoints
 
@@ -107,17 +105,19 @@ Preferred communication style: Simple, everyday language.
 
 ### November 11, 2025
 
-**Organizer Edit Functionality:**
-- Implemented event update functionality for organizers
-- Backend: Added PUT `/api/events/:id` endpoint with edit token verification
-- Storage: Added `updateEventWithSlots` method using database transactions
-  - Atomically deletes existing time slots and creates new ones
-  - Updates event title in the same transaction
-- Frontend: EditEventPage now fully functional
-  - Organizers can modify event title and time slots
-  - Success/error toast notifications
-  - Cache invalidation after successful update
-- Removed "currently in development" notice from edit page
+**Event Edit Functionality Removed:**
+- Removed event editing feature to simplify user experience
+- Organizer links now point directly to results page instead of edit page
+- Deleted EditEventPage component and related routes
+- Updated email notifications to send results link instead of edit link
+
+**Email Notification Updates:**
+- Replaced "organizer edit link" with "organizer results link"
+- Simplified email content:
+  - Removed greeting text and redundant messages
+  - Moved "Thank you for using" message above participant link
+  - Clear sections for participant link and results link
+- Updated EventConfirmation component to show results link
 
 **Results Display Improvements:**
 - Changed availability display from icons to Japanese text symbols
@@ -126,12 +126,7 @@ Preferred communication style: Simple, everyday language.
   - 参加不可（unavailable）: × (gray, bold)
 - Updated ResultsView component to use text spans instead of Lucide icons
 - Improved visual clarity with larger, bolder symbols
-
-**Localization:**
-- Fully localized EditEventPage to Japanese
-  - All error messages, labels, and buttons
-  - Placeholder text updated to Japanese examples
-  - Toast notifications in Japanese
+- "View Results" button changed to "回答せず集計結果を見る" (View results without responding)
 
 ### November 9, 2025
 

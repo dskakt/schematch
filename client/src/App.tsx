@@ -7,13 +7,11 @@ import NotFound from "@/pages/not-found";
 import CreateEvent from "@/pages/CreateEvent";
 import EventPage from "@/pages/EventPage";
 import ResultsPage from "@/pages/ResultsPage";
-import EditEventPage from "@/pages/EditEventPage";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={CreateEvent} />
-      <Route path="/event/:id/edit" component={EditEventPage} />
       <Route path="/event/:id/results" component={ResultsPage} />
       <Route path="/event/:id" component={EventPage} />
       <Route component={NotFound} />
