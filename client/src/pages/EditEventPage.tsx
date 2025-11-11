@@ -111,11 +111,36 @@ export default function EditEventPage() {
     }
 
     setIsUpdating(true);
-    toast({
-      title: "お知らせ",
-      description: "イベント編集機能は現在閲覧のみです。更新機能は近日公開予定です。",
-    });
-    setIsUpdating(false);
+    
+    try {
+      const timeSlots = selectedSlots.map(slot => ({
+        date: format(slot.date, 'yyyy-MM-dd'),
+        time: slot.time,
+      }));
+
+      await apiRequest("PUT", `/api/events/${eventId}`, {
+        title,
+        timeSlots,
+        editToken: token,
+      });
+
+      toast({
+        title: "成功",
+        description: "イベントを更新しました。",
+      });
+
+      // Invalidate cache to refresh data
+      queryClient.invalidateQueries({ queryKey: ["/api/events", eventId] });
+    } catch (error) {
+      console.error("Failed to update event:", error);
+      toast({
+        title: "エラー",
+        description: "イベントの更新に失敗しました。",
+        variant: "destructive",
+      });
+    } finally {
+      setIsUpdating(false);
+    }
   };
 
   return (
@@ -197,13 +222,6 @@ export default function EditEventPage() {
               </form>
             </CardContent>
           </Card>
-
-          <div className="bg-muted/50 border border-border rounded-lg p-4">
-            <p className="text-sm text-muted-foreground text-center">
-              <strong>お知らせ：</strong>イベント編集機能は現在開発中です。
-              イベント設定を確認できますが、更新はまだ保存されません。
-            </p>
-          </div>
         </div>
       </main>
     </div>

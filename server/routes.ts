@@ -21,6 +21,15 @@ const createResponseRequestSchema = z.object({
   notes: z.string().optional(),
 });
 
+const updateEventRequestSchema = z.object({
+  title: z.string().min(1),
+  timeSlots: z.array(z.object({
+    date: z.string(),
+    time: z.string(),
+  })).min(1),
+  editToken: z.string(),
+});
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Create event with time slots
   app.post("/api/events", async (req, res) => {
@@ -160,6 +169,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching responses:", error);
       res.status(500).json({ error: "Failed to fetch responses" });
+    }
+  });
+
+  // Update event and time slots
+  app.put("/api/events/:id", async (req, res) => {
+    try {
+      const data = updateEventRequestSchema.parse(req.body);
+      
+      // Verify event exists
+      const event = await storage.getEvent(req.params.id);
+      if (!event) {
+        return res.status(404).json({ error: "Event not found" });
+      }
+
+      // Verify edit token
+      if (event.editToken !== data.editToken) {
+        return res.status(403).json({ error: "Invalid edit token" });
+      }
+
+      // Update event and time slots
+      const result = await storage.updateEventWithSlots(
+        req.params.id,
+        data.title,
+        data.timeSlots.map(slot => ({
+          eventId: req.params.id,
+          date: slot.date,
+          time: normalizeTimeSlot(slot.time),
+        }))
+      );
+
+      res.json(result);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: "Invalid request data", details: error.errors });
+      } else {
+        console.error("Error updating event:", error);
+        res.status(500).json({ error: "Failed to update event" });
+      }
     }
   });
 

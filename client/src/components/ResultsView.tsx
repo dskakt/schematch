@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { format } from "date-fns";
 import { ja } from "date-fns/locale";
-import { Calendar, Users, Check, X } from "lucide-react";
+import { Calendar, Users } from "lucide-react";
 import ResultsCalendar from "./ResultsCalendar";
 
 interface Response {
@@ -99,9 +99,13 @@ export default function ResultsView({
                             data-testid={`cell-${index}-${slot.id}`}
                           >
                             {response.availability.includes(slot.id) ? (
-                              <Check className="w-5 h-5 text-primary mx-auto" data-testid={`check-${index}-${slot.id}`} />
+                              <span className="text-xl text-primary font-bold" data-testid={`available-${index}-${slot.id}`}>
+                                ○
+                              </span>
                             ) : (
-                              <X className="w-5 h-5 text-muted-foreground/30 mx-auto" data-testid={`x-${index}-${slot.id}`} />
+                              <span className="text-xl text-muted-foreground/30 font-bold" data-testid={`unavailable-${index}-${slot.id}`}>
+                                ×
+                              </span>
                             )}
                           </td>
                         ))}

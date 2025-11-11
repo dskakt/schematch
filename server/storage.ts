@@ -18,11 +18,13 @@ export interface IStorage {
   createEventWithSlots(event: InsertEvent, slots: InsertTimeSlot[]): Promise<{ event: Event; timeSlots: TimeSlot[] }>;
   getEvent(id: string): Promise<Event | undefined>;
   getEventByEditToken(token: string): Promise<Event | undefined>;
+  updateEventWithSlots(eventId: string, title: string, slots: InsertTimeSlot[]): Promise<{ event: Event; timeSlots: TimeSlot[] }>;
   
   // Time Slots
   createTimeSlot(slot: InsertTimeSlot): Promise<TimeSlot>;
   createTimeSlots(slots: InsertTimeSlot[]): Promise<TimeSlot[]>;
   getTimeSlotsByEvent(eventId: string): Promise<TimeSlot[]>;
+  deleteTimeSlotsByEvent(eventId: string): Promise<void>;
   
   // Responses
   createResponse(response: InsertResponse): Promise<Response>;
@@ -102,6 +104,40 @@ export class DatabaseStorage implements IStorage {
   async getResponsesByEvent(eventId: string): Promise<Response[]> {
     const responseList = await db.select().from(responses).where(eq(responses.eventId, eventId));
     return responseList;
+  }
+
+  async deleteTimeSlotsByEvent(eventId: string): Promise<void> {
+    await db.delete(timeSlots).where(eq(timeSlots.eventId, eventId));
+  }
+
+  async updateEventWithSlots(eventId: string, title: string, insertSlots: InsertTimeSlot[]): Promise<{ event: Event; timeSlots: TimeSlot[] }> {
+    return await db.transaction(async (tx) => {
+      // Update event title
+      const [event] = await tx
+        .update(events)
+        .set({ title })
+        .where(eq(events.id, eventId))
+        .returning();
+      
+      if (!event) {
+        throw new Error("Event not found");
+      }
+
+      // Delete existing time slots
+      await tx.delete(timeSlots).where(eq(timeSlots.eventId, eventId));
+
+      // Insert new time slots
+      if (insertSlots.length === 0) {
+        throw new Error("Event must have at least one time slot");
+      }
+
+      const slots = await tx
+        .insert(timeSlots)
+        .values(insertSlots.map(slot => ({ ...slot, eventId: event.id })))
+        .returning();
+      
+      return { event, timeSlots: slots };
+    });
   }
 }
 
