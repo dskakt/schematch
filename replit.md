@@ -181,8 +181,15 @@ Preferred communication style: Simple, everyday language.
 - Updated both event creation and participant response flows
 
 **UI Improvements:**
-- Added helper text "参加者の予定を送信します" below email input on event creation form
-- Clarifies that the email will receive participant responses
+- Added helper text below email input on event creation form
+- Changed helper text from "参加者の予定を送信します" to "集計結果を送信します"
+- Clarifies that the email will receive aggregated results
+
+**Calendar Date Display:**
+- Updated calendar date headers to show month and day
+- Changed format from "d日" (day only) to "M/d" (month/day)
+- Applied to both WeeklyCalendar and ResultsCalendar components
+- Example display: "11/15" instead of "15日"
 
 ### November 9, 2025
 
