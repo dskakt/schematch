@@ -211,6 +211,16 @@ Preferred communication style: Simple, everyday language.
 - Applied consistently to both WeeklyCalendar and ResultsCalendar components
 - "今週" (This week) button enlarged for better visibility (text-base font-medium)
 
+**Email Subject and Content Updates:**
+- Participant response notification email subject changed from "[スケマッチ] 新しい回答が届きました - ${eventTitle}" to "${eventTitle} - 新しい回答が届きました"
+- Subject now leads with event name for better clarity
+- Removed duplicate heading from event creation email body (was redundant with subject line: "スケマッチ イベント「${eventTitle}」を作成しました")
+- Email now starts directly with greeting message for cleaner layout
+
+**UI Layout Updates:**
+- Moved email confirmation message ("このリンクを含む確認メールがメールアドレスに送信されました") from inside results link card to below it
+- Message now displays as centered text beneath the results link card for better visual hierarchy
+
 ### November 9, 2025
 
 **UI Improvements:**
