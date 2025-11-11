@@ -126,7 +126,7 @@ export default function ParticipantResponse({
                   className="w-full"
                   data-testid="button-view-results"
                 >
-                  結果を見る
+                  回答せず集計結果を見る
                 </Button>
               </Link>
               <Button type="submit" className="flex-1" data-testid="button-submit">
