@@ -199,8 +199,8 @@ Preferred communication style: Simple, everyday language.
 
 **UI Improvements:**
 - Added helper text below email input on event creation form
-- Changed helper text from "参加者の予定を送信します" to "集計結果を送信します"
-- Clarifies that the email will receive aggregated results
+- Updated helper text to "参加者に送るリンクや集計結果を送信します"
+- Clarifies that the email will receive both participant links and aggregated results
 
 **Calendar Display Improvements:**
 - Calendar date headers show day only: "d日" format (e.g., "9日", "10日")
