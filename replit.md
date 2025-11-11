@@ -251,6 +251,15 @@ Preferred communication style: Simple, everyday language.
 - Updated email input helper text to "参加者に送るリンクや集計結果を送信します"
 - Clarifies what will be sent to the organizer's email address
 
+**SEO Optimization:**
+- Updated HTML lang attribute from "en" to "ja"
+- Changed title tag to Japanese: "スケマッチ - 簡単日程調整ツール | 無料オンライン予定調整"
+- Updated meta description with target keyword "日程調整" (schedule coordination)
+- Added meta keywords including: 日程調整, スケジュール調整, 予定調整, 会議日程, イベント調整
+- Added Open Graph tags for Facebook/Twitter social sharing optimization
+- Added JSON-LD structured data (WebApplication schema) for Google search results
+- Structured data emphasizes free tool offering and key features
+
 ### November 9, 2025
 
 **UI Improvements:**
