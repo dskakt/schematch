@@ -151,6 +151,26 @@ Preferred communication style: Simple, everyday language.
 - Improved visual clarity with larger, bolder symbols
 - "View Results" button changed to "回答せず集計結果を見る" (View results without responding)
 
+**Footer and Static Pages:**
+- Created Footer component (`client/src/components/Footer.tsx`)
+  - Displays links to Terms of Service, Privacy Policy, and Contact pages
+  - Responsive design (vertical on mobile, horizontal on desktop)
+  - Copyright notice "© 2025 スケマッチ"
+- Added Footer to CreateEvent page (both form and confirmation states)
+  - Used flex layout to pin footer to bottom
+- Created three static pages:
+  - Terms of Service page (`client/src/pages/TermsOfService.tsx`)
+  - Privacy Policy page (`client/src/pages/PrivacyPolicy.tsx`)
+  - Contact page (`client/src/pages/Contact.tsx`)
+- All static pages include:
+  - Header component for consistency
+  - Structured content in Card component
+  - "トップページに戻る" (Back to home) button
+- Added routing for new pages in App.tsx:
+  - `/terms` - Terms of Service
+  - `/privacy` - Privacy Policy
+  - `/contact` - Contact
+
 ### November 9, 2025
 
 **UI Improvements:**
