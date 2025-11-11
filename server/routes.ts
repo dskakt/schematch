@@ -86,18 +86,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       );
       
       // Construct URLs for email
-      // Use origin from request only if it exactly matches the trusted hostname or is localhost
+      // Use origin from request if it's a valid Replit domain, localhost, or matches trusted URL
       let baseUrl = getTrustedBaseUrl();
       if (data.origin) {
         try {
           const originUrl = new URL(data.origin);
           const trustedUrl = new URL(baseUrl);
-          // Trust the origin only if hostname exactly matches trusted URL or is localhost
+          // Trust the origin if it's localhost, matches trusted domain, or is a Replit domain
           const isLocalhost = originUrl.hostname === 'localhost' || originUrl.hostname === '127.0.0.1';
           const isSameDomain = originUrl.hostname === trustedUrl.hostname;
+          const isReplitDomain = originUrl.hostname.endsWith('.replit.app') || originUrl.hostname.endsWith('.repl.co');
           
-          if (isLocalhost || isSameDomain) {
+          if (isLocalhost || isSameDomain || isReplitDomain) {
             baseUrl = data.origin;
+          } else {
+            console.warn('Untrusted origin rejected:', data.origin);
           }
         } catch (error) {
           // Invalid URL, use trusted base URL
@@ -191,18 +194,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       // Construct URLs for email
-      // Use origin from request only if it exactly matches the trusted hostname or is localhost
+      // Use origin from request if it's a valid Replit domain, localhost, or matches trusted URL
       let baseUrl = getTrustedBaseUrl();
       if (data.origin) {
         try {
           const originUrl = new URL(data.origin);
           const trustedUrl = new URL(baseUrl);
-          // Trust the origin only if hostname exactly matches trusted URL or is localhost
+          // Trust the origin if it's localhost, matches trusted domain, or is a Replit domain
           const isLocalhost = originUrl.hostname === 'localhost' || originUrl.hostname === '127.0.0.1';
           const isSameDomain = originUrl.hostname === trustedUrl.hostname;
+          const isReplitDomain = originUrl.hostname.endsWith('.replit.app') || originUrl.hostname.endsWith('.repl.co');
           
-          if (isLocalhost || isSameDomain) {
+          if (isLocalhost || isSameDomain || isReplitDomain) {
             baseUrl = data.origin;
+          } else {
+            console.warn('Untrusted origin rejected:', data.origin);
           }
         } catch (error) {
           // Invalid URL, use trusted base URL
