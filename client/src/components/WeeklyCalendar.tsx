@@ -110,7 +110,7 @@ export default function WeeklyCalendar({
           <div className="font-medium" data-testid="text-week-range">
             {format(weekDays[0], 'M月d日')} - {format(weekDays[6], 'M月d日, yyyy年')}
           </div>
-          {!isThisWeek && (
+          {isThisWeek && (
             <Button
               type="button"
               variant="ghost"
