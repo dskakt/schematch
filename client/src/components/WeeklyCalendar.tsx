@@ -91,6 +91,8 @@ export default function WeeklyCalendar({
     setWeekStart(startOfWeek(new Date(), { weekStartsOn: 0 }));
   };
 
+  const isThisWeek = isSameDay(weekStart, startOfWeek(new Date(), { weekStartsOn: 0 }));
+
   return (
     <div className="space-y-4" data-testid="weekly-calendar">
       <div className="flex items-center justify-between gap-3">
@@ -108,15 +110,17 @@ export default function WeeklyCalendar({
           <div className="font-medium" data-testid="text-week-range">
             {format(weekDays[0], 'M月d日')} - {format(weekDays[6], 'M月d日, yyyy年')}
           </div>
-          <Button
-            type="button"
-            variant="ghost"
-            onClick={goToThisWeek}
-            className="text-base font-medium"
-            data-testid="button-this-week"
-          >
-            今週
-          </Button>
+          {!isThisWeek && (
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={goToThisWeek}
+              className="text-base font-medium"
+              data-testid="button-this-week"
+            >
+              今週
+            </Button>
+          )}
         </div>
         <Button
           type="button"
@@ -134,7 +138,7 @@ export default function WeeklyCalendar({
         <div className="overflow-auto max-h-[600px]">
           <div className="inline-block min-w-full">
             <div className="grid gap-px" style={{ gridTemplateColumns: "80px repeat(7, minmax(80px, 1fr))" }}>
-              <div className="bg-muted p-0 font-medium text-xs sticky left-0 top-0 z-20 relative" data-testid="header-time">
+              <div className="bg-muted p-0 font-medium text-sm sticky left-0 top-0 z-20 relative" data-testid="header-time">
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(45deg, transparent calc(50% - 0.5px), hsl(var(--border)) calc(50% - 0.5px), hsl(var(--border)) calc(50% + 0.5px), transparent calc(50% + 0.5px))' }}></div>
                 <span className="absolute top-1 right-1">{format(weekDays[0], 'M月')}</span>
                 <span className="absolute bottom-1 left-1">時間</span>
