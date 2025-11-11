@@ -1,4 +1,4 @@
-# スケマッチ (MeetSync)
+# スケジュールマッチング（スケマッチ） (MeetSync)
 
 ## Overview
 
@@ -246,6 +246,12 @@ Preferred communication style: Simple, everyday language.
 - Footer displays links to Terms of Service, Privacy Policy, and Contact pages
 - Consistent footer across all pages (CreateEvent and EventPage)
 - Uses flex layout to pin footer to bottom of page
+
+**Site Name Updated:**
+- Changed site name from "スケマッチ" to "スケジュールマッチング（スケマッチ）"
+- Updated in Header, Footer, Contact page, Privacy Policy page
+- Updated email sender name and subject lines
+- Updated email content and footers
 
 ### November 9, 2025
 

@@ -24,7 +24,7 @@ export default function Contact() {
                 お問い合わせ方法
               </CardTitle>
               <CardDescription>
-                スケマッチに関するお問い合わせやご要望は、以下の方法で受け付けています。
+                スケジュールマッチング（スケマッチ）に関するお問い合わせやご要望は、以下の方法で受け付けています。
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
