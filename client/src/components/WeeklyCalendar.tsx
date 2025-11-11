@@ -111,9 +111,8 @@ export default function WeeklyCalendar({
           <Button
             type="button"
             variant="ghost"
-            size="sm"
             onClick={goToThisWeek}
-            className="text-xs"
+            className="text-base font-medium"
             data-testid="button-this-week"
           >
             今週
@@ -136,7 +135,7 @@ export default function WeeklyCalendar({
           <div className="inline-block min-w-full">
             <div className="grid gap-px" style={{ gridTemplateColumns: "80px repeat(7, minmax(80px, 1fr))" }}>
               <div className="bg-muted p-2 font-medium text-sm text-center sticky left-0 top-0 z-20" data-testid="header-time">
-                {format(weekDays[0], 'M月')} 時間
+                {format(weekDays[0], 'M月')}
               </div>
               {weekDays.map((day, index) => {
                 const isSunday = index === 0;
