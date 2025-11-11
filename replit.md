@@ -119,10 +119,12 @@ Preferred communication style: Simple, everyday language.
 - Email automatically sent to organizer on event creation with:
   - Participant link for sharing
   - Edit link with secure token for organizer-only access
-  - HTML-formatted email with clear visual sections
+  - HTML-formatted email with clear visual sections (fully localized in Japanese)
 - **Configuration:**
   - Set `RESEND_API_KEY` environment variable to enable actual email delivery
   - Without API key: Falls back to console logging (development mode)
   - With API key: Sends actual emails via Resend service
 - Email sending is non-blocking - event creation succeeds even if email fails
 - Installed `resend` npm package for email delivery
+- **Note:** User declined Replit Resend integration - using direct API key setup instead
+- **To enable email sending:** User needs to obtain API key from https://resend.com/ and add it to Replit Secrets as RESEND_API_KEY
