@@ -176,14 +176,26 @@ Preferred communication style: Simple, everyday language.
 **Email Link Improvements:**
 - Fixed email link mismatch issue where links in emails differed from confirmation page
 - Frontend now sends `origin` (window.location.origin) to backend
-- Backend validates and uses frontend's origin only if it matches trusted hostname or is localhost
-- Security: Prevents phishing attacks by rejecting arbitrary third-party domains
+- Backend validates and uses frontend's origin if it's a Replit domain, localhost, or matches trusted URL
+- Security: Prevents phishing attacks by validating origin
 - Validation rules:
-  - Accept: localhost, 127.0.0.1, or exact match with trusted base URL hostname
+  - Accept: localhost, 127.0.0.1, Replit domains (*.replit.app, *.repl.co), or exact match with trusted base URL hostname
   - Reject: All other origins (with warning logged)
 - Falls back to `getTrustedBaseUrl()` if origin validation fails
 - This ensures email links always match the confirmation page links while maintaining security
 - Updated both event creation and participant response flows
+
+**Results Display Sorting:**
+- Individual responses table now sorts time slots by date first, then by time
+- Implemented `timeToMinutes` parser that correctly handles various time formats:
+  - "8:00-8:30 AM" → 8:00 (480 minutes)
+  - "11:30 AM-12:00 PM" → 11:30 (690 minutes)
+  - "1:00-1:30 PM" → 13:00 (780 minutes)
+  - "12:30-1:00 PM" → 12:30 (750 minutes)
+- Parser extracts first time and AM/PM marker from time range strings
+- Handles 12-hour format with proper AM/PM conversion (12 AM → 0:00, 12 PM → 12:00)
+- Unparseable time slots are pushed to the end of the table
+- ResultsCalendar component unchanged (uses grid-based display, not affected by sort order)
 
 **UI Improvements:**
 - Added helper text below email input on event creation form
