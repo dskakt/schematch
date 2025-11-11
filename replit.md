@@ -156,12 +156,14 @@ Preferred communication style: Simple, everyday language.
   - Displays links to Terms of Service, Privacy Policy, and Contact pages
   - Responsive design (vertical on mobile, horizontal on desktop)
   - Copyright notice "© 2025 スケマッチ"
+  - Fixed React warnings by removing nested anchor tags
 - Added Footer to CreateEvent page (both form and confirmation states)
   - Used flex layout to pin footer to bottom
 - Created three static pages:
   - Terms of Service page (`client/src/pages/TermsOfService.tsx`)
   - Privacy Policy page (`client/src/pages/PrivacyPolicy.tsx`)
   - Contact page (`client/src/pages/Contact.tsx`)
+  - Contact email updated to `schematch.office@gmail.com`
 - All static pages include:
   - Header component for consistency
   - Structured content in Card component
@@ -170,6 +172,17 @@ Preferred communication style: Simple, everyday language.
   - `/terms` - Terms of Service
   - `/privacy` - Privacy Policy
   - `/contact` - Contact
+
+**Email Link Improvements:**
+- Fixed email link mismatch issue where links in emails differed from confirmation page
+- Frontend now sends `origin` (window.location.origin) to backend
+- Backend uses frontend's origin when running on localhost, otherwise uses `getTrustedBaseUrl()`
+- This ensures email links always match the confirmation page links
+- Updated both event creation and participant response flows
+
+**UI Improvements:**
+- Added helper text "参加者の予定を送信します" below email input on event creation form
+- Clarifies that the email will receive participant responses
 
 ### November 9, 2025
 
