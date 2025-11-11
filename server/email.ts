@@ -25,8 +25,6 @@ export async function sendOrganizerEmail({
 }: SendOrganizerEmailParams): Promise<void> {
   const emailContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #333;">スケマッチ イベント「${eventTitle}」を作成しました</h2>
-      
       <p>スケマッチをご利用いただきありがとうございます！</p>
       
       <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
@@ -125,7 +123,7 @@ export async function sendResponseNotification({
   if (!apiKey) {
     console.log("\n=== 参加者回答通知メール (開発モード) ===");
     console.log(`宛先: ${organizerEmail}`);
-    console.log(`件名: [スケマッチ] 新しい回答が届きました - ${eventTitle}`);
+    console.log(`件名: ${eventTitle} - 新しい回答が届きました`);
     console.log("\n--- メール内容 ---");
     console.log(`
 イベント: ${eventTitle}
@@ -147,7 +145,7 @@ ${resultsLink}
     await resend.emails.send({
       from: 'スケマッチ <onboarding@resend.dev>',
       to: organizerEmail,
-      subject: `[スケマッチ] 新しい回答が届きました - ${eventTitle}`,
+      subject: `${eventTitle} - 新しい回答が届きました`,
       html: emailContent,
     });
     
