@@ -99,7 +99,7 @@ export default function EventConfirmation({
             回答状況を確認できます（メールで送信されます）
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-3">
+        <CardContent>
           <div className="flex gap-2">
             <Input
               value={organizerLink}
@@ -118,11 +118,12 @@ export default function EventConfirmation({
               )}
             </Button>
           </div>
-          <p className="text-sm text-muted-foreground" data-testid="text-email-sent">
-            このリンクを含む確認メールがメールアドレスに送信されました
-          </p>
         </CardContent>
       </Card>
+
+      <p className="text-sm text-muted-foreground text-center" data-testid="text-email-sent">
+        このリンクを含む確認メールがメールアドレスに送信されました
+      </p>
     </div>
   );
 }
