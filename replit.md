@@ -105,6 +105,29 @@ Preferred communication style: Simple, everyday language.
 
 ### November 11, 2025
 
+**Email Link Security & URL Construction:**
+- Fixed email link construction to prevent Host header injection vulnerabilities
+- Implemented `getTrustedBaseUrl()` helper function for secure URL generation
+- URL construction priority:
+  1. `BASE_URL` environment variable (recommended for production deployments)
+  2. `REPLIT_DEV_DOMAIN` environment variable (workspace environment)
+  3. `http://localhost:5000` (local development fallback)
+- **IMPORTANT:** For production deployments, set the `BASE_URL` environment variable to your app's public URL (e.g., `https://your-app.replit.app`)
+- URL normalization: Handles protocol prefixes and trailing slashes automatically
+
+**Participant Response Notifications:**
+- Implemented email notification to organizer when participants submit responses
+- Notification email contains:
+  - Participant name
+  - Event title
+  - Direct link to results page
+- Notification is sent asynchronously (non-blocking)
+- Email sending failures do not affect response submission success
+
+**Email Content Improvements:**
+- Removed duplicate heading in response notification email (was redundant with subject line)
+- Simplified email layout for better readability
+
 **Event Edit Functionality Removed:**
 - Removed event editing feature to simplify user experience
 - Organizer links now point directly to results page instead of edit page

@@ -92,8 +92,6 @@ export async function sendResponseNotification({
 }: SendResponseNotificationParams): Promise<void> {
   const emailContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #333;">新しい回答が届きました</h2>
-      
       <p>イベント「<strong>${eventTitle}</strong>」に新しい回答がありました。</p>
       
       <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">

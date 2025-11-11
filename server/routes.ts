@@ -6,6 +6,36 @@ import { sendOrganizerEmail, sendResponseNotification } from "./email";
 import { z } from "zod";
 import { randomBytes } from "crypto";
 
+// Helper function to get trusted base URL from environment
+// NOTE: For production deployments, set the BASE_URL environment variable
+// to your app's public URL (e.g., https://your-app.replit.app)
+function getTrustedBaseUrl(): string {
+  let baseUrl: string;
+  
+  // Priority 1: Custom BASE_URL (recommended for production)
+  if (process.env.BASE_URL) {
+    baseUrl = process.env.BASE_URL;
+  }
+  // Priority 2: REPLIT_DEV_DOMAIN (workspace environment)
+  else if (process.env.REPLIT_DEV_DOMAIN) {
+    const domain = process.env.REPLIT_DEV_DOMAIN;
+    // If domain already has protocol, use as-is
+    if (domain.startsWith('http://') || domain.startsWith('https://')) {
+      baseUrl = domain;
+    } else {
+      // Otherwise, add https protocol
+      baseUrl = `https://${domain}`;
+    }
+  }
+  // Priority 3: Default to localhost for local development
+  else {
+    baseUrl = "http://localhost:5000";
+  }
+  
+  // Normalize: remove trailing slash
+  return baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+}
+
 const createEventRequestSchema = z.object({
   title: z.string().min(1),
   organizerEmail: z.string().email(),
@@ -53,11 +83,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }))
       );
       
-      // Construct URLs for email
-      const baseUrl = process.env.REPL_SLUG 
-        ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`
-        : "http://localhost:5000";
-      
+      // Construct URLs for email using trusted base URL
+      const baseUrl = getTrustedBaseUrl();
       const participantLink = `${baseUrl}/event/${event.id}`;
       const resultsLink = `${baseUrl}/event/${event.id}/results`;
       
@@ -144,11 +171,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         notes: data.notes,
       });
 
-      // Construct results URL for email
-      const baseUrl = process.env.REPL_SLUG 
-        ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`
-        : "http://localhost:5000";
-      
+      // Construct results URL for email using trusted base URL
+      const baseUrl = getTrustedBaseUrl();
       const resultsLink = `${baseUrl}/event/${event.id}/results`;
 
       // Send notification email to organizer (non-blocking)
