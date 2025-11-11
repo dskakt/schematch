@@ -108,39 +108,39 @@ export default function ResultsView({
                 <table className="w-full" data-testid="table-responses">
                   <thead>
                     <tr className="border-b">
-                      <th className="text-left py-3 px-4 font-medium" data-testid="header-name">
-                        名前
+                      <th className="text-left py-3 px-4 font-medium" data-testid="header-time">
+                        日時
                       </th>
-                      {sortedTimeSlots.map((slot) => (
+                      {responses.map((response, index) => (
                         <th
-                          key={slot.id}
+                          key={index}
                           className="text-center py-3 px-2 font-medium text-sm"
-                          data-testid={`header-slot-${slot.id}`}
+                          data-testid={`header-name-${index}`}
                         >
-                          <div>{format(slot.date, 'M月d日', { locale: ja })}</div>
-                          <div className="text-xs text-muted-foreground">{slot.time}</div>
+                          {response.name}
                         </th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
-                    {responses.map((response, index) => (
-                      <tr key={index} className="border-b" data-testid={`row-${index}`}>
-                        <td className="py-3 px-4 font-medium" data-testid={`name-${index}`}>
-                          {response.name}
+                    {sortedTimeSlots.map((slot) => (
+                      <tr key={slot.id} className="border-b" data-testid={`row-slot-${slot.id}`}>
+                        <td className="py-3 px-4 font-medium" data-testid={`time-${slot.id}`}>
+                          <div>{format(slot.date, 'M月d日', { locale: ja })}</div>
+                          <div className="text-xs text-muted-foreground">{slot.time}</div>
                         </td>
-                        {sortedTimeSlots.map((slot) => (
+                        {responses.map((response, index) => (
                           <td
-                            key={slot.id}
+                            key={index}
                             className="text-center py-3 px-2"
-                            data-testid={`cell-${index}-${slot.id}`}
+                            data-testid={`cell-${slot.id}-${index}`}
                           >
                             {response.availability.includes(slot.id) ? (
-                              <span className="text-xl text-primary font-bold" data-testid={`available-${index}-${slot.id}`}>
+                              <span className="text-xl text-primary font-bold" data-testid={`available-${slot.id}-${index}`}>
                                 ○
                               </span>
                             ) : (
-                              <span className="text-xl text-muted-foreground/30 font-bold" data-testid={`unavailable-${index}-${slot.id}`}>
+                              <span className="text-xl text-muted-foreground/30 font-bold" data-testid={`unavailable-${slot.id}-${index}`}>
                                 ×
                               </span>
                             )}

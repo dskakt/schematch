@@ -221,6 +221,14 @@ Preferred communication style: Simple, everyday language.
 - Moved email confirmation message ("このリンクを含む確認メールがメールアドレスに送信されました") from inside results link card to below it
 - Message now displays as centered text beneath the results link card for better visual hierarchy
 
+**Individual Responses Table Layout:**
+- Transposed individual responses table: swapped rows and columns
+- Table now shows:
+  - Row headers: Time slots (one per row)
+  - Column headers: Participant names (one per column)
+  - Previous layout had time slots as columns and participants as rows
+- This makes it easier to compare participants' availability for each time slot horizontally
+
 ### November 9, 2025
 
 **UI Improvements:**
