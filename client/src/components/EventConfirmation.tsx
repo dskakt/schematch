@@ -32,8 +32,8 @@ export default function EventConfirmation({
       setTimeout(() => setCopiedOrganizer(false), 2000);
     }
     toast({
-      title: "Copied!",
-      description: `${type === 'participant' ? 'Participant' : 'Organizer'} link copied to clipboard`,
+      title: "コピーしました",
+      description: `${type === 'participant' ? '参加者用' : '主催者用'}リンクをクリップボードにコピーしました`,
     });
   };
 
@@ -47,10 +47,10 @@ export default function EventConfirmation({
             </div>
             <div>
               <h2 className="text-2xl font-semibold mb-2" data-testid="text-success-title">
-                Event Created Successfully!
+                イベントを作成しました！
               </h2>
               <p className="text-muted-foreground" data-testid="text-success-message">
-                Your event "{eventTitle}" is ready to share
+                イベント「{eventTitle}」を共有できます
               </p>
             </div>
           </div>
@@ -61,10 +61,10 @@ export default function EventConfirmation({
         <CardHeader>
           <CardTitle className="flex items-center gap-2" data-testid="text-participant-title">
             <LinkIcon className="w-5 h-5" />
-            Share with Participants
+            参加者用リンク
           </CardTitle>
           <CardDescription data-testid="text-participant-description">
-            Send this link to people you want to invite
+            このリンクを参加者に送信してください
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -93,10 +93,10 @@ export default function EventConfirmation({
         <CardHeader>
           <CardTitle className="flex items-center gap-2" data-testid="text-organizer-title">
             <Mail className="w-5 h-5" />
-            Organizer Edit Link
+            主催者用編集リンク
           </CardTitle>
           <CardDescription data-testid="text-organizer-description">
-            Use this link to edit your event (sent to your email)
+            イベントの編集に使用します（メールで送信されます）
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
@@ -119,7 +119,7 @@ export default function EventConfirmation({
             </Button>
           </div>
           <p className="text-sm text-muted-foreground" data-testid="text-email-sent">
-            A confirmation email with this link has been sent to your email address
+            このリンクを含む確認メールがメールアドレスに送信されました
           </p>
         </CardContent>
       </Card>

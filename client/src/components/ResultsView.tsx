@@ -41,14 +41,14 @@ export default function ResultsView({
         <CardContent>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <Users className="w-4 h-4" />
-            <span data-testid="text-response-count">{responses.length} responses</span>
+            <span data-testid="text-response-count">{responses.length}件の回答</span>
           </div>
         </CardContent>
       </Card>
 
       <Card data-testid="card-availability-grid">
         <CardHeader>
-          <CardTitle data-testid="text-grid-title">Availability Overview</CardTitle>
+          <CardTitle data-testid="text-grid-title">参加可能人数</CardTitle>
         </CardHeader>
         <CardContent>
           <ResultsCalendar timeSlots={timeSlots} responses={responses} />
@@ -57,13 +57,13 @@ export default function ResultsView({
 
       <Card data-testid="card-responses">
         <CardHeader>
-          <CardTitle data-testid="text-responses-title">Individual Responses</CardTitle>
+          <CardTitle data-testid="text-responses-title">個別の回答</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             {responses.length === 0 ? (
               <p className="text-sm text-muted-foreground text-center py-8" data-testid="text-no-responses">
-                No responses yet. Share the event link to get started!
+                まだ回答がありません。イベントリンクを共有してください！
               </p>
             ) : (
               <div className="overflow-x-auto">
@@ -71,7 +71,7 @@ export default function ResultsView({
                   <thead>
                     <tr className="border-b">
                       <th className="text-left py-3 px-4 font-medium" data-testid="header-name">
-                        Name
+                        名前
                       </th>
                       {timeSlots.map((slot) => (
                         <th
@@ -117,7 +117,7 @@ export default function ResultsView({
       {responses.some(r => r.notes) && (
         <Card data-testid="card-notes">
           <CardHeader>
-            <CardTitle data-testid="text-notes-title">Participant Notes</CardTitle>
+            <CardTitle data-testid="text-notes-title">参加者の備考</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">

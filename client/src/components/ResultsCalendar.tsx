@@ -100,11 +100,11 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
           data-testid="button-prev-week"
         >
           <ChevronLeft className="w-4 h-4" />
-          Previous
+          前の週
         </Button>
         <div className="text-center">
           <div className="font-medium" data-testid="text-week-range">
-            {format(weekDays[0], 'MMM d')} - {format(weekDays[6], 'MMM d, yyyy')}
+            {format(weekDays[0], 'M月d日')} - {format(weekDays[6], 'M月d日, yyyy年')}
           </div>
           <Button
             type="button"
@@ -114,7 +114,7 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
             className="text-xs"
             data-testid="button-this-week"
           >
-            This Week
+            今週
           </Button>
         </div>
         <Button
@@ -124,7 +124,7 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
           onClick={goToNextWeek}
           data-testid="button-next-week"
         >
-          Next
+          次の週
           <ChevronRight className="w-4 h-4" />
         </Button>
       </div>
@@ -134,7 +134,7 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
           <div className="inline-block min-w-full">
             <div className="grid gap-px" style={{ gridTemplateColumns: "80px repeat(7, minmax(80px, 1fr))" }}>
               <div className="bg-muted p-2 font-medium text-sm text-center sticky left-0 top-0 z-20" data-testid="header-time">
-                Time
+                時間
               </div>
               {weekDays.map((day, index) => {
                 const isSunday = index === 0;
@@ -203,19 +203,19 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
         <div className="flex items-center justify-center gap-4 text-sm flex-wrap">
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-green-100 rounded"></div>
-            <span className="text-muted-foreground">Low</span>
+            <span className="text-muted-foreground">少ない</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-green-300 rounded"></div>
-            <span className="text-muted-foreground">Medium</span>
+            <span className="text-muted-foreground">中程度</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-4 h-4 bg-green-500 rounded"></div>
-            <span className="text-muted-foreground">Best time</span>
+            <span className="text-muted-foreground">最適</span>
           </div>
         </div>
         <div className="text-center text-sm text-muted-foreground">
-          Numbers show how many participants are available
+          数字は参加可能な人数を表示しています
         </div>
       </div>
     </div>

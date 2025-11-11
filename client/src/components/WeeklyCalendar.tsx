@@ -101,11 +101,11 @@ export default function WeeklyCalendar({
           data-testid="button-prev-week"
         >
           <ChevronLeft className="w-4 h-4" />
-          Previous
+          前の週
         </Button>
         <div className="text-center">
           <div className="font-medium" data-testid="text-week-range">
-            {format(weekDays[0], 'MMM d')} - {format(weekDays[6], 'MMM d, yyyy')}
+            {format(weekDays[0], 'M月d日')} - {format(weekDays[6], 'M月d日, yyyy年')}
           </div>
           <Button
             type="button"
@@ -115,7 +115,7 @@ export default function WeeklyCalendar({
             className="text-xs"
             data-testid="button-this-week"
           >
-            This Week
+            今週
           </Button>
         </div>
         <Button
@@ -125,7 +125,7 @@ export default function WeeklyCalendar({
           onClick={goToNextWeek}
           data-testid="button-next-week"
         >
-          Next
+          次の週
           <ChevronRight className="w-4 h-4" />
         </Button>
       </div>
@@ -135,7 +135,7 @@ export default function WeeklyCalendar({
           <div className="inline-block min-w-full">
             <div className="grid gap-px" style={{ gridTemplateColumns: "80px repeat(7, minmax(80px, 1fr))" }}>
               <div className="bg-muted p-2 font-medium text-sm text-center sticky left-0 top-0 z-20" data-testid="header-time">
-                Time
+                時間
               </div>
               {weekDays.map((day, index) => {
                 const isSunday = index === 0;

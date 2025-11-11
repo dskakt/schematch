@@ -51,7 +51,7 @@ export default function ResultsPage() {
         <main className="py-12 px-6">
           <div className="max-w-5xl mx-auto text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading results...</p>
+            <p className="text-muted-foreground">読み込み中...</p>
           </div>
         </main>
       </div>
@@ -64,8 +64,8 @@ export default function ResultsPage() {
         <Header />
         <main className="py-12 px-6">
           <div className="max-w-5xl mx-auto text-center">
-            <h2 className="text-2xl font-semibold mb-2">Event Not Found</h2>
-            <p className="text-muted-foreground">The event you're looking for doesn't exist.</p>
+            <h2 className="text-2xl font-semibold mb-2">イベントが見つかりません</h2>
+            <p className="text-muted-foreground">お探しのイベントは存在しません。</p>
           </div>
         </main>
       </div>

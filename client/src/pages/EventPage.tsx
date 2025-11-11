@@ -49,8 +49,8 @@ export default function EventPage() {
       queryClient.invalidateQueries({ queryKey: ["/api/events", eventId, "responses"] });
       
       toast({
-        title: "Response submitted!",
-        description: "Thank you for marking your availability.",
+        title: "回答を送信しました",
+        description: "ご回答ありがとうございます。",
       });
       setTimeout(() => {
         setLocation(`/event/${eventId}/results`);
@@ -58,8 +58,8 @@ export default function EventPage() {
     },
     onError: () => {
       toast({
-        title: "Error",
-        description: "Failed to submit response. Please try again.",
+        title: "エラー",
+        description: "回答の送信に失敗しました。もう一度お試しください。",
         variant: "destructive",
       });
     },
@@ -76,7 +76,7 @@ export default function EventPage() {
         <main className="py-12 px-6">
           <div className="max-w-3xl mx-auto text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading event...</p>
+            <p className="text-muted-foreground">読み込み中...</p>
           </div>
         </main>
       </div>
@@ -89,8 +89,8 @@ export default function EventPage() {
         <Header />
         <main className="py-12 px-6">
           <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-2xl font-semibold mb-2">Event Not Found</h2>
-            <p className="text-muted-foreground">The event you're looking for doesn't exist.</p>
+            <h2 className="text-2xl font-semibold mb-2">イベントが見つかりません</h2>
+            <p className="text-muted-foreground">お探しのイベントは存在しません。</p>
           </div>
         </main>
       </div>

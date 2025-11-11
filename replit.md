@@ -1,4 +1,4 @@
-# MeetSync
+# スケマッチ (MeetSync)
 
 ## Overview
 

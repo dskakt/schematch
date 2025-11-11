@@ -17,55 +17,55 @@ export async function sendOrganizerEmail({
 }: SendOrganizerEmailParams): Promise<void> {
   const emailContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <h2 style="color: #333;">Your MeetSync Event "${eventTitle}" has been created</h2>
+      <h2 style="color: #333;">スケマッチ イベント「${eventTitle}」を作成しました</h2>
       
-      <p>Hi there,</p>
+      <p>こんにちは、</p>
       
-      <p>Your scheduling event has been successfully created. Here are your event links:</p>
+      <p>イベントが正常に作成されました。以下のリンクをご利用ください：</p>
       
       <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="margin-top: 0; color: #555;">Participant Link</h3>
-        <p style="margin: 10px 0;">Share this link with people you want to invite:</p>
+        <h3 style="margin-top: 0; color: #555;">参加者用リンク</h3>
+        <p style="margin: 10px 0;">このリンクを参加者に送信してください：</p>
         <p style="word-break: break-all; background-color: white; padding: 10px; border-radius: 4px;">
           <a href="${participantLink}" style="color: #2563eb;">${participantLink}</a>
         </p>
       </div>
       
       <div style="background-color: #fef3c7; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="margin-top: 0; color: #555;">Edit Link (Organizer Only)</h3>
-        <p style="margin: 10px 0;">Use this link to edit your event or view results:</p>
+        <h3 style="margin-top: 0; color: #555;">編集リンク（主催者専用）</h3>
+        <p style="margin: 10px 0;">イベントの編集や結果の確認に使用します：</p>
         <p style="word-break: break-all; background-color: white; padding: 10px; border-radius: 4px;">
           <a href="${editLink}" style="color: #2563eb;">${editLink}</a>
         </p>
         <p style="font-size: 14px; color: #666; margin-top: 10px;">
-          ⚠️ Keep this link private. Anyone with this link can edit your event.
+          ⚠️ このリンクは他の人と共有しないでください。このリンクを持っている人は誰でもイベントを編集できます。
         </p>
       </div>
       
-      <p>Thank you for using MeetSync!</p>
+      <p>スケマッチをご利用いただきありがとうございます！</p>
     </div>
   `;
 
   const apiKey = process.env.RESEND_API_KEY;
   
   if (!apiKey) {
-    console.log("\n=== Email to Organizer (Development Mode) ===");
-    console.log(`To: ${organizerEmail}`);
-    console.log(`Subject: Your MeetSync Event "${eventTitle}" has been created`);
-    console.log("\n--- Email Content ---");
+    console.log("\n=== 主催者へのメール (開発モード) ===");
+    console.log(`宛先: ${organizerEmail}`);
+    console.log(`件名: スケマッチ イベント「${eventTitle}」を作成しました`);
+    console.log("\n--- メール内容 ---");
     console.log(`
-Event: ${eventTitle}
+イベント: ${eventTitle}
 
-Participant Link:
+参加者用リンク:
 ${participantLink}
 
-Edit Link (Organizer Only):
+編集リンク（主催者専用）:
 ${editLink}
 
-⚠️ Keep the edit link private. Anyone with this link can edit your event.
+⚠️ 編集リンクは他の人と共有しないでください。このリンクを持っている人は誰でもイベントを編集できます。
     `);
     console.log("=========================\n");
-    console.log("ℹ️  To enable actual email sending, set the RESEND_API_KEY environment variable.");
+    console.log("ℹ️  実際のメール送信を有効にするには、RESEND_API_KEY環境変数を設定してください。");
     return;
   }
 
@@ -73,9 +73,9 @@ ${editLink}
     const resend = new Resend(apiKey);
     
     await resend.emails.send({
-      from: 'MeetSync <onboarding@resend.dev>',
+      from: 'スケマッチ <onboarding@resend.dev>',
       to: organizerEmail,
-      subject: `Your MeetSync Event "${eventTitle}" has been created`,
+      subject: `スケマッチ イベント「${eventTitle}」を作成しました`,
       html: emailContent,
     });
     

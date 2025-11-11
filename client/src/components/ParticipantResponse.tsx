@@ -67,20 +67,20 @@ export default function ParticipantResponse({
 
       <Card data-testid="card-response-form">
         <CardHeader>
-          <CardTitle data-testid="text-form-title">Mark Your Availability</CardTitle>
+          <CardTitle data-testid="text-form-title">参加可能な日時を選択</CardTitle>
           <CardDescription data-testid="text-form-description">
-            Click on times when you can attend
+            参加できる日時をクリックしてください
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="name" data-testid="label-name">Your Name</Label>
+              <Label htmlFor="name" data-testid="label-name">お名前</Label>
               <Input
                 id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
-                placeholder="Enter your name"
+                placeholder="お名前を入力"
                 required
                 data-testid="input-name"
               />
@@ -90,11 +90,11 @@ export default function ParticipantResponse({
               <div className="flex items-center justify-center gap-4 text-sm mb-3">
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded"></div>
-                  <span className="text-muted-foreground">Possible time slots</span>
+                  <span className="text-muted-foreground">候補日時</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 bg-primary rounded"></div>
-                  <span className="text-muted-foreground">Your available time slots</span>
+                  <span className="text-muted-foreground">あなたの参加可能な日時</span>
                 </div>
               </div>
 
@@ -107,12 +107,12 @@ export default function ParticipantResponse({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="notes" data-testid="label-notes">Notes (Optional)</Label>
+              <Label htmlFor="notes" data-testid="label-notes">備考（任意）</Label>
               <Textarea
                 id="notes"
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                placeholder="Add any additional comments or preferences..."
+                placeholder="コメントや希望などを入力してください..."
                 rows={3}
                 data-testid="input-notes"
               />
@@ -126,11 +126,11 @@ export default function ParticipantResponse({
                   className="w-full"
                   data-testid="button-view-results"
                 >
-                  View Results
+                  結果を見る
                 </Button>
               </Link>
               <Button type="submit" className="flex-1" data-testid="button-submit">
-                Submit Response
+                回答を送信
               </Button>
             </div>
           </form>
