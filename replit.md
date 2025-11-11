@@ -241,6 +241,12 @@ Preferred communication style: Simple, everyday language.
 - GA script is dynamically loaded into the document head
 - Page views are automatically tracked when users navigate between routes
 
+**Footer Added to Event Page:**
+- Added Footer component to EventPage (participant response page)
+- Footer displays links to Terms of Service, Privacy Policy, and Contact pages
+- Consistent footer across all pages (CreateEvent and EventPage)
+- Uses flex layout to pin footer to bottom of page
+
 ### November 9, 2025
 
 **UI Improvements:**

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useParams, useLocation, Link } from "wouter";
 import { useQuery, useMutation } from "@tanstack/react-query";
 import Header from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import ParticipantResponse from "@/components/ParticipantResponse";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -105,9 +106,9 @@ export default function EventPage() {
   }));
 
   return (
-    <div className="min-h-screen bg-background" data-testid="page-event">
+    <div className="min-h-screen bg-background flex flex-col" data-testid="page-event">
       <Header />
-      <main className="py-12 px-6">
+      <main className="flex-1 py-12 px-6">
         <ParticipantResponse
           eventId={eventId!}
           eventTitle={data.event.title}
@@ -115,6 +116,7 @@ export default function EventPage() {
           onSubmit={handleSubmit}
         />
       </main>
+      <Footer />
     </div>
   );
 }
