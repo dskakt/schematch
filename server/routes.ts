@@ -18,6 +18,7 @@ const createEventRequestSchema = z.object({
 const createResponseRequestSchema = z.object({
   participantName: z.string().min(1),
   availableSlotIds: z.array(z.string()),
+  notes: z.string().optional(),
 });
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -131,6 +132,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         eventId: req.params.id,
         participantName: data.participantName,
         availableSlotIds: data.availableSlotIds,
+        notes: data.notes,
       });
       
       res.json(response);

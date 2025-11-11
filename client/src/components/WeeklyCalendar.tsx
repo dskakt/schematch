@@ -196,21 +196,6 @@ export default function WeeklyCalendar({
           </div>
         </div>
       </div>
-
-      {mode === "respond" && (
-        <div className="space-y-2">
-          <div className="flex items-center justify-center gap-4 text-sm">
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded"></div>
-              <span className="text-muted-foreground">Possible time slots</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 bg-primary rounded"></div>
-              <span className="text-muted-foreground">Your available time slots</span>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }

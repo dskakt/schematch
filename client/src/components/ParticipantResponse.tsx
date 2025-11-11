@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import WeeklyCalendar from "@/components/WeeklyCalendar";
 import { normalizeTimeSlot } from "@shared/timeUtils";
@@ -19,7 +20,7 @@ interface ParticipantResponseProps {
   eventId: string;
   eventTitle: string;
   timeSlots: TimeSlot[];
-  onSubmit: (data: { name: string; availability: string[] }) => void;
+  onSubmit: (data: { name: string; availability: string[]; notes?: string }) => void;
 }
 
 export default function ParticipantResponse({
@@ -29,6 +30,7 @@ export default function ParticipantResponse({
   onSubmit,
 }: ParticipantResponseProps) {
   const [name, setName] = useState("");
+  const [notes, setNotes] = useState("");
   const [selectedSlots, setSelectedSlots] = useState<{ date: Date; time: string }[]>([]);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -44,7 +46,7 @@ export default function ParticipantResponse({
       return matchingSlot?.id || '';
     }).filter(Boolean);
 
-    onSubmit({ name, availability: slotIds });
+    onSubmit({ name, availability: slotIds, notes: notes.trim() || undefined });
   };
 
   const availableSlots = timeSlots.map(slot => ({
@@ -84,12 +86,37 @@ export default function ParticipantResponse({
               />
             </div>
 
-            <WeeklyCalendar
-              selectedSlots={selectedSlots}
-              onSlotsChange={setSelectedSlots}
-              mode="respond"
-              availableSlots={availableSlots}
-            />
+            <div className="space-y-3">
+              <div className="flex items-center justify-center gap-4 text-sm mb-3">
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded"></div>
+                  <span className="text-muted-foreground">Possible time slots</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-4 h-4 bg-primary rounded"></div>
+                  <span className="text-muted-foreground">Your available time slots</span>
+                </div>
+              </div>
+
+              <WeeklyCalendar
+                selectedSlots={selectedSlots}
+                onSlotsChange={setSelectedSlots}
+                mode="respond"
+                availableSlots={availableSlots}
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="notes" data-testid="label-notes">Notes (Optional)</Label>
+              <Textarea
+                id="notes"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="Add any additional comments or preferences..."
+                rows={3}
+                data-testid="input-notes"
+              />
+            </div>
 
             <div className="flex gap-3 pt-4">
               <Link href={`/event/${eventId}/results`}>

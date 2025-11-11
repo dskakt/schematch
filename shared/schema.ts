@@ -24,6 +24,7 @@ export const responses = pgTable("responses", {
   eventId: varchar("event_id").notNull().references(() => events.id, { onDelete: "cascade" }),
   participantName: text("participant_name").notNull(),
   availableSlotIds: text("available_slot_ids").array().notNull(),
+  notes: text("notes"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 
