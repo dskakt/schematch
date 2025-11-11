@@ -59,7 +59,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         : "http://localhost:5000";
       
       const participantLink = `${baseUrl}/event/${event.id}`;
-      const editLink = `${baseUrl}/event/${event.id}/edit?token=${editToken}`;
+      const resultsLink = `${baseUrl}/event/${event.id}/results`;
       
       // Send email to organizer (non-blocking)
       sendOrganizerEmail({
@@ -67,7 +67,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         eventTitle: event.title,
         eventId: event.id,
         participantLink,
-        editLink,
+        resultsLink,
       }).catch(error => {
         console.error("Failed to send organizer email:", error);
         // Don't fail the request if email sending fails

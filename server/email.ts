@@ -5,7 +5,7 @@ interface SendOrganizerEmailParams {
   eventTitle: string;
   eventId: string;
   participantLink: string;
-  editLink: string;
+  resultsLink: string;
 }
 
 export async function sendOrganizerEmail({
@@ -13,15 +13,13 @@ export async function sendOrganizerEmail({
   eventTitle,
   eventId,
   participantLink,
-  editLink,
+  resultsLink,
 }: SendOrganizerEmailParams): Promise<void> {
   const emailContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <h2 style="color: #333;">スケマッチ イベント「${eventTitle}」を作成しました</h2>
       
-      <p>こんにちは、</p>
-      
-      <p>イベントが正常に作成されました。以下のリンクをご利用ください：</p>
+      <p>スケマッチをご利用いただきありがとうございます！</p>
       
       <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
         <h3 style="margin-top: 0; color: #555;">参加者用リンク</h3>
@@ -31,18 +29,13 @@ export async function sendOrganizerEmail({
         </p>
       </div>
       
-      <div style="background-color: #fef3c7; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="margin-top: 0; color: #555;">編集リンク（主催者専用）</h3>
-        <p style="margin: 10px 0;">イベントの編集や結果の確認に使用します：</p>
+      <div style="background-color: #e0f2fe; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="margin-top: 0; color: #555;">結果ページ</h3>
+        <p style="margin: 10px 0;">回答状況を確認できます：</p>
         <p style="word-break: break-all; background-color: white; padding: 10px; border-radius: 4px;">
-          <a href="${editLink}" style="color: #2563eb;">${editLink}</a>
-        </p>
-        <p style="font-size: 14px; color: #666; margin-top: 10px;">
-          ⚠️ このリンクは他の人と共有しないでください。このリンクを持っている人は誰でもイベントを編集できます。
+          <a href="${resultsLink}" style="color: #2563eb;">${resultsLink}</a>
         </p>
       </div>
-      
-      <p>スケマッチをご利用いただきありがとうございます！</p>
     </div>
   `;
 
@@ -59,10 +52,8 @@ export async function sendOrganizerEmail({
 参加者用リンク:
 ${participantLink}
 
-編集リンク（主催者専用）:
-${editLink}
-
-⚠️ 編集リンクは他の人と共有しないでください。このリンクを持っている人は誰でもイベントを編集できます。
+結果ページ:
+${resultsLink}
     `);
     console.log("=========================\n");
     console.log("ℹ️  実際のメール送信を有効にするには、RESEND_API_KEY環境変数を設定してください。");
