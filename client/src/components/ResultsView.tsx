@@ -29,6 +29,43 @@ export default function ResultsView({
   responses,
   isOrganizer = false,
 }: ResultsViewProps) {
+  // Convert time string (e.g., "8:00-8:30 AM" or "11:30 AM-12:00 PM" or "1:00-1:30 PM") to minutes since midnight
+  const timeToMinutes = (timeStr: string): number => {
+    // Match the first time
+    const match = timeStr.match(/^(\d{1,2}):(\d{2})/);
+    if (!match) {
+      console.warn('Could not parse time string:', timeStr);
+      return Number.POSITIVE_INFINITY; // Push unparseable slots to the end
+    }
+    
+    let hours = parseInt(match[1]);
+    const minutes = parseInt(match[2]);
+    
+    // Look for AM/PM marker anywhere in the string after the first time
+    // If there's only one AM/PM marker (e.g., "1:00-1:30 PM"), it applies to both times
+    // If there are two (e.g., "11:30 AM-12:00 PM"), use the first one
+    const afterFirstTime = timeStr.substring(match[0].length);
+    const firstPeriodMatch = afterFirstTime.match(/([AP]M)/i);
+    const period = firstPeriodMatch ? firstPeriodMatch[1].toUpperCase() : null;
+    
+    // Handle AM/PM
+    if (period === 'PM' && hours !== 12) {
+      hours += 12;
+    } else if (period === 'AM' && hours === 12) {
+      hours = 0;
+    }
+    
+    return hours * 60 + minutes;
+  };
+
+  // Sort time slots by date first, then by time
+  const sortedTimeSlots = [...timeSlots].sort((a, b) => {
+    const dateCompare = a.date.getTime() - b.date.getTime();
+    if (dateCompare !== 0) return dateCompare;
+    
+    // If dates are the same, sort by time (convert to minutes for proper numeric comparison)
+    return timeToMinutes(a.time) - timeToMinutes(b.time);
+  });
 
   return (
     <div className="max-w-5xl mx-auto space-y-6" data-testid="results-view">
@@ -74,7 +111,7 @@ export default function ResultsView({
                       <th className="text-left py-3 px-4 font-medium" data-testid="header-name">
                         名前
                       </th>
-                      {timeSlots.map((slot) => (
+                      {sortedTimeSlots.map((slot) => (
                         <th
                           key={slot.id}
                           className="text-center py-3 px-2 font-medium text-sm"
@@ -92,7 +129,7 @@ export default function ResultsView({
                         <td className="py-3 px-4 font-medium" data-testid={`name-${index}`}>
                           {response.name}
                         </td>
-                        {timeSlots.map((slot) => (
+                        {sortedTimeSlots.map((slot) => (
                           <td
                             key={slot.id}
                             className="text-center py-3 px-2"
