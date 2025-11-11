@@ -136,7 +136,7 @@ export default function WeeklyCalendar({
           <div className="inline-block min-w-full">
             <div className="grid gap-px" style={{ gridTemplateColumns: "80px repeat(7, minmax(80px, 1fr))" }}>
               <div className="bg-muted p-2 font-medium text-sm text-center sticky left-0 top-0 z-20" data-testid="header-time">
-                時間
+                {format(weekDays[0], 'M月')} 時間
               </div>
               {weekDays.map((day, index) => {
                 const isSunday = index === 0;
@@ -151,7 +151,7 @@ export default function WeeklyCalendar({
                       {format(day, 'E', { locale: ja })}
                     </div>
                     <div className={`font-medium ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : ''}`}>
-                      {format(day, 'M月d日')}
+                      {format(day, 'd日')}
                     </div>
                   </div>
                 );
