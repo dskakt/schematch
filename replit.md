@@ -176,8 +176,13 @@ Preferred communication style: Simple, everyday language.
 **Email Link Improvements:**
 - Fixed email link mismatch issue where links in emails differed from confirmation page
 - Frontend now sends `origin` (window.location.origin) to backend
-- Backend uses frontend's origin when running on localhost, otherwise uses `getTrustedBaseUrl()`
-- This ensures email links always match the confirmation page links
+- Backend validates and uses frontend's origin only if it matches trusted hostname or is localhost
+- Security: Prevents phishing attacks by rejecting arbitrary third-party domains
+- Validation rules:
+  - Accept: localhost, 127.0.0.1, or exact match with trusted base URL hostname
+  - Reject: All other origins (with warning logged)
+- Falls back to `getTrustedBaseUrl()` if origin validation fails
+- This ensures email links always match the confirmation page links while maintaining security
 - Updated both event creation and participant response flows
 
 **UI Improvements:**

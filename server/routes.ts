@@ -86,11 +86,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       );
       
       // Construct URLs for email
-      // Priority: use origin from request if provided and valid, otherwise use trusted base URL
+      // Use origin from request only if it exactly matches the trusted hostname or is localhost
       let baseUrl = getTrustedBaseUrl();
-      if (data.origin && (baseUrl.includes('localhost') || baseUrl.includes('127.0.0.1'))) {
-        // If environment is set to localhost but frontend provides a real URL, use it
-        baseUrl = data.origin;
+      if (data.origin) {
+        try {
+          const originUrl = new URL(data.origin);
+          const trustedUrl = new URL(baseUrl);
+          // Trust the origin only if hostname exactly matches trusted URL or is localhost
+          const isLocalhost = originUrl.hostname === 'localhost' || originUrl.hostname === '127.0.0.1';
+          const isSameDomain = originUrl.hostname === trustedUrl.hostname;
+          
+          if (isLocalhost || isSameDomain) {
+            baseUrl = data.origin;
+          }
+        } catch (error) {
+          // Invalid URL, use trusted base URL
+          console.warn('Invalid origin URL provided:', data.origin);
+        }
       }
       const participantLink = `${baseUrl}/event/${event.id}`;
       const resultsLink = `${baseUrl}/event/${event.id}/results`;
@@ -179,11 +191,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
       });
 
       // Construct URLs for email
-      // Priority: use origin from request if provided and valid, otherwise use trusted base URL
+      // Use origin from request only if it exactly matches the trusted hostname or is localhost
       let baseUrl = getTrustedBaseUrl();
-      if (data.origin && (baseUrl.includes('localhost') || baseUrl.includes('127.0.0.1'))) {
-        // If environment is set to localhost but frontend provides a real URL, use it
-        baseUrl = data.origin;
+      if (data.origin) {
+        try {
+          const originUrl = new URL(data.origin);
+          const trustedUrl = new URL(baseUrl);
+          // Trust the origin only if hostname exactly matches trusted URL or is localhost
+          const isLocalhost = originUrl.hostname === 'localhost' || originUrl.hostname === '127.0.0.1';
+          const isSameDomain = originUrl.hostname === trustedUrl.hostname;
+          
+          if (isLocalhost || isSameDomain) {
+            baseUrl = data.origin;
+          }
+        } catch (error) {
+          // Invalid URL, use trusted base URL
+          console.warn('Invalid origin URL provided:', data.origin);
+        }
       }
       const participantLink = `${baseUrl}/event/${event.id}`;
       const resultsLink = `${baseUrl}/event/${event.id}/results`;
