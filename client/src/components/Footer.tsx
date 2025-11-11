@@ -16,7 +16,7 @@ export function Footer() {
           </Link>
         </div>
         <div className="text-center mt-4 text-xs text-muted-foreground">
-          © 2025 スケジュールマッチング（スケマッチ）
+          © 2025 スケマッチ
         </div>
       </div>
     </footer>
