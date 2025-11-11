@@ -93,7 +93,7 @@ export default function EventConfirmation({
         <CardHeader>
           <CardTitle className="flex items-center gap-2" data-testid="text-organizer-title">
             <Mail className="w-5 h-5" />
-            主催者用集計結果リンク
+            集計結果リンク
           </CardTitle>
           <CardDescription data-testid="text-organizer-description">
             回答状況を確認できます（メールで送信されます）
