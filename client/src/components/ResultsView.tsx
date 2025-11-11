@@ -114,7 +114,7 @@ export default function ResultsView({
                       {responses.map((response, index) => (
                         <th
                           key={index}
-                          className="text-left py-3 px-2 font-medium text-sm"
+                          className="text-left py-3 px-4 font-medium text-sm"
                           data-testid={`header-name-${index}`}
                         >
                           {response.name}
@@ -132,7 +132,7 @@ export default function ResultsView({
                         {responses.map((response, index) => (
                           <td
                             key={index}
-                            className="text-center py-3 px-2"
+                            className="text-left py-3 px-4"
                             data-testid={`cell-${slot.id}-${index}`}
                           >
                             {response.availability.includes(slot.id) ? (
