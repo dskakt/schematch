@@ -228,6 +228,18 @@ Preferred communication style: Simple, everyday language.
   - Column headers: Participant names (one per column)
   - Previous layout had time slots as columns and participants as rows
 - This makes it easier to compare participants' availability for each time slot horizontally
+- Table cells and headers are left-aligned for better readability
+
+**Google Analytics Integration:**
+- Integrated Google Analytics 4 for tracking page views and user interactions
+- Created analytics utility files:
+  - `client/src/lib/analytics.ts` - Core GA functions (initGA, trackPageView, trackEvent)
+  - `client/src/hooks/use-analytics.tsx` - Hook for automatic page view tracking on route changes
+  - `client/src/env.d.ts` - TypeScript definitions for VITE_GA_MEASUREMENT_ID
+- Updated App.tsx to initialize Google Analytics on mount and track page views automatically
+- Requires `VITE_GA_MEASUREMENT_ID` environment variable (set in Replit Secrets)
+- GA script is dynamically loaded into the document head
+- Page views are automatically tracked when users navigate between routes
 
 ### November 9, 2025
 
