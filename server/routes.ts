@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { normalizeTimeSlot } from "../shared/timeUtils";
-import { sendOrganizerEmail } from "./email";
+import { sendOrganizerEmail, sendResponseNotification } from "./email";
 import { z } from "zod";
 import { randomBytes } from "crypto";
 
@@ -142,6 +142,24 @@ export async function registerRoutes(app: Express): Promise<Server> {
         participantName: data.participantName,
         availableSlotIds: data.availableSlotIds,
         notes: data.notes,
+      });
+
+      // Construct results URL for email
+      const baseUrl = process.env.REPL_SLUG 
+        ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co`
+        : "http://localhost:5000";
+      
+      const resultsLink = `${baseUrl}/event/${event.id}/results`;
+
+      // Send notification email to organizer (non-blocking)
+      sendResponseNotification({
+        organizerEmail: event.organizerEmail,
+        eventTitle: event.title,
+        participantName: data.participantName,
+        resultsLink,
+      }).catch(error => {
+        console.error("Failed to send response notification email:", error);
+        // Don't fail the request if email sending fails
       });
       
       res.json(response);
