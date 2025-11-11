@@ -185,11 +185,14 @@ Preferred communication style: Simple, everyday language.
 - Changed helper text from "参加者の予定を送信します" to "集計結果を送信します"
 - Clarifies that the email will receive aggregated results
 
-**Calendar Date Display:**
-- Updated calendar date headers to show month and day
-- Changed format from "d日" (day only) to "M/d" (month/day)
-- Applied to both WeeklyCalendar and ResultsCalendar components
-- Example display: "11/15" instead of "15日"
+**Calendar Display Improvements:**
+- Calendar date headers show day only: "d日" format (e.g., "9日", "10日")
+- Time column header features diagonal line separator dividing month and time labels:
+  - Month displayed in top-right corner (e.g., "11月")
+  - Time label displayed in bottom-left corner ("時間")
+  - Diagonal line runs from top-left to bottom-right using CSS linear-gradient
+- Applied consistently to both WeeklyCalendar and ResultsCalendar components
+- "今週" (This week) button enlarged for better visibility (text-base font-medium)
 
 ### November 9, 2025
 
