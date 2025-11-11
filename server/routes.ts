@@ -171,8 +171,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
         notes: data.notes,
       });
 
-      // Construct results URL for email using trusted base URL
+      // Construct URLs for email using trusted base URL
       const baseUrl = getTrustedBaseUrl();
+      const participantLink = `${baseUrl}/event/${event.id}`;
       const resultsLink = `${baseUrl}/event/${event.id}/results`;
 
       // Send notification email to organizer (non-blocking)
@@ -180,6 +181,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         organizerEmail: event.organizerEmail,
         eventTitle: event.title,
         participantName: data.participantName,
+        participantLink,
         resultsLink,
       }).catch(error => {
         console.error("Failed to send response notification email:", error);

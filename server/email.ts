@@ -38,7 +38,7 @@ export async function sendOrganizerEmail({
       </div>
       
       <div style="background-color: #e0f2fe; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="margin-top: 0; color: #555;">結果ページ</h3>
+        <h3 style="margin-top: 0; color: #555;">集計結果リンク</h3>
         <p style="margin: 10px 0;">回答状況を確認できます：</p>
         <p style="word-break: break-all; background-color: white; padding: 10px; border-radius: 4px;">
           <a href="${resultsLink}" style="color: #2563eb;">${resultsLink}</a>
@@ -60,7 +60,7 @@ export async function sendOrganizerEmail({
 参加者用リンク:
 ${participantLink}
 
-結果ページ:
+集計結果リンク:
 ${resultsLink}
     `);
     console.log("=========================\n");
