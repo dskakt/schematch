@@ -3,6 +3,7 @@ import { useLocation } from "wouter";
 import Header from "@/components/Header";
 import WeeklyCalendar from "@/components/WeeklyCalendar";
 import EventConfirmation from "@/components/EventConfirmation";
+import { Footer } from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -62,9 +63,9 @@ export default function CreateEvent() {
 
   if (createdEvent) {
     return (
-      <div className="min-h-screen bg-background" data-testid="page-create-event">
+      <div className="min-h-screen bg-background flex flex-col" data-testid="page-create-event">
         <Header />
-        <main className="py-12 px-6">
+        <main className="py-12 px-6 flex-1">
           <div className="max-w-5xl mx-auto">
             <EventConfirmation
               eventId={createdEvent.eventId}
@@ -74,14 +75,15 @@ export default function CreateEvent() {
             />
           </div>
         </main>
+        <Footer />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background" data-testid="page-create-event">
+    <div className="min-h-screen bg-background flex flex-col" data-testid="page-create-event">
       <Header />
-      <main className="py-12 px-6">
+      <main className="py-12 px-6 flex-1">
         <div className="max-w-6xl mx-auto">
           <Card>
             <CardContent className="pt-6">
@@ -142,6 +144,7 @@ export default function CreateEvent() {
           </Card>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
