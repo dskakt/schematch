@@ -12,6 +12,7 @@ interface SendResponseNotificationParams {
   organizerEmail: string;
   eventTitle: string;
   participantName: string;
+  participantLink: string;
   resultsLink: string;
 }
 
@@ -88,6 +89,7 @@ export async function sendResponseNotification({
   organizerEmail,
   eventTitle,
   participantName,
+  participantLink,
   resultsLink,
 }: SendResponseNotificationParams): Promise<void> {
   const emailContent = `
@@ -98,8 +100,17 @@ export async function sendResponseNotification({
         <p style="margin: 0;"><strong>参加者：</strong>${participantName}</p>
       </div>
       
+      <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+        <h3 style="margin-top: 0; color: #555;">参加者用リンク</h3>
+        <p style="margin: 10px 0;">このリンクを参加者に送信してください：</p>
+        <p style="word-break: break-all; background-color: white; padding: 10px; border-radius: 4px;">
+          <a href="${participantLink}" style="color: #2563eb;">${participantLink}</a>
+        </p>
+      </div>
+      
       <div style="background-color: #e0f2fe; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="margin-top: 0; color: #555;">回答状況を確認</h3>
+        <h3 style="margin-top: 0; color: #555;">集計結果リンク</h3>
+        <p style="margin: 10px 0;">回答状況を確認できます：</p>
         <p style="word-break: break-all; background-color: white; padding: 10px; border-radius: 4px;">
           <a href="${resultsLink}" style="color: #2563eb;">${resultsLink}</a>
         </p>
@@ -120,7 +131,10 @@ export async function sendResponseNotification({
 イベント: ${eventTitle}
 参加者: ${participantName}
 
-結果ページ:
+参加者用リンク:
+${participantLink}
+
+集計結果リンク:
 ${resultsLink}
     `);
     console.log("=========================\n");
