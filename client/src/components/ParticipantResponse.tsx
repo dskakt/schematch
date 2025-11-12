@@ -60,7 +60,7 @@ export default function ParticipantResponse({
         <CardHeader>
           <CardTitle className="flex items-center gap-2" data-testid="text-event-title">
             <Calendar className="w-5 h-5" />
-            {eventTitle}
+            {eventTitle}の日程調整
           </CardTitle>
         </CardHeader>
       </Card>
