@@ -86,6 +86,10 @@ export default function CreateEvent() {
       <Header />
       <main className="py-12 px-6 flex-1">
         <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <h1 className="text-4xl font-bold mb-2" data-testid="text-page-title">スケマッチ！</h1>
+            <p className="text-muted-foreground" data-testid="text-page-tagline">登録不要・秒でスケジュールマッチング！</p>
+          </div>
           <Card>
             <CardContent className="pt-6">
               <form onSubmit={handleCreateEvent} className="space-y-6">
