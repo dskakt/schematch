@@ -296,6 +296,34 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Short URL redirect: /e/:shortId -> /event/:id
+  app.get("/e/:shortId", async (req, res) => {
+    try {
+      const event = await storage.getEventByShortId(req.params.shortId);
+      if (!event) {
+        return res.status(404).send("Event not found");
+      }
+      res.redirect(301, `/event/${event.id}`);
+    } catch (error) {
+      console.error("Error redirecting short URL:", error);
+      res.status(500).send("Internal server error");
+    }
+  });
+
+  // Short URL redirect: /r/:shortId -> /event/:id/results
+  app.get("/r/:shortId", async (req, res) => {
+    try {
+      const event = await storage.getEventByShortId(req.params.shortId);
+      if (!event) {
+        return res.status(404).send("Event not found");
+      }
+      res.redirect(301, `/event/${event.id}/results`);
+    } catch (error) {
+      console.error("Error redirecting short URL:", error);
+      res.status(500).send("Internal server error");
+    }
+  });
+
   const httpServer = createServer(app);
 
   return httpServer;

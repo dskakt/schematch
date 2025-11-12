@@ -62,9 +62,12 @@ export interface IStorage {
 
 export class DatabaseStorage implements IStorage {
   async createEvent(insertEvent: InsertEvent): Promise<Event> {
+    // Generate unique short ID
+    const shortId = await generateUniqueShortId();
+    
     const [event] = await db
       .insert(events)
-      .values(insertEvent)
+      .values({ ...insertEvent, shortId })
       .returning();
     return event;
   }

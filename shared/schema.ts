@@ -52,6 +52,7 @@ export const responsesRelations = relations(responses, ({ one }) => ({
 // Insert schemas
 export const insertEventSchema = createInsertSchema(events).omit({
   id: true,
+  shortId: true,
   createdAt: true,
 });
 
