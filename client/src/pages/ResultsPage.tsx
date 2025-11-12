@@ -1,6 +1,7 @@
 import { useParams } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import ResultsView from "@/components/ResultsView";
 
 interface TimeSlot {
@@ -85,9 +86,9 @@ export default function ResultsPage() {
   }));
 
   return (
-    <div className="min-h-screen bg-background" data-testid="page-results">
+    <div className="min-h-screen bg-background flex flex-col" data-testid="page-results">
       <Header />
-      <main className="py-12 px-4 md:px-6">
+      <main className="flex-1 py-12 px-4 md:px-6">
         <ResultsView
           eventTitle={eventData.event.title}
           timeSlots={formattedTimeSlots}
@@ -95,6 +96,7 @@ export default function ResultsPage() {
           isOrganizer={false}
         />
       </main>
+      <Footer />
     </div>
   );
 }
