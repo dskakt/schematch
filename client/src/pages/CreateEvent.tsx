@@ -43,10 +43,10 @@ export default function CreateEvent() {
         origin: window.location.origin,
       });
       
-      const response = await res.json() as { event: { id: string; title: string }; editToken: string };
+      const response = await res.json() as { event: { id: string; title: string; shortId: string }; editToken: string };
 
-      const participantLink = `${window.location.origin}/event/${response.event.id}`;
-      const organizerLink = `${window.location.origin}/event/${response.event.id}/results`;
+      const participantLink = `${window.location.origin}/e/${response.event.shortId}`;
+      const organizerLink = `${window.location.origin}/r/${response.event.shortId}`;
 
       setCreatedEvent({
         eventId: response.event.id,
