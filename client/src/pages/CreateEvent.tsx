@@ -94,7 +94,7 @@ export default function CreateEvent() {
               <form onSubmit={handleCreateEvent} className="space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="title" className="text-lg font-semibold" data-testid="label-title">イベント名</Label>
+                    <Label htmlFor="title" className="text-lg font-semibold" data-testid="label-title">① イベント名</Label>
                     <Input
                       id="title"
                       value={title}
@@ -105,7 +105,7 @@ export default function CreateEvent() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email" className="text-lg font-semibold" data-testid="label-email">メールアドレス</Label>
+                    <Label htmlFor="email" className="text-lg font-semibold" data-testid="label-email">② メールアドレス</Label>
                     <Input
                       id="email"
                       type="email"
@@ -124,7 +124,7 @@ export default function CreateEvent() {
                 <div className="space-y-3">
                   <div>
                     <h3 className="text-lg font-semibold" data-testid="text-time-selection-title">
-                      候補日時を選択
+                      ③ 候補日時を選択
                     </h3>
                     <p className="text-sm text-muted-foreground mt-1" data-testid="text-time-selection-description">
                       カレンダーをクリックして、候補となる日時を選択してください。複数選択できます。
