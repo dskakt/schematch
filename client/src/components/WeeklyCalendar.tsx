@@ -185,7 +185,7 @@ export default function WeeklyCalendar({
                       onClick={() => toggleSlot(day, time)}
                       disabled={isDisabled}
                       className={`
-                        p-2 min-h-[40px] transition-colors
+                        p-2 min-h-[40px] transition-colors flex items-center justify-center font-medium text-lg
                         ${!isDisabled && 'hover-elevate cursor-pointer'}
                         ${selected && 'bg-primary text-primary-foreground'}
                         ${isDisabled && 'opacity-30 cursor-not-allowed'}
@@ -194,7 +194,9 @@ export default function WeeklyCalendar({
                         ${!selected && mode === "create" && (isSunday ? 'bg-red-50 dark:bg-red-950/20' : isSaturday ? 'bg-blue-50 dark:bg-blue-950/20' : 'bg-background')}
                       `}
                       data-testid={`slot-${format(day, 'yyyy-MM-dd')}-${time.replace(/[:\s]/g, '-')}`}
-                    />
+                    >
+                      {selected && '○'}
+                    </button>
                   );
                 })}
               </div>
