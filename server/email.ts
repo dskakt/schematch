@@ -42,6 +42,10 @@ export async function sendOrganizerEmail({
           <a href="${resultsLink}" style="color: #2563eb;">${resultsLink}</a>
         </p>
       </div>
+      
+      <p style="color: #999; font-size: 12px; text-align: center; margin-top: 30px; border-top: 1px solid #e5e5e5; padding-top: 20px;">
+        入力したデータはすべて１年後に自動的に削除されます。
+      </p>
     </div>
   `;
 
@@ -115,6 +119,10 @@ export async function sendResponseNotification({
       </div>
       
       <p style="color: #666; font-size: 14px;">このメールはスケマッチ！から自動送信されています。</p>
+      
+      <p style="color: #999; font-size: 12px; text-align: center; margin-top: 30px; border-top: 1px solid #e5e5e5; padding-top: 20px;">
+        入力したデータはすべて１年後に自動的に削除されます。
+      </p>
     </div>
   `;
 
