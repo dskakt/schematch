@@ -52,6 +52,9 @@ Preferred communication style: Simple, everyday language.
 
 ### November 12, 2025
 
+**Monetization:**
+- Added Google AdSense code (ca-pub-5973726120778166) to the site header
+
 **Branding Update:**
 - Site name updated from "スケマッチ" to "スケマッチ！" (with exclamation mark) across all pages
 - Updated Header, Footer, email templates, Privacy Policy, Contact page, and all meta tags
