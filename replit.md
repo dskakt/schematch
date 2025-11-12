@@ -58,11 +58,11 @@ Preferred communication style: Simple, everyday language.
 - Header now accepts optional eventTitle prop to show current event context
 - Simplified email subject from "スケマッチ イベント「...」" to "イベント「...」"
 
-**Header Layout Enhancement:**
-- Updated header to vertically stack site name and event name on all screen sizes
-- Site name "スケマッチ" displays on first line, event name "/ イベント名" on second line
-- Both text elements are perfectly left-aligned (same horizontal position) on desktop and mobile
-- Calendar icon positioned to the left with top alignment
+**Header Simplification:**
+- Header now displays only the site name "スケマッチ" without event name
+- Removed eventTitle prop from Header component
+- Site name is clickable and links to event creation page (/)
+- Calendar icon positioned to the left with center alignment
 
 **Branding Update:**
 - Updated favicon to calendar-themed Lucide icon with blue color scheme
