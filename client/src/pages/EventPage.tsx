@@ -107,7 +107,7 @@ export default function EventPage() {
 
   return (
     <div className="min-h-screen bg-background flex flex-col" data-testid="page-event">
-      <Header eventTitle={data.event.title} />
+      <Header />
       <main className="flex-1 py-12 px-6">
         <ParticipantResponse
           eventId={eventId!}
