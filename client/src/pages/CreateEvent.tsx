@@ -55,6 +55,8 @@ export default function CreateEvent() {
         participantLink,
         organizerLink,
       });
+      
+      window.scrollTo(0, 0);
     } catch (error) {
       console.error("Failed to create event:", error);
       alert("Failed to create event. Please try again.");
