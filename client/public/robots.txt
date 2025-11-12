@@ -1,0 +1,7 @@
+# robots.txt for スケマッチ！
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://schematch.replit.app/sitemap.xml
+Sitemap: https://schematch.replit.dev/sitemap.xml
