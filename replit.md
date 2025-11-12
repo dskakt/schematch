@@ -15,7 +15,7 @@ Preferred communication style: Simple, everyday language.
 - **Framework:** React with TypeScript, Vite for tooling, Wouter for routing, and TanStack Query for server state management.
 - **UI/UX:** Utilizes Shadcn/ui and Radix UI for components, styled with Tailwind CSS and custom design tokens. Features a "New York" design variant with a primary blue accent.
 - **Key Features:** Multi-step form for event creation (details, time selection, confirmation), weekly calendar grid for time slot management, and a responsive, mobile-first design with a minimalist aesthetic.
-- **SEO & Branding:** HTML lang attribute set to "ja", optimized title and meta descriptions for Japanese keywords (日程調整, スケジュール調整), Open Graph tags, JSON-LD structured data (WebApplication schema), and a calendar-themed favicon. Google Analytics 4 is integrated for tracking.
+- **SEO & Branding:** Comprehensive SEO optimization including robots.txt, sitemap.xml, canonical URLs, Open Graph images (1200x630px), structured data (WebApplication, Organization, FAQPage schemas), and optimized meta tags for Japanese keywords (日程調整, スケジュール調整). Site name is "スケマッチ！" (with exclamation mark). Google Analytics 4 is integrated for tracking. Fonts optimized for performance (Inter with font-display: swap).
 
 ### Backend
 
@@ -47,33 +47,33 @@ Preferred communication style: Simple, everyday language.
 - **Utility Libraries:** date-fns, Zod, drizzle-zod, class-variance-authority, tailwind-merge, clsx
 - **Development Tools:** TypeScript, Vite, ESBuild, tsx
 - **Analytics:** Google Analytics 4
-- **Fonts:** Google Fonts (Inter, Architects Daughter, DM Sans, Fira Code, Geist Mono)
+- **Fonts:** Google Fonts (Inter only, optimized for performance)
 ## Recent Updates
 
 ### November 12, 2025
 
-**Navigation & UX Improvements:**
-- Made site name "スケマッチ" clickable in Header, linking to event creation page (/)
-- Added event name display in Header for Event and Results pages (format: "スケマッチ / イベント名")
-- Header now accepts optional eventTitle prop to show current event context
-- Simplified email subject from "スケマッチ イベント「...」" to "イベント「...」"
-
-**Header Simplification:**
-- Header now displays only the site name "スケマッチ" without event name
-- Removed eventTitle prop from Header component
-- Site name is clickable and links to event creation page (/)
-- Calendar icon positioned to the left with center alignment
-
 **Branding Update:**
-- Updated favicon to calendar-themed Lucide icon with blue color scheme
-- Favicon matches the calendar icon used in the site header
+- Site name updated from "スケマッチ" to "スケマッチ！" (with exclamation mark) across all pages
+- Updated Header, Footer, email templates, Privacy Policy, Contact page, and all meta tags
+- Favicon: SVG favicon with katakana "ス" character (blue background, white text)
 
-**SEO Optimization:**
-- Updated HTML lang attribute from "en" to "ja"
-- Changed title tag to Japanese: "スケマッチ - 簡単日程調整ツール | 無料オンライン予定調整"
-- Updated meta description with target keyword "日程調整" (schedule coordination)
-- Added meta keywords including: 日程調整, スケジュール調整, 予定調整, 会議日程, イベント調整
-- Added Open Graph tags for Facebook/Twitter social sharing optimization
-- Added JSON-LD structured data (WebApplication schema) for Google search results
-- Structured data emphasizes free tool offering and key features
-- Added Google Search Console verification meta tag for webmaster tools integration
+**Comprehensive SEO Optimization (2025 Best Practices):**
+- **Crawler Optimization:** Added robots.txt and sitemap.xml for search engine crawlers
+- **Canonical URLs:** Added canonical link tags to prevent duplicate content issues
+- **Open Graph Enhancement:** Added OG image (1200x630px), og:url, og:locale, og:image dimensions
+- **Structured Data Expansion:** 
+  - Enhanced WebApplication schema with URL, browser requirements, software version
+  - Added Organization schema with contact information
+  - Added FAQPage schema with 4 common questions and answers
+- **Performance Optimization:** 
+  - Reduced Google Fonts from 20+ families to Inter only (wght: 400, 500, 600, 700)
+  - Added font-display: swap for improved rendering performance
+- **Social Media:** Added Twitter card image and enhanced metadata
+- **Compliance:** Removed fabricated rating data to comply with Google Rich Results policies
+
+**Previous SEO Implementation:**
+- HTML lang attribute set to "ja"
+- Japanese title tag: "スケマッチ！ - 簡単日程調整ツール | 無料オンライン予定調整"
+- Meta description with target keywords "日程調整" (schedule coordination)
+- Meta keywords: 日程調整, スケジュール調整, 予定調整, 会議日程, イベント調整
+- Google Search Console verification meta tag
