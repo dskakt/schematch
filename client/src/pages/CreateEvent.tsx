@@ -138,14 +138,19 @@ export default function CreateEvent() {
                   />
                 </div>
 
-                <Button
-                  type="submit"
-                  disabled={selectedSlots.length === 0 || isCreating}
-                  className="w-full"
-                  data-testid="button-create"
-                >
-                  {isCreating ? "作成中..." : "イベントを作成"}
-                </Button>
+                <div className="space-y-2">
+                  <Button
+                    type="submit"
+                    disabled={selectedSlots.length === 0 || isCreating}
+                    className="w-full"
+                    data-testid="button-create"
+                  >
+                    {isCreating ? "作成中..." : "イベントを作成"}
+                  </Button>
+                  <p className="text-xs text-center text-muted-foreground" data-testid="text-data-retention">
+                    入力したデータはすべて１年後に自動的に削除されます。
+                  </p>
+                </div>
               </form>
             </CardContent>
           </Card>
