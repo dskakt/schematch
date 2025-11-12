@@ -116,7 +116,7 @@ export default function ParticipantResponse({
 
             <div className="space-y-2">
               <Label htmlFor="notes" className="text-base font-semibold" data-testid="label-notes">
-                ③ 備考（任意）
+                備考（任意）
               </Label>
               <Textarea
                 id="notes"
