@@ -48,3 +48,25 @@ Preferred communication style: Simple, everyday language.
 - **Development Tools:** TypeScript, Vite, ESBuild, tsx
 - **Analytics:** Google Analytics 4
 - **Fonts:** Google Fonts (Inter, Architects Daughter, DM Sans, Fira Code, Geist Mono)
+## Recent Updates
+
+### November 12, 2025
+
+**Navigation & UX Improvements:**
+- Made site name "スケマッチ" clickable in Header, linking to event creation page (/)
+- Added event name display in Header for Event and Results pages (format: "スケマッチ / イベント名")
+- Header now accepts optional eventTitle prop to show current event context
+- Simplified email subject from "スケマッチ イベント「...」" to "イベント「...」"
+
+**Branding Update:**
+- Updated favicon to calendar-themed Lucide icon with blue color scheme
+- Favicon matches the calendar icon used in the site header
+
+**SEO Optimization:**
+- Updated HTML lang attribute from "en" to "ja"
+- Changed title tag to Japanese: "スケマッチ - 簡単日程調整ツール | 無料オンライン予定調整"
+- Updated meta description with target keyword "日程調整" (schedule coordination)
+- Added meta keywords including: 日程調整, スケジュール調整, 予定調整, 会議日程, イベント調整
+- Added Open Graph tags for Facebook/Twitter social sharing optimization
+- Added JSON-LD structured data (WebApplication schema) for Google search results
+- Structured data emphasizes free tool offering and key features

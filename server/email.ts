@@ -50,7 +50,7 @@ export async function sendOrganizerEmail({
   if (!apiKey) {
     console.log("\n=== 主催者へのメール (開発モード) ===");
     console.log(`宛先: ${organizerEmail}`);
-    console.log(`件名: スケマッチ イベント「${eventTitle}」を作成しました`);
+    console.log(`件名: イベント「${eventTitle}」を作成しました`);
     console.log("\n--- メール内容 ---");
     console.log(`
 イベント: ${eventTitle}
@@ -72,7 +72,7 @@ ${resultsLink}
     await resend.emails.send({
       from: 'スケマッチ <onboarding@resend.dev>',
       to: organizerEmail,
-      subject: `スケマッチ イベント「${eventTitle}」を作成しました`,
+      subject: `イベント「${eventTitle}」を作成しました`,
       html: emailContent,
     });
     

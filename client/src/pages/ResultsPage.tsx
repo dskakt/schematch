@@ -86,7 +86,7 @@ export default function ResultsPage() {
 
   return (
     <div className="min-h-screen bg-background" data-testid="page-results">
-      <Header />
+      <Header eventTitle={eventData.event.title} />
       <main className="py-12 px-6">
         <ResultsView
           eventTitle={eventData.event.title}
