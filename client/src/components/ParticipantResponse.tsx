@@ -118,20 +118,25 @@ export default function ParticipantResponse({
               />
             </div>
 
-            <div className="flex gap-3 pt-4">
-              <Link href={`/event/${eventId}/results`}>
-                <Button
-                  type="button"
-                  variant="outline"
-                  className="w-full"
-                  data-testid="button-view-results"
-                >
-                  回答せず集計結果を見る
+            <div className="space-y-2 pt-4">
+              <div className="flex gap-3">
+                <Link href={`/event/${eventId}/results`}>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="w-full"
+                    data-testid="button-view-results"
+                  >
+                    回答せず集計結果を見る
+                  </Button>
+                </Link>
+                <Button type="submit" className="flex-1" data-testid="button-submit">
+                  回答を送信
                 </Button>
-              </Link>
-              <Button type="submit" className="flex-1" data-testid="button-submit">
-                回答を送信
-              </Button>
+              </div>
+              <p className="text-xs text-center text-muted-foreground" data-testid="text-data-retention">
+                入力したデータはすべて１年後に自動的に削除されます。
+              </p>
             </div>
           </form>
         </CardContent>
