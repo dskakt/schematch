@@ -195,7 +195,7 @@ export default function WeeklyCalendar({
                       `}
                       data-testid={`slot-${format(day, 'yyyy-MM-dd')}-${time.replace(/[:\s]/g, '-')}`}
                     >
-                      {selected && '○'}
+                      {selected && mode === "respond" && '○'}
                     </button>
                   );
                 })}
