@@ -44,6 +44,9 @@ export default function CreateEvent() {
       });
       
       const response = await res.json() as { event: { id: string; title: string; shortId: string }; editToken: string };
+      
+      console.log("API Response:", response);
+      console.log("Short ID:", response.event.shortId);
 
       const participantLink = `${window.location.origin}/e/${response.event.shortId}`;
       const organizerLink = `${window.location.origin}/r/${response.event.shortId}`;
