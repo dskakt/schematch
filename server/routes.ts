@@ -85,7 +85,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         }))
       );
       
-      // Construct URLs for email
+      // Construct URLs for email (using short URLs)
       // Use origin from request if it's a valid Replit domain, localhost, or matches trusted URL
       let baseUrl = getTrustedBaseUrl();
       if (data.origin) {
@@ -107,8 +107,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           console.warn('Invalid origin URL provided:', data.origin);
         }
       }
-      const participantLink = `${baseUrl}/event/${event.id}`;
-      const resultsLink = `${baseUrl}/event/${event.id}/results`;
+      // Use short URLs for easier sharing
+      const participantLink = `${baseUrl}/e/${event.shortId}`;
+      const resultsLink = `${baseUrl}/r/${event.shortId}`;
       
       // Send email to organizer (non-blocking)
       sendOrganizerEmail({
@@ -193,7 +194,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         notes: data.notes,
       });
 
-      // Construct URLs for email
+      // Construct URLs for email (using short URLs)
       // Use origin from request if it's a valid Replit domain, localhost, or matches trusted URL
       let baseUrl = getTrustedBaseUrl();
       if (data.origin) {
@@ -215,8 +216,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
           console.warn('Invalid origin URL provided:', data.origin);
         }
       }
-      const participantLink = `${baseUrl}/event/${event.id}`;
-      const resultsLink = `${baseUrl}/event/${event.id}/results`;
+      // Use short URLs for easier sharing
+      const participantLink = `${baseUrl}/e/${event.shortId}`;
+      const resultsLink = `${baseUrl}/r/${event.shortId}`;
 
       // Send notification email to organizer (non-blocking)
       sendResponseNotification({
