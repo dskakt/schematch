@@ -185,7 +185,7 @@ export default function WeeklyCalendar({
                       onClick={() => toggleSlot(day, time)}
                       disabled={isDisabled}
                       className={`
-                        p-2 min-h-[40px] transition-colors flex items-center justify-center font-bold text-2xl
+                        p-2 min-h-[40px] transition-colors flex items-center justify-center font-black text-4xl leading-none
                         ${!isDisabled && 'hover-elevate cursor-pointer'}
                         ${selected && 'bg-primary text-primary-foreground'}
                         ${isDisabled && 'opacity-30 cursor-not-allowed'}
