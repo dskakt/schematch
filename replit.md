@@ -38,6 +38,7 @@ Preferred communication style: Simple, everyday language.
 - **Results Display:** Transposed individual responses table to show time slots as row headers and participant names as column headers. Availability is displayed using Japanese symbols (○ for available, × for unavailable). Time slots are sorted by date then time.
 - **UI Improvements:** Sticky calendar headers for improved scrolling experience, enlarged "今週" (This week) button, updated calendar date headers to "d日" format, and a diagonally separated month/time header.
 - **Static Pages & Footer:** Implemented a consistent footer across all pages with links to Terms of Service, Privacy Policy, and Contact pages. Static pages provide essential legal and contact information.
+- **Automatic Data Cleanup:** Server runs a periodic cleanup task that automatically deletes events older than 1 year. Cleanup runs on server startup and then every 24 hours. Cascade delete ensures related time slots and responses are also removed.
 
 ## External Dependencies
 
@@ -51,6 +52,27 @@ Preferred communication style: Simple, everyday language.
 ## Recent Updates
 
 ### November 12, 2025
+
+**URL Shortening:**
+- Implemented short URL system (6-character random IDs): /e/abc123 for event pages, /r/abc123 for results
+- URLs are ~80% shorter than UUID-based URLs for easier sharing
+- Email templates updated to use short URLs
+- Server redirect routes added for backward compatibility
+
+**Custom Domain:**
+- BASE_URL environment variable set to https://schematch.com for custom domain support
+- All generated URLs now use custom domain instead of default Replit domain
+
+**Data Cleanup:**
+- Automatic deletion of events older than 1 year
+- Periodic cleanup task runs on server startup and every 24 hours
+- Cascade delete removes related time slots and responses
+
+**UI Enhancements:**
+- Added tagline "登録不要・秒でスケジュールマッチング！" to event creation and participant response pages
+- Numbered form labels (① イベント名, ② メールアドレス, ③ 候補日時を選択)
+- More vivid brand color (increased saturation for primary blue)
+- Reduced padding on mobile devices (px-4 instead of px-6) for better space utilization
 
 **Monetization:**
 - Added Google AdSense code (ca-pub-5973726120778166) to the site header

@@ -1,6 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+import { startPeriodicCleanup } from "./cleanup";
 
 const app = express();
 
@@ -87,6 +88,9 @@ app.use((req, res, next) => {
     }, () => {
       log(`Server successfully started on port ${port}`);
       log(`Environment: ${app.get("env")}`);
+      
+      // Start periodic cleanup task (deletes events older than 1 year)
+      startPeriodicCleanup();
     });
 
     server.on('error', (error: any) => {
