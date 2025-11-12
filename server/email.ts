@@ -25,7 +25,7 @@ export async function sendOrganizerEmail({
 }: SendOrganizerEmailParams): Promise<void> {
   const emailContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <p>スケマッチをご利用いただきありがとうございます！</p>
+      <p>スケマッチ！をご利用いただきありがとうございます！</p>
       
       <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
         <h3 style="margin-top: 0; color: #555;">参加者用リンク</h3>
@@ -70,7 +70,7 @@ ${resultsLink}
     const resend = new Resend(apiKey);
     
     await resend.emails.send({
-      from: 'スケマッチ <onboarding@resend.dev>',
+      from: 'スケマッチ！ <onboarding@resend.dev>',
       to: organizerEmail,
       subject: `イベント「${eventTitle}」を作成しました`,
       html: emailContent,
@@ -114,7 +114,7 @@ export async function sendResponseNotification({
         </p>
       </div>
       
-      <p style="color: #666; font-size: 14px;">このメールはスケマッチから自動送信されています。</p>
+      <p style="color: #666; font-size: 14px;">このメールはスケマッチ！から自動送信されています。</p>
     </div>
   `;
 
@@ -143,7 +143,7 @@ ${resultsLink}
     const resend = new Resend(apiKey);
     
     await resend.emails.send({
-      from: 'スケマッチ <onboarding@resend.dev>',
+      from: 'スケマッチ！ <onboarding@resend.dev>',
       to: organizerEmail,
       subject: `${eventTitle} - 新しい回答が届きました`,
       html: emailContent,

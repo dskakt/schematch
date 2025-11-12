@@ -8,7 +8,7 @@ export default function Header() {
         <div className="flex items-center gap-2">
           <Calendar className="w-6 h-6 text-primary" data-testid="icon-logo" />
           <Link href="/" className="text-2xl font-semibold hover:text-primary transition-colors cursor-pointer" data-testid="text-app-name">
-            スケマッチ
+            スケマッチ！
           </Link>
         </div>
       </div>

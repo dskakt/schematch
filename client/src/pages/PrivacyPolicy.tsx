@@ -19,7 +19,7 @@ export default function PrivacyPolicy() {
           <section>
             <h2 className="text-xl font-semibold mb-4">個人情報の取り扱いについて</h2>
             <p className="text-muted-foreground">
-              スケマッチ（以下、「当サービス」）は、ユーザーの個人情報を適切に取り扱うため、以下のプライバシーポリシーを定めます。
+              スケマッチ！（以下、「当サービス」）は、ユーザーの個人情報を適切に取り扱うため、以下のプライバシーポリシーを定めます。
             </p>
           </section>
 
