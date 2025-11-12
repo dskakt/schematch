@@ -84,7 +84,7 @@ export default function CreateEvent() {
   return (
     <div className="min-h-screen bg-background flex flex-col" data-testid="page-create-event">
       <Header />
-      <main className="py-12 px-6 flex-1">
+      <main className="pt-4 pb-12 px-6 flex-1">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-4">
             <p className="text-lg text-muted-foreground" data-testid="text-page-tagline">登録不要・秒でスケジュールマッチング！</p>
