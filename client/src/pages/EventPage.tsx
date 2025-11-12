@@ -108,13 +108,18 @@ export default function EventPage() {
   return (
     <div className="min-h-screen bg-background flex flex-col" data-testid="page-event">
       <Header />
-      <main className="flex-1 py-12 px-4 md:px-6">
-        <ParticipantResponse
-          eventId={eventId!}
-          eventTitle={data.event.title}
-          timeSlots={formattedSlots}
-          onSubmit={handleSubmit}
-        />
+      <main className="flex-1 pt-4 pb-12 px-4 md:px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-4">
+            <p className="text-lg text-muted-foreground" data-testid="text-page-tagline">登録不要・秒でスケジュールマッチング！</p>
+          </div>
+          <ParticipantResponse
+            eventId={eventId!}
+            eventTitle={data.event.title}
+            timeSlots={formattedSlots}
+            onSubmit={handleSubmit}
+          />
+        </div>
       </main>
       <Footer />
     </div>
