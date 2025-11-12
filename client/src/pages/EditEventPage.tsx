@@ -57,7 +57,7 @@ export default function EditEventPage() {
     return (
       <div className="min-h-screen bg-background" data-testid="page-edit-event">
         <Header />
-        <main className="py-12 px-6">
+        <main className="py-12 px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <AlertCircle className="w-12 h-12 text-destructive mx-auto mb-4" />
             <h2 className="text-2xl font-semibold mb-2">アクセス拒否</h2>
@@ -74,7 +74,7 @@ export default function EditEventPage() {
     return (
       <div className="min-h-screen bg-background" data-testid="page-edit-event">
         <Header />
-        <main className="py-12 px-6">
+        <main className="py-12 px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
             <p className="text-muted-foreground">読み込み中...</p>
@@ -88,7 +88,7 @@ export default function EditEventPage() {
     return (
       <div className="min-h-screen bg-background" data-testid="page-edit-event">
         <Header />
-        <main className="py-12 px-6">
+        <main className="py-12 px-4 md:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <h2 className="text-2xl font-semibold mb-2">イベントが見つかりません</h2>
             <p className="text-muted-foreground">お探しのイベントは存在しません。</p>
@@ -146,7 +146,7 @@ export default function EditEventPage() {
   return (
     <div className="min-h-screen bg-background" data-testid="page-edit-event">
       <Header />
-      <main className="py-12 px-6">
+      <main className="py-12 px-4 md:px-6">
         <div className="max-w-6xl mx-auto space-y-6">
           <div className="text-center">
             <h1 className="text-3xl font-bold mb-2">イベントを編集</h1>

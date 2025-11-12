@@ -48,7 +48,7 @@ export default function ResultsPage() {
     return (
       <div className="min-h-screen bg-background" data-testid="page-results">
         <Header />
-        <main className="py-12 px-6">
+        <main className="py-12 px-4 md:px-6">
           <div className="max-w-5xl mx-auto text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
             <p className="text-muted-foreground">読み込み中...</p>
@@ -62,7 +62,7 @@ export default function ResultsPage() {
     return (
       <div className="min-h-screen bg-background" data-testid="page-results">
         <Header />
-        <main className="py-12 px-6">
+        <main className="py-12 px-4 md:px-6">
           <div className="max-w-5xl mx-auto text-center">
             <h2 className="text-2xl font-semibold mb-2">イベントが見つかりません</h2>
             <p className="text-muted-foreground">お探しのイベントは存在しません。</p>
@@ -87,7 +87,7 @@ export default function ResultsPage() {
   return (
     <div className="min-h-screen bg-background" data-testid="page-results">
       <Header />
-      <main className="py-12 px-6">
+      <main className="py-12 px-4 md:px-6">
         <ResultsView
           eventTitle={eventData.event.title}
           timeSlots={formattedTimeSlots}
