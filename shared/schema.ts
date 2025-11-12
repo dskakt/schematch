@@ -8,6 +8,7 @@ export const events = pgTable("events", {
   title: text("title").notNull(),
   organizerEmail: text("organizer_email").notNull(),
   editToken: varchar("edit_token").notNull().unique(),
+  shortId: varchar("short_id", { length: 6 }).notNull().unique(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
 });
 

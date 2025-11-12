@@ -12,6 +12,34 @@ import {
 import { db } from "./db";
 import { eq } from "drizzle-orm";
 
+// Generate a random 6-character alphanumeric short ID
+function generateShortId(): string {
+  const chars = 'abcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < 6; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
+// Generate a unique short ID (check for duplicates)
+async function generateUniqueShortId(): Promise<string> {
+  let shortId = generateShortId();
+  let attempts = 0;
+  const maxAttempts = 10;
+  
+  while (attempts < maxAttempts) {
+    const [existing] = await db.select().from(events).where(eq(events.shortId, shortId));
+    if (!existing) {
+      return shortId;
+    }
+    shortId = generateShortId();
+    attempts++;
+  }
+  
+  throw new Error("Failed to generate unique short ID after " + maxAttempts + " attempts");
+}
+
 export interface IStorage {
   // Events
   createEvent(event: InsertEvent): Promise<Event>;
