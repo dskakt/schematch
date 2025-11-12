@@ -106,7 +106,7 @@ export default function CreateEvent() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email" className="text-lg font-semibold" data-testid="label-email">② メールアドレス</Label>
+                    <Label htmlFor="email" className="text-lg font-semibold" data-testid="label-email">② メールアドレス（主催者）</Label>
                     <Input
                       id="email"
                       type="email"
