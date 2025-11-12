@@ -73,7 +73,7 @@ export default function ResultsView({
         <CardHeader>
           <CardTitle className="flex items-center gap-2" data-testid="text-event-title">
             <Calendar className="w-5 h-5" />
-            {eventTitle}
+            {eventTitle}の集計結果
           </CardTitle>
         </CardHeader>
         <CardContent>
