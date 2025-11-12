@@ -126,7 +126,7 @@ export default function ResultsView({
                     {sortedTimeSlots.map((slot) => (
                       <tr key={slot.id} className="border-b" data-testid={`row-slot-${slot.id}`}>
                         <td className="py-3 px-4 font-medium" data-testid={`time-${slot.id}`}>
-                          <div>{format(slot.date, 'M月d日', { locale: ja })}</div>
+                          <div>{format(slot.date, 'M月d日（E）', { locale: ja })}</div>
                           <div className="text-xs text-muted-foreground">{slot.time}</div>
                         </td>
                         {responses.map((response, index) => (
