@@ -67,15 +67,17 @@ export default function ParticipantResponse({
 
       <Card data-testid="card-response-form">
         <CardHeader>
-          <CardTitle data-testid="text-form-title">参加可能な日時を選択</CardTitle>
+          <CardTitle data-testid="text-form-title">回答フォーム</CardTitle>
           <CardDescription data-testid="text-form-description">
-            参加できる日時をクリックしてください
+            以下の順番で入力してください
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-8">
             <div className="space-y-2">
-              <Label htmlFor="name" data-testid="label-name">お名前</Label>
+              <Label htmlFor="name" className="text-base font-semibold" data-testid="label-name">
+                ① お名前
+              </Label>
               <Input
                 id="name"
                 value={name}
@@ -87,13 +89,19 @@ export default function ParticipantResponse({
             </div>
 
             <div className="space-y-3">
+              <Label className="text-base font-semibold">
+                ② 参加可能な日時を選択
+              </Label>
+              <p className="text-sm text-muted-foreground mb-3">
+                参加できる日時をクリックしてください
+              </p>
               <div className="flex items-center justify-center gap-4 text-sm mb-3">
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded"></div>
                   <span className="text-muted-foreground">候補日時</span>
                 </div>
                 <div className="flex items-center gap-2">
-                  <div className="w-4 h-4 bg-primary rounded"></div>
+                  <div className="w-4 h-4 bg-primary rounded flex items-center justify-center text-xs text-primary-foreground">○</div>
                   <span className="text-muted-foreground">あなたの参加可能な日時</span>
                 </div>
               </div>
@@ -107,7 +115,9 @@ export default function ParticipantResponse({
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="notes" data-testid="label-notes">備考（任意）</Label>
+              <Label htmlFor="notes" className="text-base font-semibold" data-testid="label-notes">
+                ③ 備考（任意）
+              </Label>
               <Textarea
                 id="notes"
                 value={notes}
