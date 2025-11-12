@@ -45,6 +45,7 @@ export interface IStorage {
   createEvent(event: InsertEvent): Promise<Event>;
   createEventWithSlots(event: InsertEvent, slots: InsertTimeSlot[]): Promise<{ event: Event; timeSlots: TimeSlot[] }>;
   getEvent(id: string): Promise<Event | undefined>;
+  getEventByShortId(shortId: string): Promise<Event | undefined>;
   getEventByEditToken(token: string): Promise<Event | undefined>;
   updateEventWithSlots(eventId: string, title: string, slots: InsertTimeSlot[]): Promise<{ event: Event; timeSlots: TimeSlot[] }>;
   
@@ -71,9 +72,12 @@ export class DatabaseStorage implements IStorage {
   async createEventWithSlots(insertEvent: InsertEvent, insertSlots: InsertTimeSlot[]): Promise<{ event: Event; timeSlots: TimeSlot[] }> {
     // Use transaction to ensure atomicity
     return await db.transaction(async (tx) => {
+      // Generate unique short ID
+      const shortId = await generateUniqueShortId();
+      
       const [event] = await tx
         .insert(events)
-        .values(insertEvent)
+        .values({ ...insertEvent, shortId })
         .returning();
       
       if (insertSlots.length === 0) {
@@ -91,6 +95,11 @@ export class DatabaseStorage implements IStorage {
 
   async getEvent(id: string): Promise<Event | undefined> {
     const [event] = await db.select().from(events).where(eq(events.id, id));
+    return event || undefined;
+  }
+
+  async getEventByShortId(shortId: string): Promise<Event | undefined> {
+    const [event] = await db.select().from(events).where(eq(events.shortId, shortId));
     return event || undefined;
   }
 
