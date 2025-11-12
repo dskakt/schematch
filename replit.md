@@ -58,6 +58,12 @@ Preferred communication style: Simple, everyday language.
 - Header now accepts optional eventTitle prop to show current event context
 - Simplified email subject from "スケマッチ イベント「...」" to "イベント「...」"
 
+**Header Layout Enhancement:**
+- Updated header to vertically stack site name and event name on all screen sizes
+- Site name "スケマッチ" displays on first line, event name "/ イベント名" on second line
+- Both text elements are perfectly left-aligned (same horizontal position) on desktop and mobile
+- Calendar icon positioned to the left with top alignment
+
 **Branding Update:**
 - Updated favicon to calendar-themed Lucide icon with blue color scheme
 - Favicon matches the calendar icon used in the site header
@@ -70,3 +76,4 @@ Preferred communication style: Simple, everyday language.
 - Added Open Graph tags for Facebook/Twitter social sharing optimization
 - Added JSON-LD structured data (WebApplication schema) for Google search results
 - Structured data emphasizes free tool offering and key features
+- Added Google Search Console verification meta tag for webmaster tools integration
