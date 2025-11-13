@@ -111,7 +111,7 @@ export default function EventPage() {
       <main className="flex-1 pt-4 pb-12 px-4 md:px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-4">
-            <p className="text-lg text-muted-foreground" data-testid="text-page-tagline">登録不要・秒でスケジュールマッチング！</p>
+            <p className="text-lg text-muted-foreground" data-testid="text-page-tagline">登録不要・簡単スケジュールマッチング！</p>
           </div>
           <ParticipantResponse
             eventId={eventId!}

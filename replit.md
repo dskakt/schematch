@@ -69,7 +69,7 @@ Preferred communication style: Simple, everyday language.
 - Cascade delete removes related time slots and responses
 
 **UI Enhancements:**
-- Added tagline "登録不要・秒でスケジュールマッチング！" to event creation and participant response pages
+- Added tagline "登録不要・簡単スケジュールマッチング！" to participant response pages
 - Numbered form labels (① イベント名, ② メールアドレス, ③ 候補日時を選択)
 - More vivid brand color (increased saturation for primary blue)
 - Reduced padding on mobile devices (px-4 instead of px-6) for better space utilization
