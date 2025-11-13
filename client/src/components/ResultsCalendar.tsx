@@ -21,6 +21,7 @@ interface ResultsCalendarProps {
 }
 
 const TIMES = [
+  "時間指定なし",
   "8:00-8:30 AM", "8:30-9:00 AM", "9:00-9:30 AM", "9:30-10:00 AM", "10:00-10:30 AM", "10:30-11:00 AM",
   "11:00-11:30 AM", "11:30 AM-12:00 PM", "12:00-12:30 PM", "12:30-1:00 PM", "1:00-1:30 PM", "1:30-2:00 PM",
   "2:00-2:30 PM", "2:30-3:00 PM", "3:00-3:30 PM", "3:30-4:00 PM", "4:00-4:30 PM", "4:30-5:00 PM",
@@ -162,13 +163,22 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
                 );
               })}
 
-            {TIMES.map((time) => (
+            {TIMES.map((time) => {
+              const isHourMark = time.includes(':00-');
+              const parts = time.split('-');
+              return (
               <div key={time} className="contents">
                 <div
                   className="bg-background p-2 text-sm text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center"
                   data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                 >
-                  {time}
+                  {isHourMark && parts.length === 2 ? (
+                    <>
+                      <span className="font-semibold">{parts[0]}</span>-{parts[1]}
+                    </>
+                  ) : (
+                    time
+                  )}
                 </div>
                 {weekDays.map((day, dayIndex) => {
                   const slot = getSlotAtDateTime(day, time);
@@ -200,7 +210,8 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
                   );
                   })}
                 </div>
-              ))}
+              );
+            })}
             </div>
           </div>
         </div>
