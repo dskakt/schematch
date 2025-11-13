@@ -38,17 +38,13 @@ export default function EventPage() {
 
   const submitResponseMutation = useMutation({
     mutationFn: async (responseData: { name: string; availability: string[]; notes?: string }) => {
-      const minimumDisplayTime = new Promise(resolve => setTimeout(resolve, 1500));
-      
-      const apiCall = apiRequest("POST", `/api/events/${eventId}/responses`, {
+      const res = await apiRequest("POST", `/api/events/${eventId}/responses`, {
         participantName: responseData.name,
         availableSlotIds: responseData.availability,
         notes: responseData.notes,
         origin: window.location.origin,
-      }).then(res => res.json());
-      
-      const [result] = await Promise.all([apiCall, minimumDisplayTime]);
-      return result;
+      });
+      return res.json();
     },
     onSuccess: () => {
       // Invalidate responses cache to ensure fresh data on results page
@@ -60,7 +56,7 @@ export default function EventPage() {
       });
       setTimeout(() => {
         setLocation(`/event/${eventId}/results`);
-      }, 1500);
+      }, 500);
     },
     onError: () => {
       toast({
