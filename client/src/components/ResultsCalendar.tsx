@@ -90,12 +90,12 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
       <div className="border rounded-lg bg-border overflow-hidden">
         <div className="overflow-auto max-h-[600px]">
           <div className="inline-block min-w-full">
-            <div className="grid gap-px" style={{ gridTemplateColumns: `130px repeat(${weekDays.length}, minmax(80px, 1fr))` }}>
+            <div className="grid gap-px" style={{ gridTemplateColumns: `115px repeat(${weekDays.length}, minmax(45px, 1fr))` }}>
               <div className="bg-muted p-0 font-medium text-sm sticky left-0 top-0 z-20 relative" data-testid="header-time">
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(45deg, transparent calc(50% - 0.5px), hsl(var(--border)) calc(50% - 0.5px), hsl(var(--border)) calc(50% + 0.5px), transparent calc(50% + 0.5px))' }}></div>
                 {weekDays.length > 0 && <span className="absolute top-1 right-1">{format(weekDays[0], 'M月')}</span>}
                 <span className="absolute bottom-1 left-1">時間</span>
-                <div className="h-[52px]"></div>
+                <div className="h-[44px]"></div>
               </div>
               {weekDays.map((day, index) => {
                 const isSunday = day.getDay() === 0;
@@ -122,7 +122,7 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
               return (
               <div key={time} className="contents">
                 <div
-                  className="bg-background p-2 text-sm text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center"
+                  className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap"
                   data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                 >
                   {isHourMark && parts.length === 2 ? (
@@ -144,14 +144,14 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
                     <div
                       key={`${day.toISOString()}-${time}`}
                       className={`
-                        p-2 min-h-[50px] transition-colors flex items-center justify-center font-medium border border-white dark:border-white
+                        p-1 min-h-[32px] transition-colors flex items-center justify-center font-medium border border-white dark:border-white
                         ${hasSlot ? getHeatColor(count) : (isSunday ? 'bg-red-50 dark:bg-red-950/20' : isSaturday ? 'bg-blue-50 dark:bg-blue-950/20' : 'bg-background')}
                       `}
                       data-testid={`slot-${format(day, 'yyyy-MM-dd')}-${time.replace(/[:\s]/g, '-')}`}
                     >
                       {hasSlot && (
                         <div className="text-center">
-                          <div className="text-lg font-bold">{count}</div>
+                          <div className="text-sm font-bold">{count}</div>
                           {totalResponses > 0 && (
                             <div className="text-xs opacity-90">
                               {Math.round((count / totalResponses) * 100)}%
