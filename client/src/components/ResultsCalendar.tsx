@@ -148,10 +148,11 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
             {TIMES.map((time) => {
               const isHourMark = time.includes(':00-');
               const parts = time.split('-');
+              const isFirstTimeSlot = time === "8:00-8:30 AM";
               return (
               <div key={time} className="contents">
                 <div
-                  className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap"
+                  className={`bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap ${isFirstTimeSlot ? 'border-t-2 border-t-border' : ''}`}
                   data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                 >
                   {isHourMark && parts.length === 2 ? (
@@ -170,12 +171,14 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
                   const isSunday = day.getDay() === 0;
                   const isSaturday = day.getDay() === 6;
                   const hasSlot = !!slot;
+                  const isFirstTimeSlot = time === "8:00-8:30 AM";
 
                   return (
                     <div
                       key={`${day.toISOString()}-${time}`}
                       className={`
                         p-1 min-h-[32px] transition-colors flex items-center justify-center font-medium border border-white dark:border-white
+                        ${isFirstTimeSlot ? 'border-t-2 border-t-border' : ''}
                         ${hasSlot ? getHeatColor(count) : (isSunday ? 'bg-red-50 dark:bg-red-950/20' : isSaturday ? 'bg-blue-50 dark:bg-blue-950/20' : 'bg-background')}
                       `}
                       data-testid={`slot-${format(day, 'yyyy-MM-dd')}-${time.replace(/[:\s]/g, '-')}`}

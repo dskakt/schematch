@@ -221,10 +221,11 @@ export default function WeeklyCalendar({
               {TIMES.map((time) => {
                 const isHourMark = time.includes(':00-');
                 const parts = time.split('-');
+                const isFirstTimeSlot = time === "8:00-8:30 AM";
                 return (
                 <div key={time} className="contents">
                   <div
-                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap"
+                    className={`bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap ${isFirstTimeSlot ? 'border-t-2 border-t-border' : ''}`}
                     data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                   >
                     {isHourMark && parts.length === 2 ? (
@@ -247,6 +248,7 @@ export default function WeeklyCalendar({
                   const isClickDisabled = isUnavailable || isPast;
                   const isSunday = day.getDay() === 0;
                   const isSaturday = day.getDay() === 6;
+                  const isFirstTimeSlot = time === "8:00-8:30 AM";
 
                   return (
                     <button
@@ -257,6 +259,7 @@ export default function WeeklyCalendar({
                       className={`
                         p-1 min-h-[28px] transition-colors flex items-center justify-center font-black text-2xl leading-none
                         ${mode === "respond" ? 'border border-white dark:border-white' : ''}
+                        ${isFirstTimeSlot ? 'border-t-2 border-t-border' : ''}
                         ${!isClickDisabled && 'hover-elevate cursor-pointer'}
                         ${selected && 'bg-primary text-primary-foreground border-primary'}
                         ${isUnavailable && 'opacity-30 cursor-not-allowed'}
@@ -304,10 +307,11 @@ export default function WeeklyCalendar({
               {TIMES.map((time) => {
                 const isHourMark = time.includes(':00-');
                 const parts = time.split('-');
+                const isFirstTimeSlot = time === "8:00-8:30 AM";
                 return (
                 <div key={time} className="contents">
                   <div
-                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap"
+                    className={`bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap ${isFirstTimeSlot ? 'border-t-2 border-t-border' : ''}`}
                     data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                   >
                     {isHourMark && parts.length === 2 ? (
