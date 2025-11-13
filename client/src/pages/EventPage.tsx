@@ -25,6 +25,7 @@ export default function EventPage() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
   const eventId = params.id;
+  const [isNavigating, setIsNavigating] = useState(false);
 
   const { data, isLoading, error } = useQuery<{ event: Event; timeSlots: TimeSlot[] }>({
     queryKey: ["/api/events", eventId],
@@ -50,13 +51,19 @@ export default function EventPage() {
       // Invalidate responses cache to ensure fresh data on results page
       queryClient.invalidateQueries({ queryKey: ["/api/events", eventId, "responses"] });
       
-      toast({
-        title: "回答を送信しました",
-        description: "ご回答ありがとうございます。",
-      });
+      // 遷移開始をマーク（送信中表示を維持）
+      setIsNavigating(true);
+      
+      // すぐにページ遷移
+      setLocation(`/event/${eventId}/results`);
+      
+      // 遷移後にtoastを表示
       setTimeout(() => {
-        setLocation(`/event/${eventId}/results`);
-      }, 500);
+        toast({
+          title: "回答を送信しました",
+          description: "ご回答ありがとうございます。",
+        });
+      }, 100);
     },
     onError: () => {
       toast({
@@ -118,7 +125,7 @@ export default function EventPage() {
             eventTitle={data.event.title}
             timeSlots={formattedSlots}
             onSubmit={handleSubmit}
-            isSubmitting={submitResponseMutation.isPending}
+            isSubmitting={submitResponseMutation.isPending || isNavigating}
           />
         </div>
       </main>
