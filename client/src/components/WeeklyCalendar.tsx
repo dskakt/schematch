@@ -71,7 +71,7 @@ export default function WeeklyCalendar({
 
   const weekDays = mode === "respond" 
     ? getAllDaysToDisplay(availableSlots)
-    : Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+    : Array.from({ length: 14 }, (_, i) => addDays(weekStart, i));
 
   const isSlotSelected = (date: Date, time: string) => {
     return selectedSlots.some(
@@ -102,11 +102,11 @@ export default function WeeklyCalendar({
   };
 
   const goToPreviousWeek = () => {
-    setWeekStart(addDays(weekStart, -7));
+    setWeekStart(addDays(weekStart, -14));
   };
 
   const goToNextWeek = () => {
-    setWeekStart(addDays(weekStart, 7));
+    setWeekStart(addDays(weekStart, 14));
   };
 
   const goToThisWeek = () => {
@@ -127,11 +127,11 @@ export default function WeeklyCalendar({
             data-testid="button-prev-week"
           >
             <ChevronLeft className="w-4 h-4" />
-            前の週
+            前の2週間
           </Button>
           <div className="text-center">
             <div className="font-medium" data-testid="text-week-range">
-              {format(weekDays[0], 'M月d日')} - {format(weekDays[6], 'M月d日, yyyy年')}
+              {format(weekDays[0], 'M月d日')} - {format(weekDays[weekDays.length - 1], 'M月d日, yyyy年')}
             </div>
             {isThisWeek && (
               <Button
@@ -152,7 +152,7 @@ export default function WeeklyCalendar({
             onClick={goToNextWeek}
             data-testid="button-next-week"
           >
-            次の週
+            次の2週間
             <ChevronRight className="w-4 h-4" />
           </Button>
         </div>
@@ -169,8 +169,8 @@ export default function WeeklyCalendar({
                 <div className="h-[44px]"></div>
               </div>
               {weekDays.map((day, index) => {
-                const isSunday = index === 0;
-                const isSaturday = index === 6;
+                const isSunday = day.getDay() === 0;
+                const isSaturday = day.getDay() === 6;
                 return (
                   <div
                     key={day.toISOString()}
@@ -208,8 +208,8 @@ export default function WeeklyCalendar({
                   const selected = isSlotSelected(day, time);
                   const available = isSlotAvailable(day, time);
                   const isDisabled = mode === "respond" && !available;
-                  const isSunday = dayIndex === 0;
-                  const isSaturday = dayIndex === 6;
+                  const isSunday = day.getDay() === 0;
+                  const isSaturday = day.getDay() === 6;
 
                   return (
                     <button
@@ -219,7 +219,7 @@ export default function WeeklyCalendar({
                       disabled={isDisabled}
                       className={`
                         p-1 min-h-[28px] transition-colors flex items-center justify-center font-black text-2xl leading-none
-                        ${mode === "respond" ? 'border border-border/30' : ''}
+                        ${mode === "respond" ? 'border border-white dark:border-white' : ''}
                         ${!isDisabled && 'hover-elevate cursor-pointer'}
                         ${selected && 'bg-primary text-primary-foreground border-primary'}
                         ${isDisabled && 'opacity-30 cursor-not-allowed'}
@@ -245,8 +245,8 @@ export default function WeeklyCalendar({
                 <div className="h-[44px]"></div>
               </div>
               {weekDays.map((day, index) => {
-                const isSunday = index === 0;
-                const isSaturday = index === 6;
+                const isSunday = day.getDay() === 0;
+                const isSaturday = day.getDay() === 6;
                 return (
                   <div
                     key={day.toISOString()}
@@ -284,8 +284,8 @@ export default function WeeklyCalendar({
                   const selected = isSlotSelected(day, time);
                   const available = isSlotAvailable(day, time);
                   const isDisabled = mode === "respond" && !available;
-                  const isSunday = dayIndex === 0;
-                  const isSaturday = dayIndex === 6;
+                  const isSunday = day.getDay() === 0;
+                  const isSaturday = day.getDay() === 6;
 
                   return (
                     <button
@@ -295,7 +295,7 @@ export default function WeeklyCalendar({
                       disabled={isDisabled}
                       className={`
                         p-1 min-h-[32px] transition-colors flex items-center justify-center font-black text-3xl leading-none
-                        ${mode === "respond" ? 'border border-border/30' : ''}
+                        ${mode === "respond" ? 'border border-white dark:border-white' : ''}
                         ${!isDisabled && 'hover-elevate cursor-pointer'}
                         ${selected && 'bg-primary text-primary-foreground border-primary'}
                         ${isDisabled && 'opacity-30 cursor-not-allowed'}

@@ -98,8 +98,8 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
                 <div className="h-[52px]"></div>
               </div>
               {weekDays.map((day, index) => {
-                const isSunday = index === 0;
-                const isSaturday = index === 6;
+                const isSunday = day.getDay() === 0;
+                const isSaturday = day.getDay() === 6;
                 return (
                   <div
                     key={day.toISOString()}
@@ -136,15 +136,15 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
                 {weekDays.map((day, dayIndex) => {
                   const slot = getSlotAtDateTime(day, time);
                   const count = getAvailabilityCount(slot?.id);
-                  const isSunday = dayIndex === 0;
-                  const isSaturday = dayIndex === 6;
+                  const isSunday = day.getDay() === 0;
+                  const isSaturday = day.getDay() === 6;
                   const hasSlot = !!slot;
 
                   return (
                     <div
                       key={`${day.toISOString()}-${time}`}
                       className={`
-                        p-2 min-h-[50px] transition-colors flex items-center justify-center font-medium
+                        p-2 min-h-[50px] transition-colors flex items-center justify-center font-medium border border-white dark:border-white
                         ${hasSlot ? getHeatColor(count) : (isSunday ? 'bg-red-50 dark:bg-red-950/20' : isSaturday ? 'bg-blue-50 dark:bg-blue-950/20' : 'bg-background')}
                       `}
                       data-testid={`slot-${format(day, 'yyyy-MM-dd')}-${time.replace(/[:\s]/g, '-')}`}
