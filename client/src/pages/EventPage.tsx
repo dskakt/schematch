@@ -118,6 +118,7 @@ export default function EventPage() {
             eventTitle={data.event.title}
             timeSlots={formattedSlots}
             onSubmit={handleSubmit}
+            isSubmitting={submitResponseMutation.isPending}
           />
         </div>
       </main>

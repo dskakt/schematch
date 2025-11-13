@@ -22,6 +22,7 @@ interface ParticipantResponseProps {
   eventTitle: string;
   timeSlots: TimeSlot[];
   onSubmit: (data: { name: string; availability: string[]; notes?: string }) => void;
+  isSubmitting: boolean;
 }
 
 export default function ParticipantResponse({
@@ -29,31 +30,26 @@ export default function ParticipantResponse({
   eventTitle,
   timeSlots,
   onSubmit,
+  isSubmitting,
 }: ParticipantResponseProps) {
   const [name, setName] = useState("");
   const [notes, setNotes] = useState("");
   const [selectedSlots, setSelectedSlots] = useState<{ date: Date; time: string }[]>([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
     
-    try {
-      const slotIds = selectedSlots.map(selected => {
-        const normalizedSelectedTime = normalizeTimeSlot(selected.time);
-        const matchingSlot = timeSlots.find(
-          slot =>
-            format(slot.date, 'yyyy-MM-dd') === format(selected.date, 'yyyy-MM-dd') &&
-            normalizeTimeSlot(slot.time) === normalizedSelectedTime
-        );
-        return matchingSlot?.id || '';
-      }).filter(Boolean);
+    const slotIds = selectedSlots.map(selected => {
+      const normalizedSelectedTime = normalizeTimeSlot(selected.time);
+      const matchingSlot = timeSlots.find(
+        slot =>
+          format(slot.date, 'yyyy-MM-dd') === format(selected.date, 'yyyy-MM-dd') &&
+          normalizeTimeSlot(slot.time) === normalizedSelectedTime
+      );
+      return matchingSlot?.id || '';
+    }).filter(Boolean);
 
-      await onSubmit({ name, availability: slotIds, notes: notes.trim() || undefined });
-    } finally {
-      setIsSubmitting(false);
-    }
+    onSubmit({ name, availability: slotIds, notes: notes.trim() || undefined });
   };
 
   const availableSlots = timeSlots.map(slot => ({
