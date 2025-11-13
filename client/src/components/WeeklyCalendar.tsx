@@ -166,7 +166,7 @@ export default function WeeklyCalendar({
               {TIMES.map((time) => (
                 <div key={time} className="contents">
                   <div
-                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center"
+                    className="bg-background p-1 text-[10px] text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap"
                     data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                   >
                     {time}
@@ -231,7 +231,7 @@ export default function WeeklyCalendar({
               {TIMES.map((time) => (
                 <div key={time} className="contents">
                   <div
-                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center"
+                    className="bg-background p-1 text-[10px] text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap"
                     data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                   >
                     {time}
