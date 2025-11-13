@@ -22,95 +22,37 @@ interface MonthlyResultsCalendarProps {
 
 const WEEKDAYS = ["日", "月", "火", "水", "木", "金", "土"];
 
-export default function MonthlyResultsCalendar({
+function MonthGrid({
+  month,
   timeSlots,
   responses,
-}: MonthlyResultsCalendarProps) {
-  const today = new Date();
-  const firstSlotDate = timeSlots.length > 0 ? timeSlots[0].date : today;
-  const [currentMonth, setCurrentMonth] = useState(startOfMonth(firstSlotDate));
-
-  const monthStart = startOfMonth(currentMonth);
-  const monthEnd = endOfMonth(currentMonth);
+  getSlotForDate,
+  getAvailabilityCount,
+  getHeatColor,
+  totalResponses,
+  today,
+}: {
+  month: Date;
+  timeSlots: TimeSlot[];
+  responses: Response[];
+  getSlotForDate: (date: Date) => TimeSlot | undefined;
+  getAvailabilityCount: (slotId: string | undefined) => number;
+  getHeatColor: (count: number) => string;
+  totalResponses: number;
+  today: Date;
+}) {
+  const monthStart = startOfMonth(month);
+  const monthEnd = endOfMonth(month);
   const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
 
   const firstDayOfWeek = monthStart.getDay();
   const paddingDays = Array(firstDayOfWeek).fill(null);
 
-  const totalResponses = responses.length;
-
-  const getSlotForDate = (date: Date) => {
-    return timeSlots.find(
-      slot => format(slot.date, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
-    );
-  };
-
-  const getAvailabilityCount = (slotId: string | undefined) => {
-    if (!slotId) return 0;
-    return responses.filter(r => r.availability.includes(slotId)).length;
-  };
-
-  const getHeatColor = (count: number) => {
-    if (count === 0) return 'bg-background';
-    const ratio = count / totalResponses;
-    if (ratio >= 0.75) return 'bg-green-500 text-white';
-    if (ratio >= 0.5) return 'bg-green-300';
-    return 'bg-green-100';
-  };
-
-  const goToPreviousMonth = () => {
-    setCurrentMonth(subMonths(currentMonth, 1));
-  };
-
-  const goToNextMonth = () => {
-    setCurrentMonth(addMonths(currentMonth, 1));
-  };
-
-  const goToThisMonth = () => {
-    setCurrentMonth(today);
-  };
-
-  const isCurrentMonth = format(currentMonth, 'yyyy-MM') === format(today, 'yyyy-MM');
-
   return (
-    <div className="space-y-4" data-testid="monthly-results-calendar">
-      <div className="flex items-center justify-between gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          onClick={goToPreviousMonth}
-          data-testid="button-prev-month"
-        >
-          <ChevronLeft className="h-4 w-4" />
-        </Button>
-        <div className="flex items-center gap-2">
-          <div className="font-medium text-lg" data-testid="text-month-year">
-            {format(currentMonth, 'yyyy年M月', { locale: ja })}
-          </div>
-          {!isCurrentMonth && (
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={goToThisMonth}
-              className="text-base font-medium"
-              data-testid="button-this-month"
-            >
-              今月
-            </Button>
-          )}
-        </div>
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          onClick={goToNextMonth}
-          data-testid="button-next-month"
-        >
-          <ChevronRight className="h-4 w-4" />
-        </Button>
+    <div className="space-y-2">
+      <div className="text-center font-semibold text-base">
+        {format(month, 'yyyy年M月', { locale: ja })}
       </div>
-
       <div className="grid grid-cols-7 gap-1">
         {WEEKDAYS.map((day, index) => {
           const isSunday = index === 0;
@@ -118,12 +60,12 @@ export default function MonthlyResultsCalendar({
           return (
             <div
               key={day}
-              className={`text-center font-medium text-sm p-2 ${
+              className={`text-center font-semibold text-sm p-2 ${
                 isSunday
                   ? 'text-red-600 dark:text-red-400'
                   : isSaturday
                   ? 'text-blue-600 dark:text-blue-400'
-                  : 'text-muted-foreground'
+                  : 'text-foreground'
               }`}
               data-testid={`header-weekday-${day}`}
             >
@@ -160,14 +102,14 @@ export default function MonthlyResultsCalendar({
               `}
               data-testid={`date-${format(date, 'yyyy-MM-dd')}`}
             >
-              <div className={`text-xs font-medium mb-1 ${
+              <div className={`text-xs font-semibold mb-1 ${
                 hasSlot && count / totalResponses >= 0.75
                   ? ''
                   : isSunday
                   ? 'text-red-600 dark:text-red-400'
                   : isSaturday
                   ? 'text-blue-600 dark:text-blue-400'
-                  : 'text-muted-foreground'
+                  : 'text-foreground'
               }`}>
                 {format(date, 'd')}
               </div>
@@ -184,6 +126,112 @@ export default function MonthlyResultsCalendar({
             </div>
           );
         })}
+      </div>
+    </div>
+  );
+}
+
+export default function MonthlyResultsCalendar({
+  timeSlots,
+  responses,
+}: MonthlyResultsCalendarProps) {
+  const today = new Date();
+  const firstSlotDate = timeSlots.length > 0 ? timeSlots[0].date : today;
+  const [currentMonth, setCurrentMonth] = useState(startOfMonth(firstSlotDate));
+
+  const totalResponses = responses.length;
+
+  const getSlotForDate = (date: Date) => {
+    return timeSlots.find(
+      slot => format(slot.date, 'yyyy-MM-dd') === format(date, 'yyyy-MM-dd')
+    );
+  };
+
+  const getAvailabilityCount = (slotId: string | undefined) => {
+    if (!slotId) return 0;
+    return responses.filter(r => r.availability.includes(slotId)).length;
+  };
+
+  const getHeatColor = (count: number) => {
+    if (count === 0) return 'bg-background';
+    const ratio = count / totalResponses;
+    if (ratio >= 0.75) return 'bg-green-500 text-white';
+    if (ratio >= 0.5) return 'bg-green-300';
+    return 'bg-green-100';
+  };
+
+  const goToPreviousMonth = () => {
+    setCurrentMonth(subMonths(currentMonth, 1));
+  };
+
+  const goToNextMonth = () => {
+    setCurrentMonth(addMonths(currentMonth, 2));
+  };
+
+  const goToThisMonth = () => {
+    setCurrentMonth(today);
+  };
+
+  const isCurrentMonth = format(currentMonth, 'yyyy-MM') === format(today, 'yyyy-MM');
+  const nextMonth = addMonths(currentMonth, 1);
+
+  return (
+    <div className="space-y-4" data-testid="monthly-results-calendar">
+      <div className="flex items-center justify-between gap-2">
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          onClick={goToPreviousMonth}
+          data-testid="button-prev-month"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </Button>
+        <div className="flex items-center gap-2">
+          {!isCurrentMonth && (
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={goToThisMonth}
+              className="text-base font-medium"
+              data-testid="button-this-month"
+            >
+              今月
+            </Button>
+          )}
+        </div>
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          onClick={goToNextMonth}
+          data-testid="button-next-month"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <MonthGrid
+          month={currentMonth}
+          timeSlots={timeSlots}
+          responses={responses}
+          getSlotForDate={getSlotForDate}
+          getAvailabilityCount={getAvailabilityCount}
+          getHeatColor={getHeatColor}
+          totalResponses={totalResponses}
+          today={today}
+        />
+        <MonthGrid
+          month={nextMonth}
+          timeSlots={timeSlots}
+          responses={responses}
+          getSlotForDate={getSlotForDate}
+          getAvailabilityCount={getAvailabilityCount}
+          getHeatColor={getHeatColor}
+          totalResponses={totalResponses}
+          today={today}
+        />
       </div>
 
       <div className="space-y-2">

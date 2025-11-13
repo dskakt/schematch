@@ -1,4 +1,4 @@
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameMonth, addMonths, subMonths } from "date-fns";
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, addMonths, subMonths } from "date-fns";
 import { ja } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -18,17 +18,23 @@ interface MonthlyCalendarProps {
 
 const WEEKDAYS = ["日", "月", "火", "水", "木", "金", "土"];
 
-export default function MonthlyCalendar({
+function MonthGrid({
+  month,
   selectedSlots,
-  onSlotsChange,
+  availableSlots,
   mode,
-  availableSlots = [],
-}: MonthlyCalendarProps) {
-  const today = new Date();
-  const [currentMonth, setCurrentMonth] = useState(today);
-
-  const monthStart = startOfMonth(currentMonth);
-  const monthEnd = endOfMonth(currentMonth);
+  toggleDate,
+  today,
+}: {
+  month: Date;
+  selectedSlots: TimeSlot[];
+  availableSlots: TimeSlot[];
+  mode: "create" | "respond";
+  toggleDate: (date: Date) => void;
+  today: Date;
+}) {
+  const monthStart = startOfMonth(month);
+  const monthEnd = endOfMonth(month);
   const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
 
   const firstDayOfWeek = monthStart.getDay();
@@ -46,74 +52,11 @@ export default function MonthlyCalendar({
     );
   };
 
-  const toggleDate = (date: Date) => {
-    const dateStr = format(date, 'yyyy-MM-dd');
-    const isSelected = selectedSlots.some(
-      slot => format(slot.date, 'yyyy-MM-dd') === dateStr
-    );
-
-    if (isSelected) {
-      onSlotsChange(
-        selectedSlots.filter(slot => format(slot.date, 'yyyy-MM-dd') !== dateStr)
-      );
-    } else {
-      onSlotsChange([...selectedSlots, { date, time: "時間指定なし" }]);
-    }
-  };
-
-  const goToPreviousMonth = () => {
-    setCurrentMonth(subMonths(currentMonth, 1));
-  };
-
-  const goToNextMonth = () => {
-    setCurrentMonth(addMonths(currentMonth, 1));
-  };
-
-  const goToThisMonth = () => {
-    setCurrentMonth(today);
-  };
-
-  const isCurrentMonth = format(currentMonth, 'yyyy-MM') === format(today, 'yyyy-MM');
-
   return (
-    <div className="space-y-4" data-testid="monthly-calendar">
-      <div className="flex items-center justify-between gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          onClick={goToPreviousMonth}
-          data-testid="button-prev-month"
-        >
-          <ChevronLeft className="h-4 w-4" />
-        </Button>
-        <div className="flex items-center gap-2">
-          <div className="font-medium text-lg" data-testid="text-month-year">
-            {format(currentMonth, 'yyyy年M月', { locale: ja })}
-          </div>
-          {!isCurrentMonth && (
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={goToThisMonth}
-              className="text-base font-medium"
-              data-testid="button-this-month"
-            >
-              今月
-            </Button>
-          )}
-        </div>
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          onClick={goToNextMonth}
-          data-testid="button-next-month"
-        >
-          <ChevronRight className="h-4 w-4" />
-        </Button>
+    <div className="space-y-2">
+      <div className="text-center font-semibold text-base">
+        {format(month, 'yyyy年M月', { locale: ja })}
       </div>
-
       <div className="grid grid-cols-7 gap-1">
         {WEEKDAYS.map((day, index) => {
           const isSunday = index === 0;
@@ -121,12 +64,12 @@ export default function MonthlyCalendar({
           return (
             <div
               key={day}
-              className={`text-center font-medium text-sm p-2 ${
+              className={`text-center font-semibold text-sm p-2 ${
                 isSunday
                   ? 'text-red-600 dark:text-red-400'
                   : isSaturday
                   ? 'text-blue-600 dark:text-blue-400'
-                  : 'text-muted-foreground'
+                  : 'text-foreground'
               }`}
               data-testid={`header-weekday-${day}`}
             >
@@ -154,7 +97,7 @@ export default function MonthlyCalendar({
               onClick={() => !isDisabled && toggleDate(date)}
               disabled={isDisabled}
               className={`
-                p-2 min-h-[48px] rounded-md border transition-colors font-medium relative
+                p-2 min-h-[48px] rounded-md border transition-colors font-semibold relative
                 ${!isDisabled && 'hover-elevate cursor-pointer'}
                 ${selected && 'bg-primary text-primary-foreground border-primary'}
                 ${isDisabled && 'opacity-30 cursor-not-allowed'}
@@ -176,6 +119,8 @@ export default function MonthlyCalendar({
                   ? 'text-red-600 dark:text-red-400'
                   : isSaturday && !selected
                   ? 'text-blue-600 dark:text-blue-400'
+                  : !selected
+                  ? 'text-foreground'
                   : ''
               }`}>
                 {format(date, 'd')}
@@ -188,6 +133,103 @@ export default function MonthlyCalendar({
             </button>
           );
         })}
+      </div>
+    </div>
+  );
+}
+
+export default function MonthlyCalendar({
+  selectedSlots,
+  onSlotsChange,
+  mode,
+  availableSlots = [],
+}: MonthlyCalendarProps) {
+  const today = new Date();
+  const [currentMonth, setCurrentMonth] = useState(today);
+
+  const toggleDate = (date: Date) => {
+    const dateStr = format(date, 'yyyy-MM-dd');
+    const isSelected = selectedSlots.some(
+      slot => format(slot.date, 'yyyy-MM-dd') === dateStr
+    );
+
+    if (isSelected) {
+      onSlotsChange(
+        selectedSlots.filter(slot => format(slot.date, 'yyyy-MM-dd') !== dateStr)
+      );
+    } else {
+      onSlotsChange([...selectedSlots, { date, time: "時間指定なし" }]);
+    }
+  };
+
+  const goToPreviousMonth = () => {
+    setCurrentMonth(subMonths(currentMonth, 1));
+  };
+
+  const goToNextMonth = () => {
+    setCurrentMonth(addMonths(currentMonth, 2));
+  };
+
+  const goToThisMonth = () => {
+    setCurrentMonth(today);
+  };
+
+  const isCurrentMonth = format(currentMonth, 'yyyy-MM') === format(today, 'yyyy-MM');
+  const nextMonth = addMonths(currentMonth, 1);
+
+  return (
+    <div className="space-y-4" data-testid="monthly-calendar">
+      <div className="flex items-center justify-between gap-2">
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          onClick={goToPreviousMonth}
+          data-testid="button-prev-month"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </Button>
+        <div className="flex items-center gap-2">
+          {!isCurrentMonth && (
+            <Button
+              type="button"
+              variant="ghost"
+              onClick={goToThisMonth}
+              className="text-base font-medium"
+              data-testid="button-this-month"
+            >
+              今月
+            </Button>
+          )}
+        </div>
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          onClick={goToNextMonth}
+          data-testid="button-next-month"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </Button>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <MonthGrid
+          month={currentMonth}
+          selectedSlots={selectedSlots}
+          availableSlots={availableSlots}
+          mode={mode}
+          toggleDate={toggleDate}
+          today={today}
+        />
+        <MonthGrid
+          month={nextMonth}
+          selectedSlots={selectedSlots}
+          availableSlots={availableSlots}
+          mode={mode}
+          toggleDate={toggleDate}
+          today={today}
+        />
       </div>
     </div>
   );

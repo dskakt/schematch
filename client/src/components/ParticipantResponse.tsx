@@ -33,21 +33,27 @@ export default function ParticipantResponse({
   const [name, setName] = useState("");
   const [notes, setNotes] = useState("");
   const [selectedSlots, setSelectedSlots] = useState<{ date: Date; time: string }[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
     
-    const slotIds = selectedSlots.map(selected => {
-      const normalizedSelectedTime = normalizeTimeSlot(selected.time);
-      const matchingSlot = timeSlots.find(
-        slot =>
-          format(slot.date, 'yyyy-MM-dd') === format(selected.date, 'yyyy-MM-dd') &&
-          normalizeTimeSlot(slot.time) === normalizedSelectedTime
-      );
-      return matchingSlot?.id || '';
-    }).filter(Boolean);
+    try {
+      const slotIds = selectedSlots.map(selected => {
+        const normalizedSelectedTime = normalizeTimeSlot(selected.time);
+        const matchingSlot = timeSlots.find(
+          slot =>
+            format(slot.date, 'yyyy-MM-dd') === format(selected.date, 'yyyy-MM-dd') &&
+            normalizeTimeSlot(slot.time) === normalizedSelectedTime
+        );
+        return matchingSlot?.id || '';
+      }).filter(Boolean);
 
-    onSubmit({ name, availability: slotIds, notes: notes.trim() || undefined });
+      await onSubmit({ name, availability: slotIds, notes: notes.trim() || undefined });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const availableSlots = timeSlots.map(slot => ({
@@ -153,8 +159,13 @@ export default function ParticipantResponse({
                     回答せず集計結果を見る
                   </Button>
                 </Link>
-                <Button type="submit" className="flex-1" data-testid="button-submit">
-                  回答を送信
+                <Button 
+                  type="submit" 
+                  className="flex-1" 
+                  disabled={isSubmitting}
+                  data-testid="button-submit"
+                >
+                  {isSubmitting ? "送信中..." : "回答を送信"}
                 </Button>
               </div>
               <p className="text-xs text-center text-muted-foreground" data-testid="text-data-retention">
