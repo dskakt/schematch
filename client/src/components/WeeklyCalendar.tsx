@@ -308,11 +308,12 @@ export default function WeeklyCalendar({
               {TIMES.map((time) => {
                 const isHourMark = time.includes(':00-');
                 const parts = time.split('-');
-                const isFirstTimeSlot = time === "8:00-8:30 AM";
+                const isNoTimeSlot = time === "時間指定なし";
                 return (
                 <div key={time} className="contents">
                   <div
-                    className={`bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap ${isFirstTimeSlot ? 'border-t-2 border-t-border' : ''}`}
+                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap"
+                    style={isNoTimeSlot ? { boxShadow: 'inset 0 -4px 0 0 #000' } : undefined}
                     data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                   >
                     {isHourMark && parts.length === 2 ? (
@@ -335,6 +336,7 @@ export default function WeeklyCalendar({
                   const isClickDisabled = isUnavailable || isPast;
                   const isSunday = day.getDay() === 0;
                   const isSaturday = day.getDay() === 6;
+                  const isNoTimeSlot = time === "時間指定なし";
 
                   return (
                     <button
@@ -353,6 +355,7 @@ export default function WeeklyCalendar({
                         ${!selected && !isUnavailable && !available && mode === "respond" && 'bg-background'}
                         ${!selected && mode === "create" && (isSunday ? 'bg-red-50 dark:bg-red-950/20' : isSaturday ? 'bg-blue-50 dark:bg-blue-950/20' : 'bg-background')}
                       `}
+                      style={isNoTimeSlot ? { boxShadow: 'inset 0 -4px 0 0 #000' } : undefined}
                       data-testid={`slot-${format(day, 'yyyy-MM-dd')}-${time.replace(/[:\s]/g, '-')}`}
                     >
                       {selected && mode === "respond" && '○'}
