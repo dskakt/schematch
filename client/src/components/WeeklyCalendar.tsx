@@ -140,8 +140,8 @@ export default function WeeklyCalendar({
             <div className="grid gap-px sm:hidden" style={{ gridTemplateColumns: "95px repeat(7, minmax(32px, 1fr))" }}>
               <div className="bg-muted p-0 font-medium text-sm sticky left-0 top-0 z-20 relative" data-testid="header-time">
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(45deg, transparent calc(50% - 0.5px), hsl(var(--border)) calc(50% - 0.5px), hsl(var(--border)) calc(50% + 0.5px), transparent calc(50% + 0.5px))' }}></div>
-                <span className="absolute top-1 right-1 text-sm font-semibold">{format(weekDays[0], 'M月')}</span>
-                <span className="absolute bottom-1 left-1 text-sm font-semibold">時間</span>
+                <span className="absolute top-1 right-1 text-sm">{format(weekDays[0], 'M月')}</span>
+                <span className="absolute bottom-1 left-1 text-sm">時間</span>
                 <div className="h-[44px]"></div>
               </div>
               {weekDays.map((day, index) => {
@@ -205,8 +205,8 @@ export default function WeeklyCalendar({
             <div className="hidden sm:grid gap-px" style={{ gridTemplateColumns: "115px repeat(7, minmax(45px, 1fr))" }}>
               <div className="bg-muted p-0 font-medium text-sm sticky left-0 top-0 z-20 relative" data-testid="header-time">
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(45deg, transparent calc(50% - 0.5px), hsl(var(--border)) calc(50% - 0.5px), hsl(var(--border)) calc(50% + 0.5px), transparent calc(50% + 0.5px))' }}></div>
-                <span className="absolute top-1 right-1 text-sm font-semibold">{format(weekDays[0], 'M月')}</span>
-                <span className="absolute bottom-1 left-1 text-sm font-semibold">時間</span>
+                <span className="absolute top-1 right-1 text-sm">{format(weekDays[0], 'M月')}</span>
+                <span className="absolute bottom-1 left-1 text-sm">時間</span>
                 <div className="h-[44px]"></div>
               </div>
               {weekDays.map((day, index) => {
