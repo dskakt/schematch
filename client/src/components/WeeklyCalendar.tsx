@@ -216,7 +216,8 @@ export default function WeeklyCalendar({
                   const today = startOfDay(new Date());
                   const slotDate = startOfDay(day);
                   const isPast = isBefore(slotDate, today);
-                  const isDisabled = (mode === "respond" && !available) || isPast;
+                  const isUnavailable = mode === "respond" && !available;
+                  const isClickDisabled = isUnavailable || isPast;
                   const isSunday = day.getDay() === 0;
                   const isSaturday = day.getDay() === 6;
 
@@ -225,15 +226,16 @@ export default function WeeklyCalendar({
                       type="button"
                       key={`${day.toISOString()}-${time}`}
                       onClick={() => toggleSlot(day, time)}
-                      disabled={isDisabled}
+                      disabled={isClickDisabled}
                       className={`
                         p-1 min-h-[28px] transition-colors flex items-center justify-center font-black text-2xl leading-none
                         ${mode === "respond" ? 'border border-white dark:border-white' : ''}
-                        ${!isDisabled && 'hover-elevate cursor-pointer'}
+                        ${!isClickDisabled && 'hover-elevate cursor-pointer'}
                         ${selected && 'bg-primary text-primary-foreground border-primary'}
-                        ${isDisabled && 'opacity-30 cursor-not-allowed'}
-                        ${!selected && !isDisabled && available && mode === "respond" && 'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700'}
-                        ${!selected && !isDisabled && !available && mode === "respond" && 'bg-background'}
+                        ${isUnavailable && 'opacity-30 cursor-not-allowed'}
+                        ${isPast && !isUnavailable && 'cursor-not-allowed'}
+                        ${!selected && !isUnavailable && available && mode === "respond" && 'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700'}
+                        ${!selected && !isUnavailable && !available && mode === "respond" && 'bg-background'}
                         ${!selected && mode === "create" && (isSunday ? 'bg-red-50 dark:bg-red-950/20' : isSaturday ? 'bg-blue-50 dark:bg-blue-950/20' : 'bg-background')}
                       `}
                       data-testid={`slot-${format(day, 'yyyy-MM-dd')}-${time.replace(/[:\s]/g, '-')}`}
@@ -297,7 +299,8 @@ export default function WeeklyCalendar({
                   const today = startOfDay(new Date());
                   const slotDate = startOfDay(day);
                   const isPast = isBefore(slotDate, today);
-                  const isDisabled = (mode === "respond" && !available) || isPast;
+                  const isUnavailable = mode === "respond" && !available;
+                  const isClickDisabled = isUnavailable || isPast;
                   const isSunday = day.getDay() === 0;
                   const isSaturday = day.getDay() === 6;
 
@@ -306,15 +309,16 @@ export default function WeeklyCalendar({
                       type="button"
                       key={`${day.toISOString()}-${time}`}
                       onClick={() => toggleSlot(day, time)}
-                      disabled={isDisabled}
+                      disabled={isClickDisabled}
                       className={`
                         p-1 min-h-[32px] transition-colors flex items-center justify-center font-black text-3xl leading-none
                         ${mode === "respond" ? 'border border-white dark:border-white' : ''}
-                        ${!isDisabled && 'hover-elevate cursor-pointer'}
+                        ${!isClickDisabled && 'hover-elevate cursor-pointer'}
                         ${selected && 'bg-primary text-primary-foreground border-primary'}
-                        ${isDisabled && 'opacity-30 cursor-not-allowed'}
-                        ${!selected && !isDisabled && available && mode === "respond" && 'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700'}
-                        ${!selected && !isDisabled && !available && mode === "respond" && 'bg-background'}
+                        ${isUnavailable && 'opacity-30 cursor-not-allowed'}
+                        ${isPast && !isUnavailable && 'cursor-not-allowed'}
+                        ${!selected && !isUnavailable && available && mode === "respond" && 'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700'}
+                        ${!selected && !isUnavailable && !available && mode === "respond" && 'bg-background'}
                         ${!selected && mode === "create" && (isSunday ? 'bg-red-50 dark:bg-red-950/20' : isSaturday ? 'bg-blue-50 dark:bg-blue-950/20' : 'bg-background')}
                       `}
                       data-testid={`slot-${format(day, 'yyyy-MM-dd')}-${time.replace(/[:\s]/g, '-')}`}

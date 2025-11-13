@@ -84,7 +84,8 @@ function MonthGrid({
           const selected = isDateSelected(date);
           const available = isDateAvailable(date);
           const isPast = startOfDay(date) < startOfDay(today);
-          const isDisabled = (mode === "respond" && !available) || isPast;
+          const isUnavailable = mode === "respond" && !available;
+          const isClickDisabled = isUnavailable || isPast;
           const isSunday = date.getDay() === 0;
           const isSaturday = date.getDay() === 6;
           const isToday = format(date, 'yyyy-MM-dd') === format(today, 'yyyy-MM-dd');
@@ -93,15 +94,16 @@ function MonthGrid({
             <button
               key={format(date, 'yyyy-MM-dd')}
               type="button"
-              onClick={() => !isDisabled && toggleDate(date)}
-              disabled={isDisabled}
+              onClick={() => !isClickDisabled && toggleDate(date)}
+              disabled={isClickDisabled}
               className={`
                 p-2 min-h-[48px] rounded-md border transition-colors font-semibold relative
-                ${!isDisabled && 'hover-elevate cursor-pointer'}
+                ${!isClickDisabled && 'hover-elevate cursor-pointer'}
                 ${selected && 'bg-primary text-primary-foreground border-primary'}
-                ${isDisabled && 'opacity-30 cursor-not-allowed'}
-                ${!selected && !isDisabled && available && mode === "respond" && 'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700'}
-                ${!selected && !isDisabled && !available && mode === "respond" && 'bg-background border-border'}
+                ${isUnavailable && 'opacity-30 cursor-not-allowed'}
+                ${isPast && !isUnavailable && 'cursor-not-allowed'}
+                ${!selected && !isUnavailable && available && mode === "respond" && 'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700'}
+                ${!selected && !isUnavailable && !available && mode === "respond" && 'bg-background border-border'}
                 ${!selected && mode === "create" && (
                   isSunday
                     ? 'bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-900'
