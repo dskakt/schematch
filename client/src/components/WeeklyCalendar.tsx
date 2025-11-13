@@ -155,7 +155,7 @@ export default function WeeklyCalendar({
                 return (
                   <div
                     key={day.toISOString()}
-                    className="bg-muted p-1 text-center sticky top-0 z-10 border border-border/50"
+                    className="bg-muted p-1 text-center sticky top-0 z-10"
                     data-testid={`header-day-${format(day, 'yyyy-MM-dd')}`}
                   >
                     <div className={`text-xs ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : 'text-muted-foreground'}`}>
@@ -177,7 +177,7 @@ export default function WeeklyCalendar({
                 return (
                 <div key={time} className="contents">
                   <div
-                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap border border-border/50"
+                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap"
                     data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                   >
                     {isHourMark && parts.length === 2 ? (
@@ -202,7 +202,7 @@ export default function WeeklyCalendar({
                       onClick={() => toggleSlot(day, time)}
                       disabled={isDisabled}
                       className={`
-                        p-1 min-h-[28px] transition-colors flex items-center justify-center font-black text-2xl leading-none border border-border/50
+                        p-1 min-h-[28px] transition-colors flex items-center justify-center font-black text-2xl leading-none
                         ${!isDisabled && 'hover-elevate cursor-pointer'}
                         ${selected && 'bg-primary text-primary-foreground border-primary'}
                         ${isDisabled && 'opacity-30 cursor-not-allowed'}
@@ -257,7 +257,7 @@ export default function WeeklyCalendar({
                 return (
                 <div key={time} className="contents">
                   <div
-                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap border border-border/50"
+                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap"
                     data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                   >
                     {isHourMark && parts.length === 2 ? (
@@ -282,7 +282,7 @@ export default function WeeklyCalendar({
                       onClick={() => toggleSlot(day, time)}
                       disabled={isDisabled}
                       className={`
-                        p-1 min-h-[32px] transition-colors flex items-center justify-center font-black text-3xl leading-none border border-border/50
+                        p-1 min-h-[32px] transition-colors flex items-center justify-center font-black text-3xl leading-none
                         ${!isDisabled && 'hover-elevate cursor-pointer'}
                         ${selected && 'bg-primary text-primary-foreground border-primary'}
                         ${isDisabled && 'opacity-30 cursor-not-allowed'}
