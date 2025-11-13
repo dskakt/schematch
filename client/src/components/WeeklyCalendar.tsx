@@ -151,7 +151,7 @@ export default function WeeklyCalendar({
                 return (
                   <div
                     key={day.toISOString()}
-                    className="bg-muted p-1 text-center sticky top-0 z-10"
+                    className="bg-muted p-1 text-center sticky top-0 z-10 border border-border/30"
                     data-testid={`header-day-${format(day, 'yyyy-MM-dd')}`}
                   >
                     <div className={`text-xs ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : 'text-muted-foreground'}`}>
@@ -170,7 +170,7 @@ export default function WeeklyCalendar({
                 return (
                 <div key={time} className="contents">
                   <div
-                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap"
+                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap border border-border/30"
                     data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                   >
                     {isHourMark && parts.length === 2 ? (
@@ -195,11 +195,11 @@ export default function WeeklyCalendar({
                       onClick={() => toggleSlot(day, time)}
                       disabled={isDisabled}
                       className={`
-                        p-1 min-h-[28px] transition-colors flex items-center justify-center font-black text-2xl leading-none
+                        p-1 min-h-[28px] transition-colors flex items-center justify-center font-black text-2xl leading-none border border-border/30
                         ${!isDisabled && 'hover-elevate cursor-pointer'}
-                        ${selected && 'bg-primary text-primary-foreground'}
+                        ${selected && 'bg-primary text-primary-foreground border-primary'}
                         ${isDisabled && 'opacity-30 cursor-not-allowed'}
-                        ${!selected && !isDisabled && available && mode === "respond" && 'bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700'}
+                        ${!selected && !isDisabled && available && mode === "respond" && 'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700'}
                         ${!selected && !isDisabled && !available && mode === "respond" && 'bg-background'}
                         ${!selected && mode === "create" && (isSunday ? 'bg-red-50 dark:bg-red-950/20' : isSaturday ? 'bg-blue-50 dark:bg-blue-950/20' : 'bg-background')}
                       `}
@@ -245,7 +245,7 @@ export default function WeeklyCalendar({
                 return (
                 <div key={time} className="contents">
                   <div
-                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap"
+                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap border border-border/30"
                     data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                   >
                     {isHourMark && parts.length === 2 ? (
@@ -270,11 +270,11 @@ export default function WeeklyCalendar({
                       onClick={() => toggleSlot(day, time)}
                       disabled={isDisabled}
                       className={`
-                        p-1 min-h-[32px] transition-colors flex items-center justify-center font-black text-3xl leading-none
+                        p-1 min-h-[32px] transition-colors flex items-center justify-center font-black text-3xl leading-none border border-border/30
                         ${!isDisabled && 'hover-elevate cursor-pointer'}
-                        ${selected && 'bg-primary text-primary-foreground'}
+                        ${selected && 'bg-primary text-primary-foreground border-primary'}
                         ${isDisabled && 'opacity-30 cursor-not-allowed'}
-                        ${!selected && !isDisabled && available && mode === "respond" && 'bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700'}
+                        ${!selected && !isDisabled && available && mode === "respond" && 'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700'}
                         ${!selected && !isDisabled && !available && mode === "respond" && 'bg-background'}
                         ${!selected && mode === "create" && (isSunday ? 'bg-red-50 dark:bg-red-950/20' : isSaturday ? 'bg-blue-50 dark:bg-blue-950/20' : 'bg-background')}
                       `}
