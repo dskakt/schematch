@@ -362,7 +362,7 @@ export default function WeeklyCalendar({
         </div>
         {showVerticalScrollIndicator && (
           <div className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none z-30 flex items-end justify-center pb-2" style={{ background: 'linear-gradient(to top, hsl(var(--background)), transparent)' }}>
-            <div className="flex flex-col items-center gap-1 animate-bounce">
+            <div className="flex flex-col items-center gap-1">
               <ChevronDown className="w-5 h-5 text-primary" />
               <span className="text-xs font-medium text-primary">下にスクロール</span>
             </div>
@@ -370,7 +370,7 @@ export default function WeeklyCalendar({
         )}
         {showHorizontalScrollIndicator && (
           <div className="absolute top-0 right-0 bottom-0 w-20 pointer-events-none z-30 flex items-center justify-end pr-2" style={{ background: 'linear-gradient(to left, hsl(var(--background)), transparent)' }}>
-            <div className="flex flex-col items-center gap-1 animate-bounce" style={{ animation: 'bounce 1s infinite', animationDirection: 'alternate' }}>
+            <div className="flex flex-col items-center gap-1">
               <ChevronRight className="w-5 h-5 text-primary" />
               <span className="text-xs font-medium text-primary whitespace-nowrap" style={{ writingMode: 'vertical-rl' }}>右にスクロール</span>
             </div>
