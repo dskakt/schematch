@@ -137,12 +137,12 @@ export default function WeeklyCalendar({
       <div className="border rounded-lg bg-border overflow-hidden">
         <div className="overflow-auto max-h-[600px]">
           <div className="inline-block min-w-full">
-            <div className="grid gap-px" style={{ gridTemplateColumns: "80px repeat(7, minmax(80px, 1fr))" }}>
+            <div className="grid gap-px" style={{ gridTemplateColumns: "60px repeat(7, minmax(60px, 1fr))" }}>
               <div className="bg-muted p-0 font-medium text-sm sticky left-0 top-0 z-20 relative" data-testid="header-time">
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(45deg, transparent calc(50% - 0.5px), hsl(var(--border)) calc(50% - 0.5px), hsl(var(--border)) calc(50% + 0.5px), transparent calc(50% + 0.5px))' }}></div>
-                <span className="absolute top-1 right-1">{format(weekDays[0], 'M月')}</span>
-                <span className="absolute bottom-1 left-1">時間</span>
-                <div className="h-[52px]"></div>
+                <span className="absolute top-1 right-1 text-xs">{format(weekDays[0], 'M月')}</span>
+                <span className="absolute bottom-1 left-1 text-xs">時間</span>
+                <div className="h-[44px]"></div>
               </div>
               {weekDays.map((day, index) => {
                 const isSunday = index === 0;
@@ -166,7 +166,7 @@ export default function WeeklyCalendar({
               {TIMES.map((time) => (
                 <div key={time} className="contents">
                   <div
-                    className="bg-background p-2 text-sm text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center"
+                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center"
                     data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                   >
                     {time}
@@ -185,7 +185,7 @@ export default function WeeklyCalendar({
                       onClick={() => toggleSlot(day, time)}
                       disabled={isDisabled}
                       className={`
-                        p-2 min-h-[40px] transition-colors flex items-center justify-center font-black text-4xl leading-none
+                        p-1 min-h-[32px] transition-colors flex items-center justify-center font-black text-3xl leading-none
                         ${!isDisabled && 'hover-elevate cursor-pointer'}
                         ${selected && 'bg-primary text-primary-foreground'}
                         ${isDisabled && 'opacity-30 cursor-not-allowed'}
