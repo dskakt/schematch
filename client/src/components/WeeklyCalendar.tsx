@@ -138,7 +138,7 @@ export default function WeeklyCalendar({
                 type="button"
                 variant="ghost"
                 onClick={goToThisWeek}
-                className="text-base font-medium"
+                className="text-base font-medium hidden md:inline-flex"
                 data-testid="button-this-week"
               >
                 今週と来週
