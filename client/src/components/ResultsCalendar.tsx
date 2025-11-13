@@ -1,8 +1,5 @@
-import { format, addDays, startOfWeek, isSameDay } from "date-fns";
+import { format, addDays, startOfWeek, isSameDay, startOfDay, eachDayOfInterval } from "date-fns";
 import { ja } from "date-fns/locale";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState, useEffect } from "react";
 
 interface TimeSlot {
   id: string;
@@ -28,24 +25,33 @@ const TIMES = [
   "5:00-5:30 PM", "5:30-6:00 PM", "6:00-6:30 PM", "6:30-7:00 PM", "7:00-7:30 PM", "7:30-8:00 PM"
 ];
 
-const getInitialWeekStart = (timeSlots: TimeSlot[]) => {
-  if (timeSlots.length > 0) {
-    const earliestSlot = timeSlots.reduce((earliest, slot) =>
-      slot.date < earliest.date ? slot : earliest
-    );
-    return startOfWeek(earliestSlot.date, { weekStartsOn: 0 });
-  }
-  return startOfWeek(new Date(), { weekStartsOn: 0 });
+const getAllDaysToDisplay = (timeSlots: TimeSlot[]) => {
+  if (timeSlots.length === 0) return [];
+  
+  const uniqueDates = Array.from(
+    new Set(timeSlots.map(slot => startOfDay(slot.date).getTime()))
+  )
+    .map(time => new Date(time))
+    .sort((a, b) => a.getTime() - b.getTime());
+  
+  if (uniqueDates.length === 0) return [];
+  
+  const startDate = startOfWeek(uniqueDates[0], { weekStartsOn: 0 });
+  const endDate = addDays(startOfWeek(uniqueDates[uniqueDates.length - 1], { weekStartsOn: 0 }), 6);
+  
+  return eachDayOfInterval({ start: startDate, end: endDate });
 };
 
 export default function ResultsCalendar({ timeSlots, responses }: ResultsCalendarProps) {
-  const [weekStart, setWeekStart] = useState(() => getInitialWeekStart(timeSlots));
+  const weekDays = getAllDaysToDisplay(timeSlots);
 
-  useEffect(() => {
-    setWeekStart(getInitialWeekStart(timeSlots));
-  }, [timeSlots.length]);
-
-  const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+  if (weekDays.length === 0) {
+    return (
+      <div className="text-center py-8 text-muted-foreground" data-testid="results-calendar">
+        候補日時が設定されていません
+      </div>
+    );
+  }
 
   const getSlotAtDateTime = (date: Date, time: string) => {
     return timeSlots.find(
@@ -57,20 +63,6 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
     if (!slotId) return 0;
     return responses.filter(r => r.availability.includes(slotId)).length;
   };
-
-  const goToPreviousWeek = () => {
-    setWeekStart(addDays(weekStart, -7));
-  };
-
-  const goToNextWeek = () => {
-    setWeekStart(addDays(weekStart, 7));
-  };
-
-  const goToThisWeek = () => {
-    setWeekStart(startOfWeek(new Date(), { weekStartsOn: 0 }));
-  };
-
-  const isThisWeek = isSameDay(weekStart, startOfWeek(new Date(), { weekStartsOn: 0 }));
 
   const totalResponses = responses.length;
   const maxCount = Math.max(...timeSlots.map(s => getAvailabilityCount(s.id)), 0);
@@ -95,52 +87,13 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
 
   return (
     <div className="space-y-4" data-testid="results-calendar">
-      <div className="flex items-center justify-between gap-3">
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={goToPreviousWeek}
-          data-testid="button-prev-week"
-        >
-          <ChevronLeft className="w-4 h-4" />
-          前の週
-        </Button>
-        <div className="text-center">
-          <div className="font-medium" data-testid="text-week-range">
-            {format(weekDays[0], 'M月d日')} - {format(weekDays[6], 'M月d日, yyyy年')}
-          </div>
-          {isThisWeek && (
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={goToThisWeek}
-              className="text-base font-medium"
-              data-testid="button-this-week"
-            >
-              今週
-            </Button>
-          )}
-        </div>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={goToNextWeek}
-          data-testid="button-next-week"
-        >
-          次の週
-          <ChevronRight className="w-4 h-4" />
-        </Button>
-      </div>
-
       <div className="border rounded-lg bg-border overflow-hidden">
         <div className="overflow-auto max-h-[600px]">
           <div className="inline-block min-w-full">
-            <div className="grid gap-px" style={{ gridTemplateColumns: "110px repeat(7, minmax(80px, 1fr))" }}>
+            <div className="grid gap-px" style={{ gridTemplateColumns: `130px repeat(${weekDays.length}, minmax(80px, 1fr))` }}>
               <div className="bg-muted p-0 font-medium text-sm sticky left-0 top-0 z-20 relative" data-testid="header-time">
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(45deg, transparent calc(50% - 0.5px), hsl(var(--border)) calc(50% - 0.5px), hsl(var(--border)) calc(50% + 0.5px), transparent calc(50% + 0.5px))' }}></div>
-                <span className="absolute top-1 right-1">{format(weekDays[0], 'M月')}</span>
+                {weekDays.length > 0 && <span className="absolute top-1 right-1">{format(weekDays[0], 'M月')}</span>}
                 <span className="absolute bottom-1 left-1">時間</span>
                 <div className="h-[52px]"></div>
               </div>

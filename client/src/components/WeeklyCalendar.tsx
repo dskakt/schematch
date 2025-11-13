@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { format, addDays, startOfWeek, isSameDay, parse } from "date-fns";
+import { format, addDays, startOfWeek, isSameDay, parse, startOfDay, eachDayOfInterval } from "date-fns";
 import { ja } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -36,6 +36,23 @@ const getInitialWeekStart = (
   return startOfWeek(new Date(), { weekStartsOn: 0 });
 };
 
+const getAllDaysToDisplay = (availableSlots: { date: Date; time: string }[]) => {
+  if (availableSlots.length === 0) return [];
+  
+  const uniqueDates = Array.from(
+    new Set(availableSlots.map(slot => startOfDay(slot.date).getTime()))
+  )
+    .map(time => new Date(time))
+    .sort((a, b) => a.getTime() - b.getTime());
+  
+  if (uniqueDates.length === 0) return [];
+  
+  const startDate = startOfWeek(uniqueDates[0], { weekStartsOn: 0 });
+  const endDate = addDays(startOfWeek(uniqueDates[uniqueDates.length - 1], { weekStartsOn: 0 }), 6);
+  
+  return eachDayOfInterval({ start: startDate, end: endDate });
+};
+
 export default function WeeklyCalendar({
   selectedSlots,
   onSlotsChange,
@@ -52,7 +69,9 @@ export default function WeeklyCalendar({
     }
   }, [mode, availableSlots.length]);
 
-  const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
+  const weekDays = mode === "respond" 
+    ? getAllDaysToDisplay(availableSlots)
+    : Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
 
   const isSlotSelected = (date: Date, time: string) => {
     return selectedSlots.some(
@@ -98,60 +117,60 @@ export default function WeeklyCalendar({
 
   return (
     <div className="space-y-4" data-testid="weekly-calendar">
-      <div className="flex items-center justify-between gap-3">
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={goToPreviousWeek}
-          data-testid="button-prev-week"
-        >
-          <ChevronLeft className="w-4 h-4" />
-          前の週
-        </Button>
-        <div className="text-center">
-          <div className="font-medium" data-testid="text-week-range">
-            {format(weekDays[0], 'M月d日')} - {format(weekDays[6], 'M月d日, yyyy年')}
+      {mode === "create" && (
+        <div className="flex items-center justify-between gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={goToPreviousWeek}
+            data-testid="button-prev-week"
+          >
+            <ChevronLeft className="w-4 h-4" />
+            前の週
+          </Button>
+          <div className="text-center">
+            <div className="font-medium" data-testid="text-week-range">
+              {format(weekDays[0], 'M月d日')} - {format(weekDays[6], 'M月d日, yyyy年')}
+            </div>
+            {isThisWeek && (
+              <Button
+                type="button"
+                variant="ghost"
+                onClick={goToThisWeek}
+                className="text-base font-medium"
+                data-testid="button-this-week"
+              >
+                今週
+              </Button>
+            )}
           </div>
-          {isThisWeek && (
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={goToThisWeek}
-              className="text-base font-medium"
-              data-testid="button-this-week"
-            >
-              今週
-            </Button>
-          )}
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            onClick={goToNextWeek}
+            data-testid="button-next-week"
+          >
+            次の週
+            <ChevronRight className="w-4 h-4" />
+          </Button>
         </div>
-        <Button
-          type="button"
-          variant="outline"
-          size="sm"
-          onClick={goToNextWeek}
-          data-testid="button-next-week"
-        >
-          次の週
-          <ChevronRight className="w-4 h-4" />
-        </Button>
-      </div>
+      )}
 
       <div className="border rounded-lg bg-border overflow-hidden">
         <div className="overflow-auto max-h-[600px]">
           <div className="inline-block min-w-full">
-            <div className="grid gap-px sm:hidden" style={{ gridTemplateColumns: "95px repeat(7, minmax(32px, 1fr))" }}>
+            <div className="grid gap-px sm:hidden" style={{ gridTemplateColumns: `95px repeat(${weekDays.length}, minmax(32px, 1fr))` }}>
               <div className="bg-muted p-0 font-medium text-sm sticky left-0 top-0 z-20 relative" data-testid="header-time">
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(45deg, transparent calc(50% - 0.5px), hsl(var(--border)) calc(50% - 0.5px), hsl(var(--border)) calc(50% + 0.5px), transparent calc(50% + 0.5px))' }}></div>
-                <span className="absolute top-1 right-1 text-base">{format(weekDays[0], 'M月')}</span>
+                {weekDays.length > 0 && <span className="absolute top-1 right-1 text-base">{format(weekDays[0], 'M月')}</span>}
                 <span className="absolute bottom-1 left-1 text-base">時間</span>
                 <div className="h-[44px]"></div>
               </div>
               {weekDays.map((day, index) => {
                 const isSunday = index === 0;
                 const isSaturday = index === 6;
-                const slotsToCheck = mode === "respond" ? availableSlots : selectedSlots;
-                const hasSlots = slotsToCheck.some(slot => isSameDay(slot.date, day));
                 return (
                   <div
                     key={day.toISOString()}
@@ -164,9 +183,6 @@ export default function WeeklyCalendar({
                     <div className={`text-sm font-medium ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : ''}`}>
                       {format(day, 'd日')}
                     </div>
-                    {hasSlots && (
-                      <div className="text-primary text-xs leading-none mt-0.5">●</div>
-                    )}
                   </div>
                 );
               })}
@@ -203,6 +219,7 @@ export default function WeeklyCalendar({
                       disabled={isDisabled}
                       className={`
                         p-1 min-h-[28px] transition-colors flex items-center justify-center font-black text-2xl leading-none
+                        ${mode === "respond" ? 'border border-border/30' : ''}
                         ${!isDisabled && 'hover-elevate cursor-pointer'}
                         ${selected && 'bg-primary text-primary-foreground border-primary'}
                         ${isDisabled && 'opacity-30 cursor-not-allowed'}
@@ -220,18 +237,16 @@ export default function WeeklyCalendar({
               );
             })}
             </div>
-            <div className="hidden sm:grid gap-px" style={{ gridTemplateColumns: "115px repeat(7, minmax(45px, 1fr))" }}>
+            <div className="hidden sm:grid gap-px" style={{ gridTemplateColumns: `115px repeat(${weekDays.length}, minmax(45px, 1fr))` }}>
               <div className="bg-muted p-0 font-medium text-sm sticky left-0 top-0 z-20 relative" data-testid="header-time">
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(45deg, transparent calc(50% - 0.5px), hsl(var(--border)) calc(50% - 0.5px), hsl(var(--border)) calc(50% + 0.5px), transparent calc(50% + 0.5px))' }}></div>
-                <span className="absolute top-1 right-1 text-base">{format(weekDays[0], 'M月')}</span>
+                {weekDays.length > 0 && <span className="absolute top-1 right-1 text-base">{format(weekDays[0], 'M月')}</span>}
                 <span className="absolute bottom-1 left-1 text-base">時間</span>
                 <div className="h-[44px]"></div>
               </div>
               {weekDays.map((day, index) => {
                 const isSunday = index === 0;
                 const isSaturday = index === 6;
-                const slotsToCheck = mode === "respond" ? availableSlots : selectedSlots;
-                const hasSlots = slotsToCheck.some(slot => isSameDay(slot.date, day));
                 return (
                   <div
                     key={day.toISOString()}
@@ -244,9 +259,6 @@ export default function WeeklyCalendar({
                     <div className={`font-medium ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : ''}`}>
                       {format(day, 'd日')}
                     </div>
-                    {hasSlots && (
-                      <div className="text-primary text-sm leading-none mt-0.5">●</div>
-                    )}
                   </div>
                 );
               })}
@@ -283,6 +295,7 @@ export default function WeeklyCalendar({
                       disabled={isDisabled}
                       className={`
                         p-1 min-h-[32px] transition-colors flex items-center justify-center font-black text-3xl leading-none
+                        ${mode === "respond" ? 'border border-border/30' : ''}
                         ${!isDisabled && 'hover-elevate cursor-pointer'}
                         ${selected && 'bg-primary text-primary-foreground border-primary'}
                         ${isDisabled && 'opacity-30 cursor-not-allowed'}
