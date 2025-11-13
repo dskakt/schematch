@@ -141,7 +141,7 @@ export default function WeeklyCalendar({
                 className="text-base font-medium"
                 data-testid="button-this-week"
               >
-                今週
+                今週と来週
               </Button>
             )}
           </div>
