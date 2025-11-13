@@ -8,7 +8,7 @@ import WeeklyCalendar from "@/components/WeeklyCalendar";
 import MonthlyCalendar from "@/components/MonthlyCalendar";
 import { normalizeTimeSlot } from "@shared/timeUtils";
 import { format } from "date-fns";
-import { Calendar } from "lucide-react";
+import { Calendar, Loader2 } from "lucide-react";
 import { Link } from "wouter";
 
 interface TimeSlot {
@@ -161,10 +161,11 @@ export default function ParticipantResponse({
                 </Link>
                 <Button 
                   type="submit" 
-                  className="flex-1" 
+                  className="flex-1 gap-2" 
                   disabled={isSubmitting}
                   data-testid="button-submit"
                 >
+                  {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
                   {isSubmitting ? "送信中..." : "回答を送信"}
                 </Button>
               </div>
