@@ -100,7 +100,7 @@ function MonthGrid({
                 p-2 min-h-[48px] rounded-md border transition-colors font-semibold relative
                 ${!isClickDisabled && 'hover-elevate cursor-pointer'}
                 ${selected && 'bg-primary text-primary-foreground border-primary'}
-                ${isUnavailable && 'opacity-30 cursor-not-allowed'}
+                ${isUnavailable && 'cursor-not-allowed'}
                 ${isPast && !isUnavailable && 'cursor-not-allowed'}
                 ${!selected && !isUnavailable && available && mode === "respond" && 'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700'}
                 ${!selected && !isUnavailable && !available && mode === "respond" && 'bg-background border-border'}
