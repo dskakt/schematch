@@ -137,7 +137,7 @@ export default function WeeklyCalendar({
       <div className="border rounded-lg bg-border overflow-hidden">
         <div className="overflow-auto max-h-[600px]">
           <div className="inline-block min-w-full">
-            <div className="grid gap-px sm:hidden" style={{ gridTemplateColumns: "85px repeat(7, minmax(35px, 1fr))" }}>
+            <div className="grid gap-px sm:hidden" style={{ gridTemplateColumns: "95px repeat(7, minmax(32px, 1fr))" }}>
               <div className="bg-muted p-0 font-medium text-sm sticky left-0 top-0 z-20 relative" data-testid="header-time">
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(45deg, transparent calc(50% - 0.5px), hsl(var(--border)) calc(50% - 0.5px), hsl(var(--border)) calc(50% + 0.5px), transparent calc(50% + 0.5px))' }}></div>
                 <span className="absolute top-1 right-1 text-xs">{format(weekDays[0], 'M月')}</span>
@@ -202,7 +202,7 @@ export default function WeeklyCalendar({
               </div>
             ))}
             </div>
-            <div className="hidden sm:grid gap-px" style={{ gridTemplateColumns: "105px repeat(7, minmax(48px, 1fr))" }}>
+            <div className="hidden sm:grid gap-px" style={{ gridTemplateColumns: "115px repeat(7, minmax(45px, 1fr))" }}>
               <div className="bg-muted p-0 font-medium text-sm sticky left-0 top-0 z-20 relative" data-testid="header-time">
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(45deg, transparent calc(50% - 0.5px), hsl(var(--border)) calc(50% - 0.5px), hsl(var(--border)) calc(50% + 0.5px), transparent calc(50% + 0.5px))' }}></div>
                 <span className="absolute top-1 right-1 text-xs">{format(weekDays[0], 'M月')}</span>
