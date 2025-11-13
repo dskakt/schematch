@@ -62,6 +62,7 @@ export default function EventPage() {
         toast({
           title: "回答を送信しました",
           description: "ご回答ありがとうございます。",
+          duration: 1500,
         });
       }, 100);
     },
