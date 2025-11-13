@@ -63,7 +63,8 @@ export default function WeeklyCalendar({
     getInitialWeekStart(mode, availableSlots, selectedSlots)
   );
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [showScrollIndicator, setShowScrollIndicator] = useState(false);
+  const [showVerticalScrollIndicator, setShowVerticalScrollIndicator] = useState(false);
+  const [showHorizontalScrollIndicator, setShowHorizontalScrollIndicator] = useState(false);
 
   useEffect(() => {
     if (mode === "respond" && availableSlots.length > 0) {
@@ -74,8 +75,9 @@ export default function WeeklyCalendar({
   useEffect(() => {
     const checkScroll = () => {
       if (scrollContainerRef.current) {
-        const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
-        setShowScrollIndicator(scrollHeight > clientHeight && scrollTop < scrollHeight - clientHeight - 10);
+        const { scrollTop, scrollHeight, clientHeight, scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+        setShowVerticalScrollIndicator(scrollHeight > clientHeight && scrollTop < scrollHeight - clientHeight - 10);
+        setShowHorizontalScrollIndicator(scrollWidth > clientWidth && scrollLeft < scrollWidth - clientWidth - 10);
       }
     };
 
@@ -358,11 +360,19 @@ export default function WeeklyCalendar({
             </div>
           </div>
         </div>
-        {showScrollIndicator && (
+        {showVerticalScrollIndicator && (
           <div className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none z-30 flex items-end justify-center pb-2" style={{ background: 'linear-gradient(to top, hsl(var(--background)), transparent)' }}>
             <div className="flex flex-col items-center gap-1 animate-bounce">
               <ChevronDown className="w-5 h-5 text-primary" />
               <span className="text-xs font-medium text-primary">下にスクロール</span>
+            </div>
+          </div>
+        )}
+        {showHorizontalScrollIndicator && (
+          <div className="absolute top-0 right-0 bottom-0 w-20 pointer-events-none z-30 flex items-center justify-end pr-2" style={{ background: 'linear-gradient(to left, hsl(var(--background)), transparent)' }}>
+            <div className="flex flex-col items-center gap-1 animate-bounce" style={{ animation: 'bounce 1s infinite', animationDirection: 'alternate' }}>
+              <ChevronRight className="w-5 h-5 text-primary" />
+              <span className="text-xs font-medium text-primary whitespace-nowrap" style={{ writingMode: 'vertical-rl' }}>右にスクロール</span>
             </div>
           </div>
         )}
