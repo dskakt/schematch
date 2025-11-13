@@ -189,7 +189,7 @@ export default function EditEventPage() {
                       候補日時を選択
                     </h3>
                     <p className="text-sm text-muted-foreground mt-1" data-testid="text-time-selection-description">
-                      カレンダーをクリックして候補日時を選択してください。時間を指定しない場合は、「時間指定なし」の行を選択してください。
+                      カレンダーをクリックして候補日時を選択してください。時間を指定しない場合は、<strong>「時間指定なし」</strong>の行を選択してください。
                     </p>
                   </div>
 
