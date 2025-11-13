@@ -9,31 +9,23 @@ interface EventConfirmationProps {
   eventId: string;
   eventTitle: string;
   participantLink: string;
-  organizerLink: string;
 }
 
 export default function EventConfirmation({
   eventId,
   eventTitle,
   participantLink,
-  organizerLink,
 }: EventConfirmationProps) {
   const [copiedParticipant, setCopiedParticipant] = useState(false);
-  const [copiedOrganizer, setCopiedOrganizer] = useState(false);
   const { toast } = useToast();
 
-  const copyToClipboard = (text: string, type: 'participant' | 'organizer') => {
+  const copyToClipboard = (text: string) => {
     navigator.clipboard.writeText(text);
-    if (type === 'participant') {
-      setCopiedParticipant(true);
-      setTimeout(() => setCopiedParticipant(false), 2000);
-    } else {
-      setCopiedOrganizer(true);
-      setTimeout(() => setCopiedOrganizer(false), 2000);
-    }
+    setCopiedParticipant(true);
+    setTimeout(() => setCopiedParticipant(false), 2000);
     toast({
       title: "コピーしました",
-      description: `${type === 'participant' ? '参加者用' : '主催者用'}リンクをクリップボードにコピーしました`,
+      description: "参加者用リンクをクリップボードにコピーしました",
     });
   };
 
@@ -75,7 +67,7 @@ export default function EventConfirmation({
               data-testid="input-participant-link"
             />
             <Button
-              onClick={() => copyToClipboard(participantLink, 'participant')}
+              onClick={() => copyToClipboard(participantLink)}
               variant="outline"
               data-testid="button-copy-participant"
             >
@@ -89,40 +81,8 @@ export default function EventConfirmation({
         </CardContent>
       </Card>
 
-      <Card data-testid="card-organizer-link">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2" data-testid="text-organizer-title">
-            <Mail className="w-5 h-5" />
-            集計結果リンク
-          </CardTitle>
-          <CardDescription data-testid="text-organizer-description">
-            回答状況を確認できます（メールで送信されます）
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex gap-2">
-            <Input
-              value={organizerLink}
-              readOnly
-              data-testid="input-organizer-link"
-            />
-            <Button
-              onClick={() => copyToClipboard(organizerLink, 'organizer')}
-              variant="outline"
-              data-testid="button-copy-organizer"
-            >
-              {copiedOrganizer ? (
-                <Check className="w-4 h-4" />
-              ) : (
-                <Copy className="w-4 h-4" />
-              )}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
       <p className="text-sm text-muted-foreground text-center" data-testid="text-email-sent">
-        このリンクを含む確認メールがメールアドレスに送信されました
+        参加者用リンクを含む確認メールがメールアドレスに送信されました
       </p>
     </div>
   );

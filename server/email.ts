@@ -11,8 +11,7 @@ interface SendOrganizerEmailParams {
 interface SendResponseNotificationParams {
   organizerEmail: string;
   eventTitle: string;
-  participantName: string;
-  participantLink: string;
+  participantNames: string[];
   resultsLink: string;
 }
 
@@ -35,14 +34,6 @@ export async function sendOrganizerEmail({
         </p>
       </div>
       
-      <div style="background-color: #e0f2fe; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="margin-top: 0; color: #555;">集計結果リンク</h3>
-        <p style="margin: 10px 0;">回答状況を確認できます：</p>
-        <p style="word-break: break-all; background-color: white; padding: 10px; border-radius: 4px;">
-          <a href="${resultsLink}" style="color: #2563eb;">${resultsLink}</a>
-        </p>
-      </div>
-      
       <p style="color: #999; font-size: 12px; text-align: center; margin-top: 30px; border-top: 1px solid #e5e5e5; padding-top: 20px;">
         入力したデータはすべて１年後に自動的に削除されます。
       </p>
@@ -61,9 +52,6 @@ export async function sendOrganizerEmail({
 
 参加者用リンク:
 ${participantLink}
-
-集計結果リンク:
-${resultsLink}
     `);
     console.log("=========================\n");
     console.log("ℹ️  実際のメール送信を有効にするには、RESEND_API_KEY環境変数を設定してください。");
@@ -90,24 +78,20 @@ ${resultsLink}
 export async function sendResponseNotification({
   organizerEmail,
   eventTitle,
-  participantName,
-  participantLink,
+  participantNames,
   resultsLink,
 }: SendResponseNotificationParams): Promise<void> {
+  const participantList = participantNames.map(name => `<li style="margin: 5px 0;">${name}</li>`).join('');
+  
   const emailContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
       <p>イベント「<strong>${eventTitle}</strong>」に新しい回答がありました。</p>
       
       <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <p style="margin: 0;"><strong>参加者：</strong>${participantName}</p>
-      </div>
-      
-      <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="margin-top: 0; color: #555;">参加者用リンク</h3>
-        <p style="margin: 10px 0;">このリンクを参加者に送信してください：</p>
-        <p style="word-break: break-all; background-color: white; padding: 10px; border-radius: 4px;">
-          <a href="${participantLink}" style="color: #2563eb;">${participantLink}</a>
-        </p>
+        <h3 style="margin-top: 0; color: #555;">回答済み参加者（${participantNames.length}名）</h3>
+        <ul style="margin: 10px 0; padding-left: 20px;">
+          ${participantList}
+        </ul>
       </div>
       
       <div style="background-color: #e0f2fe; padding: 20px; border-radius: 8px; margin: 20px 0;">
@@ -135,10 +119,8 @@ export async function sendResponseNotification({
     console.log("\n--- メール内容 ---");
     console.log(`
 イベント: ${eventTitle}
-参加者: ${participantName}
-
-参加者用リンク:
-${participantLink}
+回答済み参加者 (${participantNames.length}名):
+${participantNames.map((name, i) => `  ${i + 1}. ${name}`).join('\n')}
 
 集計結果リンク:
 ${resultsLink}

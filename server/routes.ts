@@ -220,12 +220,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const participantLink = `${baseUrl}/e/${event.shortId}`;
       const resultsLink = `${baseUrl}/r/${event.shortId}`;
 
+      // Get all responses (including the one just created) to list participants
+      const allResponses = await storage.getResponsesByEvent(req.params.id);
+      const participantNames = allResponses.map(r => r.participantName);
+
       // Send notification email to organizer (non-blocking)
       sendResponseNotification({
         organizerEmail: event.organizerEmail,
         eventTitle: event.title,
-        participantName: data.participantName,
-        participantLink,
+        participantNames,
         resultsLink,
       }).catch(error => {
         console.error("Failed to send response notification email:", error);

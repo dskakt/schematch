@@ -20,7 +20,6 @@ export default function CreateEvent() {
     eventId: string;
     eventTitle: string;
     participantLink: string;
-    organizerLink: string;
   } | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
@@ -47,13 +46,11 @@ export default function CreateEvent() {
 
       const baseUrl = import.meta.env.VITE_BASE_URL || window.location.origin;
       const participantLink = `${baseUrl}/e/${response.event.shortId}`;
-      const organizerLink = `${baseUrl}/r/${response.event.shortId}`;
 
       setCreatedEvent({
         eventId: response.event.id,
         eventTitle: response.event.title,
         participantLink,
-        organizerLink,
       });
       
       window.scrollTo(0, 0);
@@ -75,7 +72,6 @@ export default function CreateEvent() {
               eventId={createdEvent.eventId}
               eventTitle={createdEvent.eventTitle}
               participantLink={createdEvent.participantLink}
-              organizerLink={createdEvent.organizerLink}
             />
           </div>
         </main>
