@@ -1,8 +1,6 @@
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, addMonths, subMonths } from "date-fns";
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, isSameDay, startOfDay } from "date-fns";
 import { ja } from "date-fns/locale";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { useMemo } from "react";
 
 interface TimeSlot {
   date: Date;
@@ -85,7 +83,8 @@ function MonthGrid({
         {daysInMonth.map((date) => {
           const selected = isDateSelected(date);
           const available = isDateAvailable(date);
-          const isDisabled = mode === "respond" && !available;
+          const isPast = startOfDay(date) < startOfDay(today);
+          const isDisabled = (mode === "respond" && !available) || isPast;
           const isSunday = date.getDay() === 0;
           const isSaturday = date.getDay() === 6;
           const isToday = format(date, 'yyyy-MM-dd') === format(today, 'yyyy-MM-dd');
@@ -145,7 +144,26 @@ export default function MonthlyCalendar({
   availableSlots = [],
 }: MonthlyCalendarProps) {
   const today = new Date();
-  const [currentMonth, setCurrentMonth] = useState(today);
+
+  const monthsToDisplay = useMemo(() => {
+    if (mode === "respond" && availableSlots.length > 0) {
+      const uniqueMonths = new Set<string>();
+      availableSlots.forEach(slot => {
+        uniqueMonths.add(format(startOfMonth(slot.date), 'yyyy-MM'));
+      });
+      
+      const sortedMonths = Array.from(uniqueMonths)
+        .sort()
+        .map(monthStr => {
+          const [year, month] = monthStr.split('-');
+          return new Date(parseInt(year), parseInt(month) - 1, 1);
+        });
+      
+      return sortedMonths;
+    }
+    
+    return [today];
+  }, [mode, availableSlots, today]);
 
   const toggleDate = (date: Date) => {
     const dateStr = format(date, 'yyyy-MM-dd');
@@ -162,57 +180,20 @@ export default function MonthlyCalendar({
     }
   };
 
-  const goToPreviousMonth = () => {
-    setCurrentMonth(subMonths(currentMonth, 1));
-  };
-
-  const goToNextMonth = () => {
-    setCurrentMonth(addMonths(currentMonth, 2));
-  };
-
-  const nextMonth = addMonths(currentMonth, 1);
-
   return (
     <div className="space-y-4" data-testid="monthly-calendar">
-      <div className="flex items-center justify-between gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          onClick={goToPreviousMonth}
-          data-testid="button-prev-month"
-        >
-          <ChevronLeft className="h-4 w-4" />
-        </Button>
-        <div className="flex-1"></div>
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          onClick={goToNextMonth}
-          data-testid="button-next-month"
-        >
-          <ChevronRight className="h-4 w-4" />
-        </Button>
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <MonthGrid
-          month={currentMonth}
-          selectedSlots={selectedSlots}
-          availableSlots={availableSlots}
-          mode={mode}
-          toggleDate={toggleDate}
-          today={today}
-        />
-        <MonthGrid
-          month={nextMonth}
-          selectedSlots={selectedSlots}
-          availableSlots={availableSlots}
-          mode={mode}
-          toggleDate={toggleDate}
-          today={today}
-        />
+        {monthsToDisplay.map((month, index) => (
+          <MonthGrid
+            key={format(month, 'yyyy-MM')}
+            month={month}
+            selectedSlots={selectedSlots}
+            availableSlots={availableSlots}
+            mode={mode}
+            toggleDate={toggleDate}
+            today={today}
+          />
+        ))}
       </div>
     </div>
   );

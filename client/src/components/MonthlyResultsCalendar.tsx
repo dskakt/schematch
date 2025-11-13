@@ -1,8 +1,6 @@
-import { format, startOfMonth, endOfMonth, eachDayOfInterval, addMonths, subMonths } from "date-fns";
+import { format, startOfMonth, endOfMonth, eachDayOfInterval, startOfDay } from "date-fns";
 import { ja } from "date-fns/locale";
-import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { useMemo } from "react";
 
 interface TimeSlot {
   id: string;
@@ -136,8 +134,26 @@ export default function MonthlyResultsCalendar({
   responses,
 }: MonthlyResultsCalendarProps) {
   const today = new Date();
-  const firstSlotDate = timeSlots.length > 0 ? timeSlots[0].date : today;
-  const [currentMonth, setCurrentMonth] = useState(startOfMonth(firstSlotDate));
+
+  const monthsToDisplay = useMemo(() => {
+    if (timeSlots.length > 0) {
+      const uniqueMonths = new Set<string>();
+      timeSlots.forEach(slot => {
+        uniqueMonths.add(format(startOfMonth(slot.date), 'yyyy-MM'));
+      });
+      
+      const sortedMonths = Array.from(uniqueMonths)
+        .sort()
+        .map(monthStr => {
+          const [year, month] = monthStr.split('-');
+          return new Date(parseInt(year), parseInt(month) - 1, 1);
+        });
+      
+      return sortedMonths;
+    }
+    
+    return [today];
+  }, [timeSlots, today]);
 
   const totalResponses = responses.length;
 
@@ -160,61 +176,22 @@ export default function MonthlyResultsCalendar({
     return 'bg-green-100';
   };
 
-  const goToPreviousMonth = () => {
-    setCurrentMonth(subMonths(currentMonth, 1));
-  };
-
-  const goToNextMonth = () => {
-    setCurrentMonth(addMonths(currentMonth, 2));
-  };
-
-  const nextMonth = addMonths(currentMonth, 1);
-
   return (
     <div className="space-y-4" data-testid="monthly-results-calendar">
-      <div className="flex items-center justify-between gap-2">
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          onClick={goToPreviousMonth}
-          data-testid="button-prev-month"
-        >
-          <ChevronLeft className="h-4 w-4" />
-        </Button>
-        <div className="flex-1"></div>
-        <Button
-          type="button"
-          variant="outline"
-          size="icon"
-          onClick={goToNextMonth}
-          data-testid="button-next-month"
-        >
-          <ChevronRight className="h-4 w-4" />
-        </Button>
-      </div>
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <MonthGrid
-          month={currentMonth}
-          timeSlots={timeSlots}
-          responses={responses}
-          getSlotForDate={getSlotForDate}
-          getAvailabilityCount={getAvailabilityCount}
-          getHeatColor={getHeatColor}
-          totalResponses={totalResponses}
-          today={today}
-        />
-        <MonthGrid
-          month={nextMonth}
-          timeSlots={timeSlots}
-          responses={responses}
-          getSlotForDate={getSlotForDate}
-          getAvailabilityCount={getAvailabilityCount}
-          getHeatColor={getHeatColor}
-          totalResponses={totalResponses}
-          today={today}
-        />
+        {monthsToDisplay.map((month) => (
+          <MonthGrid
+            key={format(month, 'yyyy-MM')}
+            month={month}
+            timeSlots={timeSlots}
+            responses={responses}
+            getSlotForDate={getSlotForDate}
+            getAvailabilityCount={getAvailabilityCount}
+            getHeatColor={getHeatColor}
+            totalResponses={totalResponses}
+            today={today}
+          />
+        ))}
       </div>
 
       <div className="space-y-2">

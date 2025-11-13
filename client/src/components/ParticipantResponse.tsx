@@ -161,7 +161,7 @@ export default function ParticipantResponse({
                 </Link>
                 <Button 
                   type="submit" 
-                  className="flex-1 gap-2" 
+                  className={`flex-1 gap-2 transition-all ${isSubmitting ? 'opacity-60 scale-95' : ''}`}
                   disabled={isSubmitting}
                   data-testid="button-submit"
                 >

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { format, addDays, startOfWeek, isSameDay, parse, startOfDay, eachDayOfInterval } from "date-fns";
+import { format, addDays, startOfWeek, isSameDay, parse, startOfDay, eachDayOfInterval, isAfter, isBefore } from "date-fns";
 import { ja } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
@@ -87,6 +87,10 @@ export default function WeeklyCalendar({
   };
 
   const toggleSlot = (date: Date, time: string) => {
+    const today = startOfDay(new Date());
+    const slotDate = startOfDay(date);
+    
+    if (isBefore(slotDate, today)) return;
     if (mode === "respond" && !isSlotAvailable(date, time)) return;
 
     const isSelected = isSlotSelected(date, time);
@@ -209,7 +213,10 @@ export default function WeeklyCalendar({
                 {weekDays.map((day, dayIndex) => {
                   const selected = isSlotSelected(day, time);
                   const available = isSlotAvailable(day, time);
-                  const isDisabled = mode === "respond" && !available;
+                  const today = startOfDay(new Date());
+                  const slotDate = startOfDay(day);
+                  const isPast = isBefore(slotDate, today);
+                  const isDisabled = (mode === "respond" && !available) || isPast;
                   const isSunday = day.getDay() === 0;
                   const isSaturday = day.getDay() === 6;
 
@@ -287,7 +294,10 @@ export default function WeeklyCalendar({
                 {weekDays.map((day, dayIndex) => {
                   const selected = isSlotSelected(day, time);
                   const available = isSlotAvailable(day, time);
-                  const isDisabled = mode === "respond" && !available;
+                  const today = startOfDay(new Date());
+                  const slotDate = startOfDay(day);
+                  const isPast = isBefore(slotDate, today);
+                  const isDisabled = (mode === "respond" && !available) || isPast;
                   const isSunday = day.getDay() === 0;
                   const isSaturday = day.getDay() === 6;
 
