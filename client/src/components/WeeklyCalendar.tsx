@@ -164,10 +164,12 @@ export default function WeeklyCalendar({
                 );
               })}
 
-              {TIMES.map((time) => (
+              {TIMES.map((time) => {
+                const isHourMark = time.includes(':00-');
+                return (
                 <div key={time} className="contents">
                   <div
-                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap"
+                    className={`bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap ${isHourMark ? 'font-semibold' : ''}`}
                     data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                   >
                     {time}
@@ -201,7 +203,8 @@ export default function WeeklyCalendar({
                   );
                 })}
               </div>
-            ))}
+              );
+            })}
             </div>
             <div className="hidden sm:grid gap-px" style={{ gridTemplateColumns: "115px repeat(7, minmax(45px, 1fr))" }}>
               <div className="bg-muted p-0 font-medium text-sm sticky left-0 top-0 z-20 relative" data-testid="header-time">
@@ -229,10 +232,12 @@ export default function WeeklyCalendar({
                 );
               })}
 
-              {TIMES.map((time) => (
+              {TIMES.map((time) => {
+                const isHourMark = time.includes(':00-');
+                return (
                 <div key={time} className="contents">
                   <div
-                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap"
+                    className={`bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap ${isHourMark ? 'font-semibold' : ''}`}
                     data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                   >
                     {time}
@@ -266,7 +271,8 @@ export default function WeeklyCalendar({
                   );
                 })}
               </div>
-            ))}
+              );
+            })}
             </div>
           </div>
         </div>
