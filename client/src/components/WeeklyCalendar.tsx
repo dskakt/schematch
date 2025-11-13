@@ -226,7 +226,7 @@ export default function WeeklyCalendar({
                 <div key={time} className="contents">
                   <div
                     className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap"
-                    style={isNoTimeSlot ? { borderBottom: '4px solid hsl(var(--foreground))' } : undefined}
+                    style={isNoTimeSlot ? { boxShadow: 'inset 0 -4px 0 0 hsl(var(--foreground))' } : undefined}
                     data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                   >
                     {isHourMark && parts.length === 2 ? (
@@ -268,7 +268,7 @@ export default function WeeklyCalendar({
                         ${!selected && !isUnavailable && !available && mode === "respond" && 'bg-background'}
                         ${!selected && mode === "create" && (isSunday ? 'bg-red-50 dark:bg-red-950/20' : isSaturday ? 'bg-blue-50 dark:bg-blue-950/20' : 'bg-background')}
                       `}
-                      style={isNoTimeSlot ? { borderBottom: '4px solid hsl(var(--foreground))' } : undefined}
+                      style={isNoTimeSlot ? { boxShadow: 'inset 0 -4px 0 0 hsl(var(--foreground))' } : undefined}
                       data-testid={`slot-${format(day, 'yyyy-MM-dd')}-${time.replace(/[:\s]/g, '-')}`}
                     >
                       {selected && mode === "respond" && '○'}
