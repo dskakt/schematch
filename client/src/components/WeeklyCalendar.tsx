@@ -137,7 +137,72 @@ export default function WeeklyCalendar({
       <div className="border rounded-lg bg-border overflow-hidden">
         <div className="overflow-auto max-h-[600px]">
           <div className="inline-block min-w-full">
-            <div className="grid gap-px" style={{ gridTemplateColumns: "60px repeat(7, minmax(60px, 1fr))" }}>
+            <div className="grid gap-px sm:hidden" style={{ gridTemplateColumns: "50px repeat(7, minmax(45px, 1fr))" }}>
+              <div className="bg-muted p-0 font-medium text-sm sticky left-0 top-0 z-20 relative" data-testid="header-time">
+                <div className="absolute inset-0" style={{ background: 'linear-gradient(45deg, transparent calc(50% - 0.5px), hsl(var(--border)) calc(50% - 0.5px), hsl(var(--border)) calc(50% + 0.5px), transparent calc(50% + 0.5px))' }}></div>
+                <span className="absolute top-1 right-1 text-xs">{format(weekDays[0], 'M月')}</span>
+                <span className="absolute bottom-1 left-1 text-xs">時間</span>
+                <div className="h-[44px]"></div>
+              </div>
+              {weekDays.map((day, index) => {
+                const isSunday = index === 0;
+                const isSaturday = index === 6;
+                return (
+                  <div
+                    key={day.toISOString()}
+                    className="bg-muted p-1 text-center sticky top-0 z-10"
+                    data-testid={`header-day-${format(day, 'yyyy-MM-dd')}`}
+                  >
+                    <div className={`text-xs ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : 'text-muted-foreground'}`}>
+                      {format(day, 'E', { locale: ja })}
+                    </div>
+                    <div className={`text-sm font-medium ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : ''}`}>
+                      {format(day, 'd日')}
+                    </div>
+                  </div>
+                );
+              })}
+
+              {TIMES.map((time) => (
+                <div key={time} className="contents">
+                  <div
+                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center"
+                    data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
+                  >
+                    {time}
+                  </div>
+                {weekDays.map((day, dayIndex) => {
+                  const selected = isSlotSelected(day, time);
+                  const available = isSlotAvailable(day, time);
+                  const isDisabled = mode === "respond" && !available;
+                  const isSunday = dayIndex === 0;
+                  const isSaturday = dayIndex === 6;
+
+                  return (
+                    <button
+                      type="button"
+                      key={`${day.toISOString()}-${time}`}
+                      onClick={() => toggleSlot(day, time)}
+                      disabled={isDisabled}
+                      className={`
+                        p-1 min-h-[28px] transition-colors flex items-center justify-center font-black text-2xl leading-none
+                        ${!isDisabled && 'hover-elevate cursor-pointer'}
+                        ${selected && 'bg-primary text-primary-foreground'}
+                        ${isDisabled && 'opacity-30 cursor-not-allowed'}
+                        ${!selected && !isDisabled && available && mode === "respond" && 'bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700'}
+                        ${!selected && !isDisabled && !available && mode === "respond" && 'bg-background'}
+                        ${!selected && mode === "create" && (isSunday ? 'bg-red-50 dark:bg-red-950/20' : isSaturday ? 'bg-blue-50 dark:bg-blue-950/20' : 'bg-background')}
+                      `}
+                      data-testid={`slot-${format(day, 'yyyy-MM-dd')}-${time.replace(/[:\s]/g, '-')}`}
+                    >
+                      {selected && mode === "respond" && '○'}
+                    </button>
+                  );
+                })}
+              </div>
+            ))}
+            </div>
+            <div className="hidden sm:grid gap-px" style={{ gridTemplateColumns: "60px repeat(7, minmax(60px, 1fr))" }}>
               <div className="bg-muted p-0 font-medium text-sm sticky left-0 top-0 z-20 relative" data-testid="header-time">
                 <div className="absolute inset-0" style={{ background: 'linear-gradient(45deg, transparent calc(50% - 0.5px), hsl(var(--border)) calc(50% - 0.5px), hsl(var(--border)) calc(50% + 0.5px), transparent calc(50% + 0.5px))' }}></div>
                 <span className="absolute top-1 right-1 text-xs">{format(weekDays[0], 'M月')}</span>
