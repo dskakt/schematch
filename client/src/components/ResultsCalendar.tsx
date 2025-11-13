@@ -152,7 +152,8 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
               return (
               <div key={time} className="contents">
                 <div
-                  className={`bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap ${isNoTimeSlot ? 'border-b-4 border-b-border' : ''}`}
+                  className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap"
+                  style={isNoTimeSlot ? { borderBottom: '3px solid hsl(var(--border))' } : undefined}
                   data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                 >
                   {isHourMark && parts.length === 2 ? (
@@ -178,9 +179,9 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
                       key={`${day.toISOString()}-${time}`}
                       className={`
                         p-1 min-h-[32px] transition-colors flex items-center justify-center font-medium border border-white dark:border-white
-                        ${isNoTimeSlot ? 'border-b-4 border-b-border' : ''}
                         ${hasSlot ? getHeatColor(count) : (isSunday ? 'bg-red-50 dark:bg-red-950/20' : isSaturday ? 'bg-blue-50 dark:bg-blue-950/20' : 'bg-background')}
                       `}
+                      style={isNoTimeSlot ? { borderBottom: '3px solid hsl(var(--border))' } : undefined}
                       data-testid={`slot-${format(day, 'yyyy-MM-dd')}-${time.replace(/[:\s]/g, '-')}`}
                     >
                       {hasSlot && (
