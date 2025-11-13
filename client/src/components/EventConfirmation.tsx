@@ -50,7 +50,7 @@ export default function EventConfirmation({
                 イベントを作成しました！
               </h2>
               <p className="text-muted-foreground" data-testid="text-success-message">
-                参加者にリンクを送ってください
+                参加者にリンクを送って日程調整を開始しましょう！
               </p>
             </div>
           </div>
