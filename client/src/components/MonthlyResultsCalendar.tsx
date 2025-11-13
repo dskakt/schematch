@@ -168,11 +168,6 @@ export default function MonthlyResultsCalendar({
     setCurrentMonth(addMonths(currentMonth, 2));
   };
 
-  const goToThisMonth = () => {
-    setCurrentMonth(today);
-  };
-
-  const isCurrentMonth = format(currentMonth, 'yyyy-MM') === format(today, 'yyyy-MM');
   const nextMonth = addMonths(currentMonth, 1);
 
   return (
@@ -187,19 +182,7 @@ export default function MonthlyResultsCalendar({
         >
           <ChevronLeft className="h-4 w-4" />
         </Button>
-        <div className="flex items-center gap-2">
-          {!isCurrentMonth && (
-            <Button
-              type="button"
-              variant="ghost"
-              onClick={goToThisMonth}
-              className="text-base font-medium"
-              data-testid="button-this-month"
-            >
-              今月
-            </Button>
-          )}
-        </div>
+        <div className="flex-1"></div>
         <Button
           type="button"
           variant="outline"
