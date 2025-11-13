@@ -166,7 +166,7 @@ export default function ParticipantResponse({
                   data-testid="button-submit"
                 >
                   {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
-                  {isSubmitting ? "送信中..." : "回答を送信"}
+                  {isSubmitting ? "送信中" : "回答を送信"}
                 </Button>
               </div>
               <p className="text-xs text-center text-muted-foreground" data-testid="text-data-retention">
