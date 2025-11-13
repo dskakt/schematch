@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { format, addDays, startOfWeek, isSameDay, parse, startOfDay, eachDayOfInterval, isAfter, isBefore } from "date-fns";
 import { ja } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
 
 interface WeeklyCalendarProps {
   selectedSlots: { date: Date; time: string }[];
@@ -62,12 +62,37 @@ export default function WeeklyCalendar({
   const [weekStart, setWeekStart] = useState(() => 
     getInitialWeekStart(mode, availableSlots, selectedSlots)
   );
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [showScrollIndicator, setShowScrollIndicator] = useState(false);
 
   useEffect(() => {
     if (mode === "respond" && availableSlots.length > 0) {
       setWeekStart(getInitialWeekStart(mode, availableSlots, selectedSlots));
     }
   }, [mode, availableSlots.length]);
+
+  useEffect(() => {
+    const checkScroll = () => {
+      if (scrollContainerRef.current) {
+        const { scrollTop, scrollHeight, clientHeight } = scrollContainerRef.current;
+        setShowScrollIndicator(scrollHeight > clientHeight && scrollTop < scrollHeight - clientHeight - 10);
+      }
+    };
+
+    checkScroll();
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', checkScroll);
+      window.addEventListener('resize', checkScroll);
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener('scroll', checkScroll);
+      }
+      window.removeEventListener('resize', checkScroll);
+    };
+  }, [selectedSlots]);
 
   const weekDays = mode === "respond" 
     ? getAllDaysToDisplay(availableSlots)
@@ -162,8 +187,8 @@ export default function WeeklyCalendar({
         </div>
       )}
 
-      <div className="border rounded-lg bg-border overflow-hidden">
-        <div className="overflow-auto max-h-[600px]">
+      <div className="border rounded-lg bg-border overflow-hidden relative">
+        <div ref={scrollContainerRef} className="overflow-auto max-h-[600px]">
           <div className="inline-block min-w-full">
             <div className="grid gap-px sm:hidden" style={{ gridTemplateColumns: `95px repeat(${weekDays.length}, minmax(32px, 1fr))` }}>
               <div className="bg-muted p-0 font-medium text-sm sticky left-0 top-0 z-20 relative" data-testid="header-time">
@@ -333,6 +358,14 @@ export default function WeeklyCalendar({
             </div>
           </div>
         </div>
+        {showScrollIndicator && (
+          <div className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none z-30 flex items-end justify-center pb-2" style={{ background: 'linear-gradient(to top, hsl(var(--background)), transparent)' }}>
+            <div className="flex flex-col items-center gap-1 animate-bounce">
+              <ChevronDown className="w-5 h-5 text-primary" />
+              <span className="text-xs font-medium text-primary">下にスクロール</span>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
