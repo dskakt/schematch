@@ -181,7 +181,7 @@ export default function WeeklyCalendar({
                       {format(day, 'E', { locale: ja })}
                     </div>
                     <div className={`text-sm font-medium ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : ''}`}>
-                      {format(day, 'd日')}
+                      {day.getDate() === 1 ? format(day, 'M月d日') : format(day, 'd日')}
                     </div>
                   </div>
                 );
