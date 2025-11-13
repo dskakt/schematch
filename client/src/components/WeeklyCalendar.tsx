@@ -47,8 +47,10 @@ export default function WeeklyCalendar({
   );
 
   useEffect(() => {
-    setWeekStart(getInitialWeekStart(mode, availableSlots, selectedSlots));
-  }, [mode, availableSlots.length, selectedSlots.length]);
+    if (mode === "respond" && availableSlots.length > 0) {
+      setWeekStart(getInitialWeekStart(mode, availableSlots, selectedSlots));
+    }
+  }, [mode, availableSlots.length]);
 
   const weekDays = Array.from({ length: 7 }, (_, i) => addDays(weekStart, i));
 
@@ -148,10 +150,12 @@ export default function WeeklyCalendar({
               {weekDays.map((day, index) => {
                 const isSunday = index === 0;
                 const isSaturday = index === 6;
+                const slotsToCheck = mode === "respond" ? availableSlots : selectedSlots;
+                const hasSlots = slotsToCheck.some(slot => isSameDay(slot.date, day));
                 return (
                   <div
                     key={day.toISOString()}
-                    className="bg-muted p-1 text-center sticky top-0 z-10 border border-border/30"
+                    className="bg-muted p-1 text-center sticky top-0 z-10 border border-border"
                     data-testid={`header-day-${format(day, 'yyyy-MM-dd')}`}
                   >
                     <div className={`text-xs ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : 'text-muted-foreground'}`}>
@@ -160,6 +164,9 @@ export default function WeeklyCalendar({
                     <div className={`text-sm font-medium ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : ''}`}>
                       {format(day, 'd日')}
                     </div>
+                    {hasSlots && (
+                      <div className="text-primary text-xs leading-none mt-0.5">●</div>
+                    )}
                   </div>
                 );
               })}
@@ -170,7 +177,7 @@ export default function WeeklyCalendar({
                 return (
                 <div key={time} className="contents">
                   <div
-                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap border border-border/30"
+                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap border border-border"
                     data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                   >
                     {isHourMark && parts.length === 2 ? (
@@ -195,7 +202,7 @@ export default function WeeklyCalendar({
                       onClick={() => toggleSlot(day, time)}
                       disabled={isDisabled}
                       className={`
-                        p-1 min-h-[28px] transition-colors flex items-center justify-center font-black text-2xl leading-none border border-border/30
+                        p-1 min-h-[28px] transition-colors flex items-center justify-center font-black text-2xl leading-none border border-border
                         ${!isDisabled && 'hover-elevate cursor-pointer'}
                         ${selected && 'bg-primary text-primary-foreground border-primary'}
                         ${isDisabled && 'opacity-30 cursor-not-allowed'}
@@ -223,6 +230,8 @@ export default function WeeklyCalendar({
               {weekDays.map((day, index) => {
                 const isSunday = index === 0;
                 const isSaturday = index === 6;
+                const slotsToCheck = mode === "respond" ? availableSlots : selectedSlots;
+                const hasSlots = slotsToCheck.some(slot => isSameDay(slot.date, day));
                 return (
                   <div
                     key={day.toISOString()}
@@ -235,6 +244,9 @@ export default function WeeklyCalendar({
                     <div className={`font-medium ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : ''}`}>
                       {format(day, 'd日')}
                     </div>
+                    {hasSlots && (
+                      <div className="text-primary text-sm leading-none mt-0.5">●</div>
+                    )}
                   </div>
                 );
               })}
@@ -245,7 +257,7 @@ export default function WeeklyCalendar({
                 return (
                 <div key={time} className="contents">
                   <div
-                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap border border-border/30"
+                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap border border-border"
                     data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                   >
                     {isHourMark && parts.length === 2 ? (
@@ -270,7 +282,7 @@ export default function WeeklyCalendar({
                       onClick={() => toggleSlot(day, time)}
                       disabled={isDisabled}
                       className={`
-                        p-1 min-h-[32px] transition-colors flex items-center justify-center font-black text-3xl leading-none border border-border/30
+                        p-1 min-h-[32px] transition-colors flex items-center justify-center font-black text-3xl leading-none border border-border
                         ${!isDisabled && 'hover-elevate cursor-pointer'}
                         ${selected && 'bg-primary text-primary-foreground border-primary'}
                         ${isDisabled && 'opacity-30 cursor-not-allowed'}
