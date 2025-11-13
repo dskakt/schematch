@@ -166,13 +166,20 @@ export default function WeeklyCalendar({
 
               {TIMES.map((time) => {
                 const isHourMark = time.includes(':00-');
+                const parts = time.split('-');
                 return (
                 <div key={time} className="contents">
                   <div
-                    className={`bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap ${isHourMark ? 'font-semibold' : ''}`}
+                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap"
                     data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                   >
-                    {time}
+                    {isHourMark && parts.length === 2 ? (
+                      <>
+                        <span className="font-semibold">{parts[0]}</span>-{parts[1]}
+                      </>
+                    ) : (
+                      time
+                    )}
                   </div>
                 {weekDays.map((day, dayIndex) => {
                   const selected = isSlotSelected(day, time);
@@ -234,13 +241,20 @@ export default function WeeklyCalendar({
 
               {TIMES.map((time) => {
                 const isHourMark = time.includes(':00-');
+                const parts = time.split('-');
                 return (
                 <div key={time} className="contents">
                   <div
-                    className={`bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap ${isHourMark ? 'font-semibold' : ''}`}
+                    className="bg-background p-1 text-xs text-muted-foreground text-center sticky left-0 z-10 flex items-center justify-center whitespace-nowrap"
                     data-testid={`time-label-${time.replace(/[:\s]/g, '-')}`}
                   >
-                    {time}
+                    {isHourMark && parts.length === 2 ? (
+                      <>
+                        <span className="font-semibold">{parts[0]}</span>-{parts[1]}
+                      </>
+                    ) : (
+                      time
+                    )}
                   </div>
                 {weekDays.map((day, dayIndex) => {
                   const selected = isSlotSelected(day, time);
