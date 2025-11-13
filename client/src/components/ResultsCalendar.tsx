@@ -1,5 +1,7 @@
+import { useRef, useEffect, useState } from "react";
 import { format, addDays, startOfWeek, isSameDay, startOfDay, eachDayOfInterval } from "date-fns";
 import { ja } from "date-fns/locale";
+import { ChevronDown, ChevronRight } from "lucide-react";
 
 interface TimeSlot {
   id: string;
@@ -44,6 +46,33 @@ const getAllDaysToDisplay = (timeSlots: TimeSlot[]) => {
 
 export default function ResultsCalendar({ timeSlots, responses }: ResultsCalendarProps) {
   const weekDays = getAllDaysToDisplay(timeSlots);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [showVerticalScrollIndicator, setShowVerticalScrollIndicator] = useState(false);
+  const [showHorizontalScrollIndicator, setShowHorizontalScrollIndicator] = useState(false);
+
+  useEffect(() => {
+    const checkScroll = () => {
+      if (scrollContainerRef.current) {
+        const { scrollTop, scrollHeight, clientHeight, scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
+        setShowVerticalScrollIndicator(scrollHeight > clientHeight && scrollTop < scrollHeight - clientHeight - 10);
+        setShowHorizontalScrollIndicator(scrollWidth > clientWidth && scrollLeft < scrollWidth - clientWidth - 10);
+      }
+    };
+
+    checkScroll();
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener('scroll', checkScroll);
+      window.addEventListener('resize', checkScroll);
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener('scroll', checkScroll);
+      }
+      window.removeEventListener('resize', checkScroll);
+    };
+  }, [timeSlots, responses]);
 
   if (weekDays.length === 0) {
     return (
@@ -87,8 +116,8 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
 
   return (
     <div className="space-y-4" data-testid="results-calendar">
-      <div className="border rounded-lg bg-border overflow-hidden">
-        <div className="overflow-auto max-h-[600px]">
+      <div className="border rounded-lg bg-border overflow-hidden relative">
+        <div ref={scrollContainerRef} className="overflow-auto max-h-[600px]">
           <div className="inline-block min-w-full">
             <div className="grid gap-px" style={{ gridTemplateColumns: `115px repeat(${weekDays.length}, minmax(45px, 1fr))` }}>
               <div className="bg-muted p-0 font-medium text-sm sticky left-0 top-0 z-20 relative" data-testid="header-time">
@@ -170,6 +199,22 @@ export default function ResultsCalendar({ timeSlots, responses }: ResultsCalenda
             </div>
           </div>
         </div>
+        {showVerticalScrollIndicator && (
+          <div className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none z-30 flex items-end justify-center pb-2" style={{ background: 'linear-gradient(to top, hsl(var(--background)), transparent)' }}>
+            <div className="flex flex-col items-center gap-1">
+              <ChevronDown className="w-5 h-5 text-primary" />
+              <span className="text-xs font-medium text-primary">下にスクロール</span>
+            </div>
+          </div>
+        )}
+        {showHorizontalScrollIndicator && (
+          <div className="absolute top-0 right-0 bottom-0 w-20 pointer-events-none z-30 flex items-center justify-end pr-2" style={{ background: 'linear-gradient(to left, hsl(var(--background)), transparent)' }}>
+            <div className="flex flex-col items-center gap-1">
+              <ChevronRight className="w-5 h-5 text-primary" />
+              <span className="text-xs font-medium text-primary whitespace-nowrap" style={{ writingMode: 'vertical-rl' }}>右にスクロール</span>
+            </div>
+          </div>
+        )}
       </div>
 
       <div className="space-y-2">
