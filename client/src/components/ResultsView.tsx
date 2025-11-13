@@ -3,6 +3,7 @@ import { format } from "date-fns";
 import { ja } from "date-fns/locale";
 import { Calendar, Users } from "lucide-react";
 import ResultsCalendar from "./ResultsCalendar";
+import MonthlyResultsCalendar from "./MonthlyResultsCalendar";
 
 interface Response {
   name: string;
@@ -67,6 +68,9 @@ export default function ResultsView({
     return timeToMinutes(a.time) - timeToMinutes(b.time);
   });
 
+  // すべてのスロットが「時間指定なし」かどうかをチェック
+  const allSlotsNoTime = timeSlots.every(slot => slot.time === "時間指定なし");
+
   return (
     <div className="max-w-5xl mx-auto space-y-6" data-testid="results-view">
       <Card data-testid="card-event-header">
@@ -89,7 +93,11 @@ export default function ResultsView({
           <CardTitle data-testid="text-grid-title">参加可能人数</CardTitle>
         </CardHeader>
         <CardContent>
-          <ResultsCalendar timeSlots={timeSlots} responses={responses} />
+          {allSlotsNoTime ? (
+            <MonthlyResultsCalendar timeSlots={timeSlots} responses={responses} />
+          ) : (
+            <ResultsCalendar timeSlots={timeSlots} responses={responses} />
+          )}
         </CardContent>
       </Card>
 

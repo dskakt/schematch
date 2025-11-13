@@ -5,6 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import WeeklyCalendar from "@/components/WeeklyCalendar";
+import MonthlyCalendar from "@/components/MonthlyCalendar";
 import { normalizeTimeSlot } from "@shared/timeUtils";
 import { format } from "date-fns";
 import { Calendar } from "lucide-react";
@@ -53,6 +54,9 @@ export default function ParticipantResponse({
     date: slot.date,
     time: slot.time,
   }));
+
+  // すべてのスロットが「時間指定なし」かどうかをチェック
+  const allSlotsNoTime = timeSlots.every(slot => slot.time === "時間指定なし");
 
   return (
     <div className="max-w-6xl mx-auto space-y-6" data-testid="participant-response">
@@ -106,12 +110,21 @@ export default function ParticipantResponse({
                 </div>
               </div>
 
-              <WeeklyCalendar
-                selectedSlots={selectedSlots}
-                onSlotsChange={setSelectedSlots}
-                mode="respond"
-                availableSlots={availableSlots}
-              />
+              {allSlotsNoTime ? (
+                <MonthlyCalendar
+                  selectedSlots={selectedSlots}
+                  onSlotsChange={setSelectedSlots}
+                  mode="respond"
+                  availableSlots={availableSlots}
+                />
+              ) : (
+                <WeeklyCalendar
+                  selectedSlots={selectedSlots}
+                  onSlotsChange={setSelectedSlots}
+                  mode="respond"
+                  availableSlots={availableSlots}
+                />
+              )}
             </div>
 
             <div className="space-y-2">
