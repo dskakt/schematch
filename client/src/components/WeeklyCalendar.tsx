@@ -200,6 +200,8 @@ export default function WeeklyCalendar({
                       <>
                         <span className="font-semibold">{parts[0]}</span>-{parts[1]}
                       </>
+                    ) : time === "時間指定なし" ? (
+                      <span className="font-semibold">{time}</span>
                     ) : (
                       time
                     )}
@@ -276,6 +278,8 @@ export default function WeeklyCalendar({
                       <>
                         <span className="font-semibold">{parts[0]}</span>-{parts[1]}
                       </>
+                    ) : time === "時間指定なし" ? (
+                      <span className="font-semibold">{time}</span>
                     ) : (
                       time
                     )}
