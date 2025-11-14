@@ -119,7 +119,7 @@ export default function CreatePoll() {
                           <FormLabel className="text-lg font-semibold">①投票タイトル</FormLabel>
                           <FormControl>
                             <Input 
-                              placeholder="例: プレゼントの候補" 
+                              placeholder="例: 週末の旅行" 
                               {...field}
                               data-testid="input-poll-title"
                             />
