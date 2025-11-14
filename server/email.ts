@@ -187,14 +187,6 @@ export async function sendPollOrganizerEmail({
         </p>
       </div>
       
-      <div style="background-color: #e8f5e9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="margin-top: 0; color: #555;">結果確認リンク</h3>
-        <p style="margin: 10px 0;">投票結果をいつでも確認できます：</p>
-        <p style="word-break: break-all; background-color: white; padding: 10px; border-radius: 4px;">
-          <a href="${resultsLink}" style="color: #2e7d32;">${resultsLink}</a>
-        </p>
-      </div>
-      
       <p style="color: #999; font-size: 12px; text-align: center; margin-top: 30px; border-top: 1px solid #e5e5e5; padding-top: 20px;">
         入力したデータはすべて１年後に自動的に削除されます。
       </p>
@@ -213,9 +205,6 @@ export async function sendPollOrganizerEmail({
 
 投票用リンク:
 ${participantLink}
-
-結果確認リンク:
-${resultsLink}
     `);
     console.log("=========================\n");
     console.log("ℹ️  実際のメール送信を有効にするには、RESEND_API_KEY環境変数を設定してください。");
