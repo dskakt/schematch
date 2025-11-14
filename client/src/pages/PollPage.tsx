@@ -119,7 +119,15 @@ export default function PollPage() {
             <h1 className="text-3xl font-bold mb-2" style={{ color: 'hsl(var(--sorematch-primary))' }}>
               ソレマッチ！
             </h1>
-            <p className="text-sm text-muted-foreground">登録不要・簡単投票マッチング！</p>
+            <div className="flex items-center justify-center gap-4">
+              <img 
+                src="/favicon-sorematch.svg" 
+                alt="ソレマッチ！" 
+                className="w-12 h-12" 
+                data-testid="icon-sorematch-logo-large" 
+              />
+              <p className="text-sm text-muted-foreground">登録不要・簡単投票マッチング！</p>
+            </div>
           </div>
 
           {submitted ? (
