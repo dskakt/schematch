@@ -256,6 +256,10 @@ export default function CreatePoll() {
                     >
                       {createPollMutation.isPending ? "作成中..." : "投票を作成"}
                     </Button>
+                    
+                    <p className="text-sm text-muted-foreground text-center" data-testid="text-data-retention">
+                      入力したデータはすべて１年後に自動的に削除されます。
+                    </p>
                   </form>
                 </Form>
               </CardContent>
