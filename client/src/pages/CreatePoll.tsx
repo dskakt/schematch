@@ -162,7 +162,7 @@ export default function CreatePoll() {
                             />
                           </FormControl>
                           <p className="text-sm text-muted-foreground" data-testid="text-email-description">
-                            参加者に送る投票リンクや結果を送信します
+                            参加者に送る投票リンクや集計結果を送信します
                           </p>
                           <FormMessage />
                         </FormItem>
