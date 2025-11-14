@@ -32,7 +32,6 @@ type PollFormData = z.infer<typeof pollFormSchema>;
 
 export default function CreatePoll() {
   const [participantLink, setParticipantLink] = useState("");
-  const [resultsLink, setResultsLink] = useState("");
   const [copied, setCopied] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const { toast } = useToast();
@@ -63,7 +62,6 @@ export default function CreatePoll() {
     },
     onSuccess: (data: { poll: Poll; pollOptions: PollOption[]; participantLink: string; resultsLink: string }) => {
       setParticipantLink(data.participantLink);
-      setResultsLink(data.resultsLink);
       setIsComplete(true);
       toast({
         title: "投票を作成しました",
@@ -274,7 +272,7 @@ export default function CreatePoll() {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium">参加用リンク</label>
+                  <label className="text-sm font-medium">参加者用リンク</label>
                   <div className="flex gap-2">
                     <Input
                       value={participantLink}
@@ -290,15 +288,6 @@ export default function CreatePoll() {
                       {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
                     </Button>
                   </div>
-                </div>
-
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">結果確認用リンク</label>
-                  <Input
-                    value={resultsLink}
-                    readOnly
-                    data-testid="text-results-link"
-                  />
                 </div>
 
                 <div className="bg-muted p-4 rounded-md text-sm text-muted-foreground">
