@@ -104,6 +104,10 @@ export default function CreatePoll() {
         <Header />
         
         <main className="flex-1 container max-w-3xl mx-auto px-4 md:px-6 py-8">
+          <div className="text-center mb-4">
+            <p className="text-lg text-muted-foreground" data-testid="text-page-tagline">登録不要・簡単投票マッチング！</p>
+          </div>
+          
           {!isComplete && (
             <Card>
               <CardContent className="pt-6">
