@@ -91,6 +91,10 @@ export default function CreateEvent() {
           <Card>
             <CardContent className="pt-6">
               <form onSubmit={handleCreateEvent} className="space-y-6">
+                <div className="space-y-1 mb-6">
+                  <h2 className="text-xl font-semibold" data-testid="text-form-heading">日程調整を始める</h2>
+                  <p className="text-sm text-muted-foreground" data-testid="text-form-description">以下の順番で入力してください</p>
+                </div>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="title" className="text-lg font-semibold" data-testid="label-title">① イベント名</Label>
