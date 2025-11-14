@@ -22,18 +22,10 @@ const pollFormSchema = z.object({
   description: z.string().optional(),
   organizerEmail: z.string().email("有効なメールアドレスを入力してください"),
   allowMultiple: z.boolean(),
-  options: z.array(z.object({ text: z.string() }))
-    .min(2, "選択肢は最低2つ必要です")
-    .superRefine((options, ctx) => {
-      const validOptions = options.filter(opt => opt.text.trim() !== "");
-      if (validOptions.length < 2) {
-        ctx.addIssue({
-          code: z.ZodIssueCode.custom,
-          message: "選択肢は最低2つ必要です",
-          path: [],
-        });
-      }
-    }),
+  options: z.array(z.object({ 
+    text: z.string().trim().min(1, "選択肢を入力してください") 
+  }))
+    .min(2, "選択肢は最低2つ必要です"),
 });
 
 type PollFormData = z.infer<typeof pollFormSchema>;
@@ -63,10 +55,8 @@ export default function CreatePoll() {
 
   const createPollMutation = useMutation({
     mutationFn: async (data: PollFormData) => {
-      const validOptions = data.options.filter(opt => opt.text.trim() !== "");
       const res = await apiRequest("POST", "/api/polls", { 
-        ...data, 
-        options: validOptions,
+        ...data,
         origin: window.location.origin 
       });
       return await res.json();
@@ -114,20 +104,9 @@ export default function CreatePoll() {
         <Header />
         
         <main className="flex-1 container max-w-3xl mx-auto px-4 md:px-6 py-8">
-          <div className="mb-8 text-center">
-            <h1 className="text-4xl font-bold mb-2" style={{ color: 'hsl(var(--sorematch-primary))' }}>
-              ソレマッチ！
-            </h1>
-            <p className="text-muted-foreground">登録不要・簡単投票マッチング！</p>
-          </div>
-
           {!isComplete && (
             <Card>
-              <CardHeader>
-                <CardTitle>投票を作成</CardTitle>
-                <CardDescription>投票のタイトル、選択肢、メールアドレスを入力してください</CardDescription>
-              </CardHeader>
-              <CardContent>
+              <CardContent className="pt-6">
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <FormField
@@ -135,7 +114,7 @@ export default function CreatePoll() {
                       name="title"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>投票タイトル</FormLabel>
+                          <FormLabel>①投票タイトル</FormLabel>
                           <FormControl>
                             <Input 
                               placeholder="例: 忘年会の日程" 
@@ -171,7 +150,7 @@ export default function CreatePoll() {
                       name="organizerEmail"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>メールアドレス</FormLabel>
+                          <FormLabel>②メールアドレス（主催者）</FormLabel>
                           <FormControl>
                             <Input 
                               type="email"
@@ -185,27 +164,8 @@ export default function CreatePoll() {
                       )}
                     />
 
-                    <FormField
-                      control={form.control}
-                      name="allowMultiple"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                          <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                              data-testid="checkbox-allow-multiple"
-                            />
-                          </FormControl>
-                          <div className="space-y-1 leading-none">
-                            <FormLabel>複数選択を許可する</FormLabel>
-                          </div>
-                        </FormItem>
-                      )}
-                    />
-
                     <div className="space-y-3 pt-2">
-                      <FormLabel>選択肢（最低2つ）</FormLabel>
+                      <FormLabel>③選択肢の作成（最低２つ）</FormLabel>
                       {fields.map((field, index) => (
                         <FormField
                           key={field.id}
@@ -214,13 +174,16 @@ export default function CreatePoll() {
                           render={({ field: inputField }) => (
                             <FormItem>
                               <div className="flex gap-2">
-                                <FormControl>
-                                  <Input
-                                    {...inputField}
-                                    placeholder={`選択肢 ${index + 1}`}
-                                    data-testid={`input-option-${index}`}
-                                  />
-                                </FormControl>
+                                <div className="flex-1">
+                                  <FormControl>
+                                    <Input
+                                      {...inputField}
+                                      placeholder={`選択肢 ${index + 1}`}
+                                      data-testid={`input-option-${index}`}
+                                    />
+                                  </FormControl>
+                                  <FormMessage />
+                                </div>
                                 {fields.length > 2 && (
                                   <Button
                                     type="button"
@@ -254,6 +217,25 @@ export default function CreatePoll() {
                         <Plus className="w-4 h-4 mr-2" />
                         選択肢を追加
                       </Button>
+
+                      <FormField
+                        control={form.control}
+                        name="allowMultiple"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                                data-testid="checkbox-allow-multiple"
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel>複数選択を許可する</FormLabel>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
                     </div>
 
                     <Button 
