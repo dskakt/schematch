@@ -118,7 +118,7 @@ export default function CreatePoll() {
                       name="title"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>①投票タイトル</FormLabel>
+                          <FormLabel className="text-lg font-semibold">①投票タイトル</FormLabel>
                           <FormControl>
                             <Input 
                               placeholder="例: 忘年会の日程" 
@@ -154,7 +154,7 @@ export default function CreatePoll() {
                       name="organizerEmail"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>②メールアドレス（主催者）</FormLabel>
+                          <FormLabel className="text-lg font-semibold">②メールアドレス（主催者）</FormLabel>
                           <FormControl>
                             <Input 
                               type="email"
@@ -169,7 +169,7 @@ export default function CreatePoll() {
                     />
 
                     <div className="space-y-3 pt-2">
-                      <FormLabel>③選択肢の作成（最低２つ）</FormLabel>
+                      <FormLabel className="text-lg font-semibold">③選択肢の作成（最低２つ）</FormLabel>
                       {fields.map((field, index) => (
                         <FormField
                           key={field.id}
