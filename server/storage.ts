@@ -22,15 +22,15 @@ function generateShortId(): string {
   return result;
 }
 
-// Generate a unique short ID for events (check for duplicates in events table)
-async function generateUniqueEventShortId(): Promise<string> {
+// Generate a unique short ID (check for duplicates)
+async function generateUniqueShortId(): Promise<string> {
   let shortId = generateShortId();
   let attempts = 0;
   const maxAttempts = 10;
   
   while (attempts < maxAttempts) {
-    const [existingEvent] = await db.select().from(events).where(eq(events.shortId, shortId));
-    if (!existingEvent) {
+    const [existing] = await db.select().from(events).where(eq(events.shortId, shortId));
+    if (!existing) {
       return shortId;
     }
     shortId = generateShortId();
@@ -63,7 +63,7 @@ export interface IStorage {
 export class DatabaseStorage implements IStorage {
   async createEvent(insertEvent: InsertEvent): Promise<Event> {
     // Generate unique short ID
-    const shortId = await generateUniqueEventShortId();
+    const shortId = await generateUniqueShortId();
     
     const [event] = await db
       .insert(events)
@@ -76,7 +76,7 @@ export class DatabaseStorage implements IStorage {
     // Use transaction to ensure atomicity
     return await db.transaction(async (tx) => {
       // Generate unique short ID
-      const shortId = await generateUniqueEventShortId();
+      const shortId = await generateUniqueShortId();
       
       const [event] = await tx
         .insert(events)
@@ -179,7 +179,6 @@ export class DatabaseStorage implements IStorage {
       return { event, timeSlots: slots };
     });
   }
-
 }
 
 export const storage = new DatabaseStorage();

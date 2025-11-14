@@ -301,8 +301,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // ========== Event Short URL Redirects ==========
-  
   // Short URL redirect: /e/:shortId -> /event/:id
   app.get("/e/:shortId", async (req, res) => {
     try {

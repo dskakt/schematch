@@ -85,13 +85,7 @@ export default function CreateEvent() {
       <Header />
       <main className="pt-4 pb-12 px-4 md:px-6 flex-1">
         <div className="max-w-6xl mx-auto">
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <img 
-              src="/favicon.svg" 
-              alt="スケマッチ！" 
-              className="w-12 h-12" 
-              data-testid="icon-logo-large" 
-            />
+          <div className="text-center mb-4">
             <p className="text-lg text-muted-foreground" data-testid="text-page-tagline">登録不要・仕事も飲み会も簡単日程調整</p>
           </div>
           <Card>

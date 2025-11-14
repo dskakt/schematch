@@ -8,22 +8,6 @@ MeetSync is a scheduling coordination application designed to streamline meeting
 
 Preferred communication style: Simple, everyday language.
 
-## SEO Metadata Patterns
-
-All pages use react-helmet-async for SEO optimization:
-
-- **Event Pages (スケマッチ！)**: Blue theme with keywords like 日程調整, スケジュール調整
-- **Poll Pages (ソレマッチ！)**: Green theme with keywords like 投票, アンケート
-- **Static Pages**: General site information with canonical URLs
-
-Standard Helmet structure:
-```tsx
-<Helmet>
-  <title>Page Title | スケマッチ！/ソレマッチ！</title>
-  <meta name="description" content="Descriptive text with keywords" />
-</Helmet>
-```
-
 ## System Architecture
 
 ### Frontend
@@ -66,19 +50,6 @@ Standard Helmet structure:
 - **Analytics:** Google Analytics 4
 - **Fonts:** Google Fonts (Inter only, optimized for performance)
 ## Recent Updates
-
-### November 14, 2025
-
-**ソレマッチ！（Poll/Voting App）Implementation:**
-- Implemented sibling app "ソレマッチ！" under /sorematch/ path
-- Added green brand color (--sorematch-primary: 142 70% 45%) for polls
-- Database schema: polls, pollOptions, votes tables with shortId uniqueness across events and polls
-- Backend API: Poll creation, vote submission, results retrieval with option ownership validation
-- Frontend pages: CreatePoll (/sorematch/), PollPage (/sorematch/poll/:id), PollResultsPage (/sorematch/poll/:id/results)
-- Email notifications: Poll creation and vote submission notifications using Resend
-- Short URLs: /p/:shortId for participation, /pr/:shortId for results
-- SEO: Helmet tags with green-themed metadata for all poll pages
-- Security: Validates that selected option IDs belong to the specified poll, preventing cross-poll tampering
 
 ### November 12, 2025
 

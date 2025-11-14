@@ -145,4 +145,3 @@ ${resultsLink}
     throw error;
   }
 }
-
