@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
@@ -22,16 +22,27 @@ const pollFormSchema = z.object({
   description: z.string().optional(),
   organizerEmail: z.string().email("有効なメールアドレスを入力してください"),
   allowMultiple: z.boolean(),
+  options: z.array(z.object({ text: z.string() }))
+    .min(2, "選択肢は最低2つ必要です")
+    .superRefine((options, ctx) => {
+      const validOptions = options.filter(opt => opt.text.trim() !== "");
+      if (validOptions.length < 2) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: "選択肢は最低2つ必要です",
+          path: [],
+        });
+      }
+    }),
 });
 
 type PollFormData = z.infer<typeof pollFormSchema>;
 
 export default function CreatePoll() {
-  const [step, setStep] = useState(1);
-  const [options, setOptions] = useState<string[]>(["", ""]);
   const [participantLink, setParticipantLink] = useState("");
   const [resultsLink, setResultsLink] = useState("");
   const [copied, setCopied] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
   const { toast } = useToast();
 
   const form = useForm<PollFormData>({
@@ -41,18 +52,29 @@ export default function CreatePoll() {
       description: "",
       organizerEmail: "",
       allowMultiple: false,
+      options: [{ text: "" }, { text: "" }],
     },
   });
 
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "options",
+  });
+
   const createPollMutation = useMutation({
-    mutationFn: async (data: { title: string; description?: string; organizerEmail: string; allowMultiple: boolean; options: { text: string }[] }) => {
-      const res = await apiRequest("POST", "/api/polls", { ...data, origin: window.location.origin });
+    mutationFn: async (data: PollFormData) => {
+      const validOptions = data.options.filter(opt => opt.text.trim() !== "");
+      const res = await apiRequest("POST", "/api/polls", { 
+        ...data, 
+        options: validOptions,
+        origin: window.location.origin 
+      });
       return await res.json();
     },
     onSuccess: (data: { poll: Poll; pollOptions: PollOption[]; participantLink: string; resultsLink: string }) => {
       setParticipantLink(data.participantLink);
       setResultsLink(data.resultsLink);
-      setStep(3);
+      setIsComplete(true);
       toast({
         title: "投票を作成しました",
         description: "参加者に投票リンクを共有してください",
@@ -67,46 +89,8 @@ export default function CreatePoll() {
     },
   });
 
-  const addOption = () => {
-    setOptions([...options, ""]);
-  };
-
-  const removeOption = (index: number) => {
-    if (options.length > 2) {
-      setOptions(options.filter((_, i) => i !== index));
-    }
-  };
-
-  const updateOption = (index: number, value: string) => {
-    const newOptions = [...options];
-    newOptions[index] = value;
-    setOptions(newOptions);
-  };
-
-  const handleNext = () => {
-    if (step === 1) {
-      form.trigger().then((isValid) => {
-        if (isValid) {
-          setStep(2);
-        }
-      });
-    } else if (step === 2) {
-      const validOptions = options.filter(opt => opt.trim() !== "");
-      if (validOptions.length < 2) {
-        toast({
-          variant: "destructive",
-          title: "エラー",
-          description: "選択肢は最低2つ必要です",
-        });
-        return;
-      }
-      
-      const formData = form.getValues();
-      createPollMutation.mutate({
-        ...formData,
-        options: validOptions.map(text => ({ text })),
-      });
-    }
+  const onSubmit = (data: PollFormData) => {
+    createPollMutation.mutate(data);
   };
 
   const copyLink = () => {
@@ -137,15 +121,15 @@ export default function CreatePoll() {
             <p className="text-muted-foreground">登録不要・簡単投票マッチング！</p>
           </div>
 
-          {step === 1 && (
+          {!isComplete && (
             <Card>
               <CardHeader>
-                <CardTitle>① 投票情報を入力</CardTitle>
-                <CardDescription>投票のタイトルとあなたのメールアドレスを入力してください</CardDescription>
+                <CardTitle>投票を作成</CardTitle>
+                <CardDescription>投票のタイトル、選択肢、メールアドレスを入力してください</CardDescription>
               </CardHeader>
               <CardContent>
                 <Form {...form}>
-                  <form onSubmit={form.handleSubmit(() => handleNext())} className="space-y-6">
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
                     <FormField
                       control={form.control}
                       name="title"
@@ -220,17 +204,70 @@ export default function CreatePoll() {
                       )}
                     />
 
+                    <div className="space-y-3 pt-2">
+                      <FormLabel>選択肢（最低2つ）</FormLabel>
+                      {fields.map((field, index) => (
+                        <FormField
+                          key={field.id}
+                          control={form.control}
+                          name={`options.${index}.text`}
+                          render={({ field: inputField }) => (
+                            <FormItem>
+                              <div className="flex gap-2">
+                                <FormControl>
+                                  <Input
+                                    {...inputField}
+                                    placeholder={`選択肢 ${index + 1}`}
+                                    data-testid={`input-option-${index}`}
+                                  />
+                                </FormControl>
+                                {fields.length > 2 && (
+                                  <Button
+                                    type="button"
+                                    variant="ghost"
+                                    size="icon"
+                                    onClick={() => remove(index)}
+                                    data-testid={`button-remove-option-${index}`}
+                                  >
+                                    <X className="w-4 h-4" />
+                                  </Button>
+                                )}
+                              </div>
+                            </FormItem>
+                          )}
+                        />
+                      ))}
+                      
+                      {form.formState.errors.options && (
+                        <p className="text-sm text-destructive">
+                          {form.formState.errors.options.message}
+                        </p>
+                      )}
+                      
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={() => append({ text: "" })}
+                        className="w-full"
+                        data-testid="button-add-option"
+                      >
+                        <Plus className="w-4 h-4 mr-2" />
+                        選択肢を追加
+                      </Button>
+                    </div>
+
                     <Button 
                       type="submit" 
+                      disabled={createPollMutation.isPending}
                       className="w-full"
                       style={{ 
                         backgroundColor: 'hsl(var(--sorematch-primary))',
                         color: 'hsl(var(--sorematch-primary-foreground))',
                         borderColor: 'hsl(var(--sorematch-primary-border))'
                       }}
-                      data-testid="button-next-step"
+                      data-testid="button-create-poll"
                     >
-                      次へ
+                      {createPollMutation.isPending ? "作成中..." : "投票を作成"}
                     </Button>
                   </form>
                 </Form>
@@ -238,72 +275,7 @@ export default function CreatePoll() {
             </Card>
           )}
 
-          {step === 2 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>② 選択肢を入力</CardTitle>
-                <CardDescription>投票の選択肢を追加してください（最低2つ）</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {options.map((option, index) => (
-                  <div key={index} className="flex gap-2">
-                    <Input
-                      value={option}
-                      onChange={(e) => updateOption(index, e.target.value)}
-                      placeholder={`選択肢 ${index + 1}`}
-                      data-testid={`input-option-${index}`}
-                    />
-                    {options.length > 2 && (
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => removeOption(index)}
-                        data-testid={`button-remove-option-${index}`}
-                      >
-                        <X className="w-4 h-4" />
-                      </Button>
-                    )}
-                  </div>
-                ))}
-                
-                <Button
-                  variant="outline"
-                  onClick={addOption}
-                  className="w-full"
-                  data-testid="button-add-option"
-                >
-                  <Plus className="w-4 h-4 mr-2" />
-                  選択肢を追加
-                </Button>
-
-                <div className="flex gap-3 pt-4">
-                  <Button
-                    variant="outline"
-                    onClick={() => setStep(1)}
-                    className="flex-1"
-                    data-testid="button-back"
-                  >
-                    戻る
-                  </Button>
-                  <Button
-                    onClick={handleNext}
-                    disabled={createPollMutation.isPending}
-                    className="flex-1"
-                    style={{ 
-                      backgroundColor: 'hsl(var(--sorematch-primary))',
-                      color: 'hsl(var(--sorematch-primary-foreground))',
-                      borderColor: 'hsl(var(--sorematch-primary-border))'
-                    }}
-                    data-testid="button-create-poll"
-                  >
-                    {createPollMutation.isPending ? "作成中..." : "投票を作成"}
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {step === 3 && (
+          {isComplete && (
             <Card>
               <CardHeader>
                 <CardTitle style={{ color: 'hsl(var(--sorematch-primary))' }}>
@@ -347,8 +319,7 @@ export default function CreatePoll() {
                 <Button
                   onClick={() => {
                     form.reset();
-                    setOptions(["", ""]);
-                    setStep(1);
+                    setIsComplete(false);
                   }}
                   variant="outline"
                   className="w-full"
