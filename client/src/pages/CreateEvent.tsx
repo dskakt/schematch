@@ -86,7 +86,7 @@ export default function CreateEvent() {
       <main className="pt-4 pb-12 px-4 md:px-6 flex-1">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-4">
-            <p className="text-lg text-muted-foreground" data-testid="text-page-tagline">登録不要・仕事も飲み会も簡単日程調整</p>
+            <p className="text-lg text-muted-foreground" data-testid="text-page-tagline">登録不要・仕事も飲み会もカンタン日程調整</p>
           </div>
           <Card>
             <CardContent className="pt-6">
