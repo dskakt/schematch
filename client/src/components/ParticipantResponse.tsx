@@ -96,19 +96,19 @@ export default function ParticipantResponse({
 
             <div className="space-y-3">
               <Label className="text-base font-semibold">
-                ② 参加可能な日時を選択
+                {allSlotsNoTime ? "② 参加可能な日を選択" : "② 参加可能な日時を選択"}
               </Label>
               <p className="text-sm text-muted-foreground mb-3">
-                参加できる日時をクリックしてください
+                {allSlotsNoTime ? "参加できる日をクリックしてください" : "参加できる日時をクリックしてください"}
               </p>
               <div className="flex items-center justify-center gap-4 text-sm mb-3">
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 bg-green-100 dark:bg-green-900/30 border border-green-300 dark:border-green-700 rounded"></div>
-                  <span className="text-muted-foreground">候補日時</span>
+                  <span className="text-muted-foreground">{allSlotsNoTime ? "候補日" : "候補日時"}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <div className="w-4 h-4 bg-primary rounded flex items-center justify-center text-xs text-primary-foreground">○</div>
-                  <span className="text-muted-foreground">あなたの参加可能な日時</span>
+                  <span className="text-muted-foreground">{allSlotsNoTime ? "あなたの参加可能な日" : "あなたの参加可能な日時"}</span>
                 </div>
               </div>
 
