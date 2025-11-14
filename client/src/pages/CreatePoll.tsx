@@ -158,11 +158,14 @@ export default function CreatePoll() {
                           <FormControl>
                             <Input 
                               type="email"
-                              placeholder="your@email.com" 
+                              placeholder="organizer@example.com" 
                               {...field}
                               data-testid="input-organizer-email"
                             />
                           </FormControl>
+                          <p className="text-sm text-muted-foreground" data-testid="text-email-description">
+                            参加者に送る投票リンクや結果を送信します
+                          </p>
                           <FormMessage />
                         </FormItem>
                       )}
