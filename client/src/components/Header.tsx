@@ -17,10 +17,15 @@ export default function Header() {
             />
             <Link 
               href="/" 
-              className="text-2xl font-semibold text-foreground hover:opacity-80 transition-opacity cursor-pointer" 
+              className="hover:opacity-80 transition-opacity cursor-pointer" 
               data-testid="text-app-name"
             >
-              スケマッチ！
+              <div className="text-2xl font-semibold text-foreground">
+                スケマッチ！
+              </div>
+              <div className="text-xs text-muted-foreground">
+                簡単日程調整
+              </div>
             </Link>
           </div>
           {isSorematch && (
@@ -33,10 +38,15 @@ export default function Header() {
               />
               <Link 
                 href="/sorematch" 
-                className="text-2xl font-semibold text-foreground hover:opacity-80 transition-opacity cursor-pointer" 
+                className="hover:opacity-80 transition-opacity cursor-pointer" 
                 data-testid="text-sorematch-link"
               >
-                ソレマッチ！
+                <div className="text-2xl font-semibold text-foreground">
+                  ソレマッチ！
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  シンプル投票
+                </div>
               </Link>
             </div>
           )}
