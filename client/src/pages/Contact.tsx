@@ -1,3 +1,4 @@
+import { Helmet } from "react-helmet-async";
 import { Link } from "wouter";
 import { ArrowLeft, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -5,6 +6,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 export default function Contact() {
   return (
+    <>
+      <Helmet>
+        <title>お問い合わせ | スケマッチ！</title>
+        <meta name="description" content="スケマッチ！へのお問い合わせ・ご要望はこちらから。サービスに関するご質問、機能のご要望など、お気軽にご連絡ください。" />
+      </Helmet>
     <div className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto px-4 py-12">
         <Link href="/">
@@ -98,5 +104,6 @@ export default function Contact() {
         </div>
       </div>
     </div>
+    </>
   );
 }

@@ -1,9 +1,15 @@
+import { Helmet } from "react-helmet-async";
 import { Link } from "wouter";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function PrivacyPolicy() {
   return (
+    <>
+      <Helmet>
+        <title>プライバシーポリシー | スケマッチ！</title>
+        <meta name="description" content="スケマッチ！のプライバシーポリシーです。個人情報の収集、利用目的、保存期間、セキュリティ対策について記載しています。" />
+      </Helmet>
     <div className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto px-4 py-12">
         <Link href="/">
@@ -95,5 +101,6 @@ export default function PrivacyPolicy() {
         </div>
       </div>
     </div>
+    </>
   );
 }

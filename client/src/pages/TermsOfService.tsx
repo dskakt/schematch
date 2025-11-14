@@ -1,9 +1,15 @@
+import { Helmet } from "react-helmet-async";
 import { Link } from "wouter";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export default function TermsOfService() {
   return (
+    <>
+      <Helmet>
+        <title>利用規約 | スケマッチ！</title>
+        <meta name="description" content="スケマッチ！の利用規約です。本サービスをご利用いただく際の条件、禁止事項、免責事項などについて記載しています。" />
+      </Helmet>
     <div className="min-h-screen bg-background">
       <div className="max-w-4xl mx-auto px-4 py-12">
         <Link href="/">
@@ -78,5 +84,6 @@ export default function TermsOfService() {
         </div>
       </div>
     </div>
+    </>
   );
 }
