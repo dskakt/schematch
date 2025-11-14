@@ -28,28 +28,26 @@ export default function Header() {
               </div>
             </Link>
           </div>
-          {isSorematch && (
-            <div className="flex items-center gap-2">
-              <img 
-                src="/favicon-sorematch.svg" 
-                alt="ソレマッチ！" 
-                className="w-6 h-6" 
-                data-testid="icon-sorematch-logo" 
-              />
-              <Link 
-                href="/sorematch" 
-                className="hover:opacity-80 transition-opacity cursor-pointer" 
-                data-testid="text-sorematch-link"
-              >
-                <div className="text-2xl font-semibold text-foreground leading-none">
-                  ソレマッチ！
-                </div>
-                <div className="text-xs text-muted-foreground">
-                  シンプル投票
-                </div>
-              </Link>
-            </div>
-          )}
+          <div className="flex items-center gap-2">
+            <img 
+              src="/favicon-sorematch.svg" 
+              alt="ソレマッチ！" 
+              className="w-6 h-6" 
+              data-testid="icon-sorematch-logo" 
+            />
+            <Link 
+              href="/sorematch" 
+              className="hover:opacity-80 transition-opacity cursor-pointer" 
+              data-testid="text-sorematch-link"
+            >
+              <div className="text-2xl font-semibold text-foreground leading-none">
+                ソレマッチ！
+              </div>
+              <div className="text-xs text-muted-foreground">
+                シンプル投票
+              </div>
+            </Link>
+          </div>
         </div>
       </div>
     </header>
