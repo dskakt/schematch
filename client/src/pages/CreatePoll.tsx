@@ -177,7 +177,7 @@ export default function CreatePoll() {
             <CardContent>
               <form onSubmit={handleCreatePoll} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="title">
+                  <Label htmlFor="title" className="text-[18px] font-semibold">
                     ① 投票タイトル
                   </Label>
                   <Input
@@ -191,7 +191,7 @@ export default function CreatePoll() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="description"> 説明（任意）</Label>
+                  <Label htmlFor="description" className="text-[18px] font-semibold">② 説明（任意）</Label>
                   <Textarea
                     id="description"
                     placeholder="投票の詳細や補足情報があれば入力してください"
@@ -203,9 +203,7 @@ export default function CreatePoll() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email">
-                    ③ メールアドレス
-                  </Label>
+                  <Label htmlFor="email" className="text-[18px] font-semibold">③ メールアドレス</Label>
                   <Input
                     id="email"
                     type="email"
@@ -221,7 +219,7 @@ export default function CreatePoll() {
                 </div>
 
                 <div className="space-y-3">
-                  <Label>④ 選択肢を入力</Label>
+                  <Label className="text-[18px] font-semibold">④ 選択肢を入力</Label>
                   {options.map((option, index) => (
                     <div key={index} className="flex gap-2">
                       <Input
