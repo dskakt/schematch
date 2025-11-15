@@ -82,6 +82,7 @@ export const polls = pgTable("polls", {
   title: text("title").notNull(),
   description: text("description"),
   organizerEmail: text("organizer_email").notNull(),
+  allowMultiple: text("allow_multiple").notNull().default("false"),
   editToken: varchar("edit_token").notNull().unique(),
   shortId: varchar("short_id", { length: 6 }).notNull().unique(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
