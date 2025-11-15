@@ -11,7 +11,6 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { BarChart3 } from "lucide-react";
 
 interface Poll {
   id: string;
@@ -278,7 +277,6 @@ export default function PollPage() {
                     className="border-green-600 text-green-600 hover:bg-green-50"
                     data-testid="button-view-results"
                   >
-                    <BarChart3 className="h-4 w-4 mr-2" />
                     結果を見る
                   </Button>
                 </div>

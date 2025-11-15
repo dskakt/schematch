@@ -172,7 +172,7 @@ export async function sendPollOrganizerEmail({
 }: SendPollOrganizerEmailParams): Promise<void> {
   const emailContent = `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-      <p>ソレマッチをご利用いただきありがとうございます！</p>
+      <p>ソレマッチ！をご利用いただきありがとうございます！</p>
       
       <div style="background-color: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
         <h3 style="margin-top: 0; color: #555;">投票タイトル</h3>
@@ -184,14 +184,6 @@ export async function sendPollOrganizerEmail({
         <p style="margin: 10px 0;">このリンクを参加者に送信してください：</p>
         <p style="word-break: break-all; background-color: white; padding: 10px; border-radius: 4px;">
           <a href="${participantLink}" style="color: #16a34a;">${participantLink}</a>
-        </p>
-      </div>
-      
-      <div style="background-color: #dcfce7; padding: 20px; border-radius: 8px; margin: 20px 0;">
-        <h3 style="margin-top: 0; color: #555;">集計結果リンク</h3>
-        <p style="margin: 10px 0;">投票状況を確認できます：</p>
-        <p style="word-break: break-all; background-color: white; padding: 10px; border-radius: 4px;">
-          <a href="${resultsLink}" style="color: #16a34a;">${resultsLink}</a>
         </p>
       </div>
       
@@ -226,7 +218,7 @@ ${resultsLink}
     const resend = new Resend(apiKey);
     
     await resend.emails.send({
-      from: 'ソレマッチ <onboarding@resend.dev>',
+      from: 'ソレマッチ！ <onboarding@resend.dev>',
       to: organizerEmail,
       subject: `投票「${pollTitle}」を作成しました`,
       html: emailContent,
@@ -266,7 +258,7 @@ export async function sendVoteNotification({
         </p>
       </div>
       
-      <p style="color: #666; font-size: 14px;">このメールはソレマッチから自動送信されています。</p>
+      <p style="color: #666; font-size: 14px;">このメールはソレマッチ！から自動送信されています。</p>
       
       <p style="color: #999; font-size: 12px; text-align: center; margin-top: 30px; border-top: 1px solid #e5e5e5; padding-top: 20px;">
         入力したデータはすべて１年後に自動的に削除されます。
@@ -297,7 +289,7 @@ ${resultsLink}
     const resend = new Resend(apiKey);
     
     await resend.emails.send({
-      from: 'ソレマッチ <onboarding@resend.dev>',
+      from: 'ソレマッチ！ <onboarding@resend.dev>',
       to: organizerEmail,
       subject: `${pollTitle} - 新しい投票が届きました`,
       html: emailContent,
