@@ -94,7 +94,7 @@ export default function CreatePoll() {
               </CardHeader>
               <CardContent className="space-y-6">
                 <div>
-                  <Label className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-muted-foreground text-[18px] font-semibold">
+                  <Label className="font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-sm text-[#171717]">
                     投票タイトル
                   </Label>
                   <p className="text-lg font-medium" data-testid="text-poll-title">
