@@ -10,6 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { apiRequest } from "@/lib/queryClient";
 import { X, Plus } from "lucide-react";
+import { QRCodeSVG } from "qrcode.react";
 
 export default function CreatePoll() {
   const [, setLocation] = useLocation();
@@ -102,7 +103,7 @@ export default function CreatePoll() {
                   </p>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-4">
                   <Label className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[18px] font-semibold">参加者用リンク</Label>
                   <div className="flex gap-2">
                     <Input
@@ -122,8 +123,19 @@ export default function CreatePoll() {
                       コピー
                     </Button>
                   </div>
-                  <p className="text-sm text-muted-foreground">
-                    このリンクを参加者に共有してください
+                  
+                  <div className="flex justify-center pt-2">
+                    <div className="p-4 bg-white rounded-lg border" data-testid="qrcode-container">
+                      <QRCodeSVG 
+                        value={createdPoll.participantLink}
+                        size={200}
+                        level="M"
+                        data-testid="qrcode-participant"
+                      />
+                    </div>
+                  </div>
+                  <p className="text-sm text-muted-foreground text-center">
+                    QRコードをスキャンしても参加できます
                   </p>
                 </div>
               </CardContent>
