@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { apiRequest } from "@/lib/queryClient";
 import { X, Plus } from "lucide-react";
@@ -16,6 +17,7 @@ export default function CreatePoll() {
   const [description, setDescription] = useState("");
   const [email, setEmail] = useState("");
   const [options, setOptions] = useState<string[]>(["", ""]);
+  const [allowMultiple, setAllowMultiple] = useState(false);
   const [createdPoll, setCreatedPoll] = useState<{
     pollId: string;
     pollTitle: string;
@@ -54,6 +56,7 @@ export default function CreatePoll() {
         title,
         description: description || undefined,
         organizerEmail: email,
+        allowMultiple: allowMultiple ? "true" : "false",
         options: validOptions,
         origin: window.location.origin,
       });
@@ -249,6 +252,21 @@ export default function CreatePoll() {
                     <Plus className="h-4 w-4 mr-2" />
                     選択肢を追加
                   </Button>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="allowMultiple"
+                    checked={allowMultiple}
+                    onCheckedChange={(checked) => setAllowMultiple(checked === true)}
+                    data-testid="checkbox-allow-multiple"
+                  />
+                  <Label
+                    htmlFor="allowMultiple"
+                    className="text-sm font-normal cursor-pointer"
+                  >
+                    複数選択を許可する
+                  </Label>
                 </div>
 
                 <Button
