@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { normalizeTimeSlot } from "../shared/timeUtils";
-import { sendOrganizerEmail, sendResponseNotification } from "./email";
+import { sendOrganizerEmail, sendResponseNotification, sendPollOrganizerEmail, sendVoteNotification } from "./email";
 import { z } from "zod";
 import { randomBytes } from "crypto";
 
@@ -362,6 +362,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const participantLink = `${baseUrl}/p/${poll.shortId}`;
       const resultsLink = `${baseUrl}/pv/${poll.shortId}`;
       
+      // Send email to organizer (non-blocking)
+      sendPollOrganizerEmail({
+        organizerEmail: poll.organizerEmail,
+        pollTitle: poll.title,
+        pollId: poll.id,
+        participantLink,
+        resultsLink,
+      }).catch(error => {
+        console.error("Failed to send poll organizer email:", error);
+        // Don't fail the request if email sending fails
+      });
+      
       res.json({
         pollId: poll.id,
         pollTitle: poll.title,
@@ -410,6 +422,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const data = createVoteRequestSchema.parse(req.body);
       
+      // Get poll to access organizer email
+      const poll = await storage.getPoll(req.params.id);
+      if (!poll) {
+        return res.status(404).json({ error: "Poll not found" });
+      }
+      
       // Create votes for all selected options
       const votesToCreate = data.selectedOptionIds.map(optionId => ({
         pollId: req.params.id,
@@ -418,6 +436,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
       }));
       
       const createdVotes = await storage.createVotes(votesToCreate);
+      
+      // Construct results link
+      let baseUrl = getTrustedBaseUrl();
+      if (data.origin) {
+        try {
+          const originUrl = new URL(data.origin);
+          const trustedUrl = new URL(baseUrl);
+          const isLocalhost = originUrl.hostname === 'localhost' || originUrl.hostname === '127.0.0.1';
+          const isSameDomain = originUrl.hostname === trustedUrl.hostname;
+          const isReplitDomain = originUrl.hostname.endsWith('.replit.app') || originUrl.hostname.endsWith('.repl.co');
+          
+          if (isLocalhost || isSameDomain || isReplitDomain) {
+            baseUrl = data.origin;
+          } else {
+            console.warn('Untrusted origin rejected:', data.origin);
+          }
+        } catch (error) {
+          console.warn('Invalid origin URL provided:', data.origin);
+        }
+      }
+      const resultsLink = `${baseUrl}/pv/${poll.shortId}`;
+      
+      // Get all votes to get unique voter names
+      const allVotes = await storage.getVotesByPoll(req.params.id);
+      const voterNames = Array.from(new Set(allVotes.map(v => v.voterName)));
+      
+      // Send notification email to organizer (non-blocking)
+      sendVoteNotification({
+        organizerEmail: poll.organizerEmail,
+        pollTitle: poll.title,
+        voterNames,
+        resultsLink,
+      }).catch(error => {
+        console.error("Failed to send vote notification email:", error);
+        // Don't fail the request if email sending fails
+      });
       
       res.json(createdVotes);
     } catch (error) {
