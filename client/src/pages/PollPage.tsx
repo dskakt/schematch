@@ -263,14 +263,6 @@ export default function PollPage() {
 
                 <div className="flex gap-3">
                   <Button
-                    type="submit"
-                    className="flex-1 bg-green-600 hover:bg-green-700 text-white"
-                    disabled={submitVoteMutation.isPending}
-                    data-testid="button-submit-vote"
-                  >
-                    {submitVoteMutation.isPending ? "送信中..." : "投票する"}
-                  </Button>
-                  <Button
                     type="button"
                     variant="outline"
                     onClick={() => setLocation(`/poll/${pollId}/results`)}
@@ -278,6 +270,14 @@ export default function PollPage() {
                     data-testid="button-view-results"
                   >
                     結果を見る
+                  </Button>
+                  <Button
+                    type="submit"
+                    className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                    disabled={submitVoteMutation.isPending}
+                    data-testid="button-submit-vote"
+                  >
+                    {submitVoteMutation.isPending ? "送信中..." : "投票する"}
                   </Button>
                 </div>
               </form>
