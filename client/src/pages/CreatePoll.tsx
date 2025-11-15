@@ -219,7 +219,7 @@ export default function CreatePoll() {
                 </div>
 
                 <div className="space-y-3">
-                  <Label className="text-[18px] font-semibold">④ 選択肢を入力</Label>
+                  <Label className="text-[18px] font-semibold">③ 選択肢を入力</Label>
                   {options.map((option, index) => (
                     <div key={index} className="flex gap-2">
                       <Input
