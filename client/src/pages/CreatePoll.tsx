@@ -9,7 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { apiRequest } from "@/lib/queryClient";
-import { X, Plus, Check, Copy, Link as LinkIcon } from "lucide-react";
+import { X, Plus, Check, Copy, Link as LinkIcon, Vote, Mail, ListChecks } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -209,7 +209,8 @@ export default function CreatePoll() {
             <CardContent>
               <form onSubmit={handleCreatePoll} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="title" className="text-[18px] font-semibold">
+                  <Label htmlFor="title" className="text-[18px] font-semibold flex items-center gap-2">
+                    <Vote className="h-5 w-5 text-green-600" />
                     ① 投票タイトル
                   </Label>
                   <Input
@@ -235,7 +236,10 @@ export default function CreatePoll() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-[18px] font-semibold">② メールアドレス（主催者）</Label>
+                  <Label htmlFor="email" className="text-[18px] font-semibold flex items-center gap-2">
+                    <Mail className="h-5 w-5 text-green-600" />
+                    ② メールアドレス（主催者）
+                  </Label>
                   <Input
                     id="email"
                     type="email"
@@ -249,7 +253,10 @@ export default function CreatePoll() {
                 </div>
 
                 <div className="space-y-3">
-                  <Label className="text-[18px] font-semibold">③ 選択肢を入力</Label>
+                  <Label className="text-[18px] font-semibold flex items-center gap-2">
+                    <ListChecks className="h-5 w-5 text-green-600" />
+                    ③ 選択肢を入力
+                  </Label>
                   {options.map((option, index) => (
                     <div key={index} className="flex gap-2">
                       <Input
