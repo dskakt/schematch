@@ -10,7 +10,7 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <img 
-              src="/favicon.svg" 
+              src={isPollPage ? "/sorematch-favicon.svg" : "/favicon.svg"} 
               alt={isPollPage ? "ソレマッチ！" : "スケマッチ！"} 
               className="w-6 h-6" 
               data-testid="icon-logo" 
