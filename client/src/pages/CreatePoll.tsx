@@ -170,7 +170,7 @@ export default function CreatePoll() {
           <Card>
             <CardHeader>
               <CardTitle className="text-center">投票を準備しよう！</CardTitle>
-              <p className="text-sm text-muted-foreground text-center mt-2">
+              <p className="text-sm text-muted-foreground mt-2 text-left">
                 以下の順番で入力してください
               </p>
             </CardHeader>
