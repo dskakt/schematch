@@ -210,8 +210,8 @@ export default function CreatePoll() {
               <form onSubmit={handleCreatePoll} className="space-y-6">
                 <div className="space-y-2">
                   <Label htmlFor="title" className="text-[18px] font-semibold flex items-center gap-2">
-                    <Vote className="h-5 w-5 text-green-600" />
                     ① 投票タイトル
+                    <Vote className="h-5 w-5 text-green-600" />
                   </Label>
                   <Input
                     id="title"
@@ -237,8 +237,8 @@ export default function CreatePoll() {
 
                 <div className="space-y-2">
                   <Label htmlFor="email" className="text-[18px] font-semibold flex items-center gap-2">
-                    <Mail className="h-5 w-5 text-green-600" />
                     ② メールアドレス（主催者）
+                    <Mail className="h-5 w-5 text-green-600" />
                   </Label>
                   <Input
                     id="email"
@@ -254,8 +254,8 @@ export default function CreatePoll() {
 
                 <div className="space-y-3">
                   <Label className="text-[18px] font-semibold flex items-center gap-2">
-                    <ListChecks className="h-5 w-5 text-green-600" />
                     ③ 選択肢を入力
+                    <ListChecks className="h-5 w-5 text-green-600" />
                   </Label>
                   {options.map((option, index) => (
                     <div key={index} className="flex gap-2">
