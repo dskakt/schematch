@@ -166,7 +166,7 @@ export default function PollPage() {
                   <Label htmlFor="voter-name" className="text-[18px] font-semibold">お名前</Label>
                   <Input
                     id="voter-name"
-                    placeholder="お名前の入力"
+                    placeholder="お名前を入力"
                     value={voterName}
                     onChange={(e) => setVoterName(e.target.value)}
                     required
