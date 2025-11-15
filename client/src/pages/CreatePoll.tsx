@@ -103,7 +103,7 @@ export default function CreatePoll() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label>参加者用リンク</Label>
+                  <Label className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[18px] font-semibold">参加者用リンク</Label>
                   <div className="flex gap-2">
                     <Input
                       readOnly
