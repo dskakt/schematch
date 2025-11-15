@@ -213,9 +213,7 @@ export default function CreatePoll() {
                     required
                     data-testid="input-email"
                   />
-                  <p className="text-sm text-muted-foreground">
-                    投票結果の通知を受け取るメールアドレス
-                  </p>
+                  <p className="text-sm text-muted-foreground">参加者に送るリンクや投票結果を送信します</p>
                 </div>
 
                 <div className="space-y-3">
