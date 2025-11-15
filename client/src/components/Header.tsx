@@ -26,7 +26,7 @@ export default function Header() {
             </div>
           </Link>
           
-          <Link 
+          <a 
             href="/poll/create" 
             className="hover-elevate active-elevate-2 cursor-pointer group"
             data-testid="link-sorematch"
@@ -45,7 +45,7 @@ export default function Header() {
             <div className="text-muted-foreground ml-8 text-[13px]">
               シンプル投票
             </div>
-          </Link>
+          </a>
         </div>
       </div>
     </header>
