@@ -126,24 +126,6 @@ export default function CreatePoll() {
                     このリンクを参加者に共有してください
                   </p>
                 </div>
-
-                <div className="flex gap-3">
-                  <Button
-                    onClick={() => setLocation(`/poll/${createdPoll.pollId}/results`)}
-                    className="flex-1 bg-green-600 hover:bg-green-700 text-white"
-                    data-testid="button-view-results"
-                  >
-                    結果を見る
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={() => window.location.reload()}
-                    className="flex-1 border-green-600 text-green-600 hover:bg-green-50"
-                    data-testid="button-create-another"
-                  >
-                    新しい投票を作成
-                  </Button>
-                </div>
               </CardContent>
             </Card>
           </div>
