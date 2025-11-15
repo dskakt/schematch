@@ -194,9 +194,7 @@ export default function CreatePoll() {
             <p
               className="text-lg text-muted-foreground"
               data-testid="text-page-tagline"
-            >
-              登録不要・シンプル投票アプリ
-            </p>
+            >登録不要・秒でシンプル投票</p>
           </div>
 
           <Card>
