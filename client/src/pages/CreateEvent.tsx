@@ -97,6 +97,14 @@ export default function CreateEvent() {
       <main className="pt-4 pb-12 px-4 md:px-6 flex-1">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-4">
+            <div className="flex justify-center mb-2">
+              <img 
+                src="/favicon.svg" 
+                alt="スケマッチ！" 
+                className="w-16 h-16" 
+                data-testid="logo-schematch" 
+              />
+            </div>
             <p
               className="text-lg text-muted-foreground"
               data-testid="text-page-tagline"
