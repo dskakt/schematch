@@ -7,10 +7,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { apiRequest } from "@/lib/queryClient";
-import { X, Plus } from "lucide-react";
+import { X, Plus, Check, Copy, Link as LinkIcon } from "lucide-react";
 import { QRCodeSVG } from "qrcode.react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function CreatePoll() {
   const [, setLocation] = useLocation();
@@ -25,6 +26,8 @@ export default function CreatePoll() {
     participantLink: string;
   } | null>(null);
   const [isCreating, setIsCreating] = useState(false);
+  const [copiedParticipant, setCopiedParticipant] = useState(false);
+  const { toast } = useToast();
 
   const handleAddOption = () => {
     setOptions([...options, ""]);
@@ -39,6 +42,16 @@ export default function CreatePoll() {
     const newOptions = [...options];
     newOptions[index] = value;
     setOptions(newOptions);
+  };
+
+  const copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedParticipant(true);
+    setTimeout(() => setCopiedParticipant(false), 2000);
+    toast({
+      title: "コピーしました",
+      description: "参加者用リンクをクリップボードにコピーしました",
+    });
   };
 
   const handleCreatePoll = async (e: React.FormEvent) => {
@@ -86,60 +99,74 @@ export default function CreatePoll() {
       >
         <Header />
         <main className="py-12 px-6 flex-1">
-          <div className="max-w-3xl mx-auto">
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-2xl text-center">
-                  投票を作成しました！
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <Label className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[18px] font-semibold text-[#171717]">
-                    投票タイトル
-                  </Label>
-                  <p className="text-lg font-medium" data-testid="text-poll-title">
-                    {createdPoll.pollTitle}
-                  </p>
-                </div>
-
-                <div className="space-y-4">
-                  <Label className="peer-disabled:cursor-not-allowed peer-disabled:opacity-70 text-[18px] font-semibold">参加者用リンク</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      readOnly
-                      value={createdPoll.participantLink}
-                      className="flex-1"
-                      data-testid="input-participant-link"
-                    />
-                    <Button
-                      variant="outline"
-                      onClick={() => {
-                        navigator.clipboard.writeText(createdPoll.participantLink);
-                        alert("リンクをコピーしました！");
-                      }}
-                      data-testid="button-copy-link"
-                    >
-                      コピー
-                    </Button>
+          <div className="max-w-2xl mx-auto space-y-6">
+            <Card className="border-green-600/20 bg-green-600/5" data-testid="card-success">
+              <CardContent className="pt-6">
+                <div className="flex flex-col items-center text-center space-y-4">
+                  <div className="w-16 h-16 rounded-full bg-green-600/10 flex items-center justify-center">
+                    <Check className="w-8 h-8 text-green-600" data-testid="icon-success" />
                   </div>
-                  
-                  <div className="flex justify-center pt-2">
-                    <div className="p-4 bg-white rounded-lg border" data-testid="qrcode-container">
-                      <QRCodeSVG 
-                        value={createdPoll.participantLink}
-                        size={200}
-                        level="M"
-                        data-testid="qrcode-participant"
-                      />
-                    </div>
+                  <div>
+                    <h2 className="text-2xl font-semibold mb-2" data-testid="text-success-title">
+                      投票を作成しました！
+                    </h2>
+                    <p className="text-muted-foreground" data-testid="text-success-message">
+                      参加者にリンクを送って投票を開始しましょう！
+                    </p>
                   </div>
-                  <p className="text-sm text-muted-foreground text-center">
-                    QRコードをスキャンしても参加できます
-                  </p>
                 </div>
               </CardContent>
             </Card>
+
+            <Card data-testid="card-participant-link">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2" data-testid="text-participant-title">
+                  <LinkIcon className="w-5 h-5" />
+                  参加者用リンク
+                </CardTitle>
+                <CardDescription data-testid="text-participant-description">
+                  このリンクを参加者に送信してください
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex gap-2">
+                  <Input
+                    value={createdPoll.participantLink}
+                    readOnly
+                    data-testid="input-participant-link"
+                  />
+                  <Button
+                    onClick={() => copyToClipboard(createdPoll.participantLink)}
+                    variant="outline"
+                    data-testid="button-copy-participant"
+                  >
+                    {copiedParticipant ? (
+                      <Check className="w-4 h-4" />
+                    ) : (
+                      <Copy className="w-4 h-4" />
+                    )}
+                  </Button>
+                </div>
+                
+                <div className="flex justify-center pt-2">
+                  <div className="p-4 bg-white rounded-lg border" data-testid="qrcode-container">
+                    <QRCodeSVG 
+                      value={createdPoll.participantLink}
+                      size={200}
+                      level="M"
+                      data-testid="qrcode-participant"
+                    />
+                  </div>
+                </div>
+                <p className="text-sm text-muted-foreground text-center">
+                  QRコードをスキャンしても参加できます
+                </p>
+              </CardContent>
+            </Card>
+
+            <p className="text-sm text-muted-foreground text-center" data-testid="text-email-sent">
+              参加者用リンクを含む確認メールがメールアドレスに送信されました
+            </p>
           </div>
         </main>
         <Footer />
