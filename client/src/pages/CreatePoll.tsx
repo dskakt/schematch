@@ -203,7 +203,7 @@ export default function CreatePoll() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="email" className="text-[18px] font-semibold">③ メールアドレス</Label>
+                  <Label htmlFor="email" className="text-[18px] font-semibold">② メールアドレス</Label>
                   <Input
                     id="email"
                     type="email"
