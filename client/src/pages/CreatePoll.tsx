@@ -269,14 +269,19 @@ export default function CreatePoll() {
                   </Label>
                 </div>
 
-                <Button
-                  type="submit"
-                  className="w-full bg-green-600 hover:bg-green-700 text-white"
-                  disabled={isCreating}
-                  data-testid="button-submit"
-                >
-                  {isCreating ? "作成中..." : "投票を作成"}
-                </Button>
+                <div className="space-y-3">
+                  <Button
+                    type="submit"
+                    className="w-full bg-green-600 hover:bg-green-700 text-white"
+                    disabled={isCreating}
+                    data-testid="button-submit"
+                  >
+                    {isCreating ? "作成中..." : "投票を作成"}
+                  </Button>
+                  <p className="text-sm text-muted-foreground text-center" data-testid="text-auto-delete-notice">
+                    入力したデータはすべて１年後に自動的に削除されます。
+                  </p>
+                </div>
               </form>
             </CardContent>
           </Card>
