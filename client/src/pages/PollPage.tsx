@@ -163,10 +163,10 @@ export default function PollPage() {
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="voter-name">お名前</Label>
+                  <Label htmlFor="voter-name" className="text-[18px] font-semibold">お名前</Label>
                   <Input
                     id="voter-name"
-                    placeholder="山田太郎"
+                    placeholder="お名前の入力"
                     value={voterName}
                     onChange={(e) => setVoterName(e.target.value)}
                     required
@@ -175,7 +175,7 @@ export default function PollPage() {
                 </div>
 
                 <div className="space-y-3">
-                  <Label>
+                  <Label className="text-[18px] font-semibold">
                     選択肢を選んでください
                     {pollData.allowMultiple === "true" && (
                       <span className="text-sm text-muted-foreground ml-2">（複数選択可）</span>
@@ -212,8 +212,7 @@ export default function PollPage() {
                       {optionsData.map((option) => (
                         <div
                           key={option.id}
-                          className="flex items-center space-x-2 border rounded-lg p-4 hover-elevate active-elevate-2 cursor-pointer"
-                          onClick={() => setSelectedOptionId(option.id)}
+                          className="flex items-center space-x-2 border rounded-lg p-4 hover-elevate active-elevate-2"
                           data-testid={`option-${option.id}`}
                         >
                           <RadioGroupItem value={option.id} id={option.id} />
