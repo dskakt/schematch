@@ -33,6 +33,7 @@ export default function PollPage() {
   const { toast } = useToast();
   const pollId = params.id;
   const [voterName, setVoterName] = useState("");
+  const [isAnonymous, setIsAnonymous] = useState(false);
   const [selectedOptionId, setSelectedOptionId] = useState<string>("");
   const [selectedOptionIds, setSelectedOptionIds] = useState<string[]>([]);
 
@@ -91,16 +92,29 @@ export default function PollPage() {
     const isMultiple = pollData?.allowMultiple === "true";
     const optionsToSubmit = isMultiple ? selectedOptionIds : [selectedOptionId];
     
-    if (!voterName || optionsToSubmit.length === 0) {
+    // 無記名でない場合は名前が必須
+    if (!isAnonymous && !voterName) {
       toast({
         title: "入力エラー",
-        description: "名前と選択肢を入力してください。",
+        description: "名前を入力するか、無記名で投票を選択してください。",
+        variant: "destructive",
+      });
+      return;
+    }
+    
+    if (optionsToSubmit.length === 0) {
+      toast({
+        title: "入力エラー",
+        description: "選択肢を選んでください。",
         variant: "destructive",
       });
       return;
     }
 
-    submitVoteMutation.mutate({ voterName, selectedOptionIds: optionsToSubmit });
+    // 無記名の場合は「無記名」を名前として使用
+    const finalVoterName = isAnonymous ? "無記名" : voterName;
+    
+    submitVoteMutation.mutate({ voterName: finalVoterName, selectedOptionIds: optionsToSubmit });
   };
 
   const isLoading = isPollLoading || isOptionsLoading;
@@ -162,16 +176,36 @@ export default function PollPage() {
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="space-y-2">
+                <div className="space-y-3">
                   <Label htmlFor="voter-name" className="text-[18px] font-semibold">お名前</Label>
                   <Input
                     id="voter-name"
                     placeholder="お名前を入力"
                     value={voterName}
                     onChange={(e) => setVoterName(e.target.value)}
-                    required
+                    required={!isAnonymous}
+                    disabled={isAnonymous}
                     data-testid="input-voter-name"
                   />
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="anonymous"
+                      checked={isAnonymous}
+                      onCheckedChange={(checked) => {
+                        setIsAnonymous(checked === true);
+                        if (checked) {
+                          setVoterName("");
+                        }
+                      }}
+                      data-testid="checkbox-anonymous"
+                    />
+                    <Label
+                      htmlFor="anonymous"
+                      className="text-sm font-normal cursor-pointer"
+                    >
+                      無記名で投票する
+                    </Label>
+                  </div>
                 </div>
 
                 <div className="space-y-3">
