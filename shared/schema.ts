@@ -75,3 +75,81 @@ export type TimeSlot = typeof timeSlots.$inferSelect;
 
 export type InsertResponse = z.infer<typeof insertResponseSchema>;
 export type Response = typeof responses.$inferSelect;
+
+// Poll tables (ソレマッチ)
+export const polls = pgTable("polls", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  title: text("title").notNull(),
+  description: text("description"),
+  organizerEmail: text("organizer_email").notNull(),
+  editToken: varchar("edit_token").notNull().unique(),
+  shortId: varchar("short_id", { length: 6 }).notNull().unique(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const pollOptions = pgTable("poll_options", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  pollId: varchar("poll_id").notNull().references(() => polls.id, { onDelete: "cascade" }),
+  optionText: text("option_text").notNull(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+export const votes = pgTable("votes", {
+  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
+  pollId: varchar("poll_id").notNull().references(() => polls.id, { onDelete: "cascade" }),
+  voterName: text("voter_name").notNull(),
+  selectedOptionId: varchar("selected_option_id").notNull().references(() => pollOptions.id, { onDelete: "cascade" }),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+});
+
+// Poll relations
+export const pollsRelations = relations(polls, ({ many }) => ({
+  options: many(pollOptions),
+  votes: many(votes),
+}));
+
+export const pollOptionsRelations = relations(pollOptions, ({ one, many }) => ({
+  poll: one(polls, {
+    fields: [pollOptions.pollId],
+    references: [polls.id],
+  }),
+  votes: many(votes),
+}));
+
+export const votesRelations = relations(votes, ({ one }) => ({
+  poll: one(polls, {
+    fields: [votes.pollId],
+    references: [polls.id],
+  }),
+  option: one(pollOptions, {
+    fields: [votes.selectedOptionId],
+    references: [pollOptions.id],
+  }),
+}));
+
+// Poll insert schemas
+export const insertPollSchema = createInsertSchema(polls).omit({
+  id: true,
+  shortId: true,
+  createdAt: true,
+});
+
+export const insertPollOptionSchema = createInsertSchema(pollOptions).omit({
+  id: true,
+  createdAt: true,
+});
+
+export const insertVoteSchema = createInsertSchema(votes).omit({
+  id: true,
+  createdAt: true,
+});
+
+// Poll types
+export type InsertPoll = z.infer<typeof insertPollSchema>;
+export type Poll = typeof polls.$inferSelect;
+
+export type InsertPollOption = z.infer<typeof insertPollOptionSchema>;
+export type PollOption = typeof pollOptions.$inferSelect;
+
+export type InsertVote = z.infer<typeof insertVoteSchema>;
+export type Vote = typeof votes.$inferSelect;

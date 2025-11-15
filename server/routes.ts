@@ -62,6 +62,20 @@ const updateEventRequestSchema = z.object({
   editToken: z.string(),
 });
 
+const createPollRequestSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().optional(),
+  organizerEmail: z.string().email(),
+  options: z.array(z.string().min(1)).min(2),
+  origin: z.string().url().optional(),
+});
+
+const createVoteRequestSchema = z.object({
+  voterName: z.string().min(1),
+  selectedOptionId: z.string(),
+  origin: z.string().url().optional(),
+});
+
 export async function registerRoutes(app: Express): Promise<Server> {
   // Create event with time slots
   app.post("/api/events", async (req, res) => {
@@ -298,6 +312,153 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.error("Error updating event:", error);
         res.status(500).json({ error: "Failed to update event" });
       }
+    }
+  });
+
+  // ==== Poll APIs (ソレマッチ) ====
+  
+  // Create poll with options
+  app.post("/api/polls", async (req, res) => {
+    try {
+      const data = createPollRequestSchema.parse(req.body);
+      
+      // Generate edit token
+      const editToken = randomBytes(32).toString("hex");
+      
+      // Create poll and options in a transaction
+      const { poll, options } = await storage.createPollWithOptions(
+        {
+          title: data.title,
+          description: data.description,
+          organizerEmail: data.organizerEmail,
+          editToken,
+        },
+        data.options.map(optionText => ({
+          pollId: "", // Will be set by transaction
+          optionText,
+        }))
+      );
+      
+      // Construct URLs
+      let baseUrl = getTrustedBaseUrl();
+      if (data.origin) {
+        try {
+          const originUrl = new URL(data.origin);
+          const trustedUrl = new URL(baseUrl);
+          const isLocalhost = originUrl.hostname === 'localhost' || originUrl.hostname === '127.0.0.1';
+          const isSameDomain = originUrl.hostname === trustedUrl.hostname;
+          const isReplitDomain = originUrl.hostname.endsWith('.replit.app') || originUrl.hostname.endsWith('.repl.co');
+          
+          if (isLocalhost || isSameDomain || isReplitDomain) {
+            baseUrl = data.origin;
+          }
+        } catch (error) {
+          console.warn('Invalid origin URL provided:', data.origin);
+        }
+      }
+      
+      const participantLink = `${baseUrl}/p/${poll.shortId}`;
+      const resultsLink = `${baseUrl}/pv/${poll.shortId}`;
+      
+      res.json({
+        pollId: poll.id,
+        pollTitle: poll.title,
+        participantLink,
+        resultsLink,
+      });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: "Invalid request data", details: error.errors });
+      } else {
+        console.error("Error creating poll:", error);
+        res.status(500).json({ error: "Failed to create poll" });
+      }
+    }
+  });
+
+  // Get poll by ID
+  app.get("/api/polls/:id", async (req, res) => {
+    try {
+      const poll = await storage.getPoll(req.params.id);
+      if (!poll) {
+        return res.status(404).json({ error: "Poll not found" });
+      }
+      res.json(poll);
+    } catch (error) {
+      console.error("Error getting poll:", error);
+      res.status(500).json({ error: "Failed to get poll" });
+    }
+  });
+
+  // Get poll options
+  app.get("/api/polls/:id/options", async (req, res) => {
+    try {
+      const options = await storage.getPollOptions(req.params.id);
+      res.json(options);
+    } catch (error) {
+      console.error("Error getting poll options:", error);
+      res.status(500).json({ error: "Failed to get poll options" });
+    }
+  });
+
+  // Submit vote
+  app.post("/api/polls/:id/votes", async (req, res) => {
+    try {
+      const data = createVoteRequestSchema.parse(req.body);
+      
+      const vote = await storage.createVote({
+        pollId: req.params.id,
+        voterName: data.voterName,
+        selectedOptionId: data.selectedOptionId,
+      });
+      
+      res.json(vote);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        res.status(400).json({ error: "Invalid request data", details: error.errors });
+      } else {
+        console.error("Error submitting vote:", error);
+        res.status(500).json({ error: "Failed to submit vote" });
+      }
+    }
+  });
+
+  // Get votes for a poll
+  app.get("/api/polls/:id/votes", async (req, res) => {
+    try {
+      const votes = await storage.getVotesByPoll(req.params.id);
+      res.json(votes);
+    } catch (error) {
+      console.error("Error getting votes:", error);
+      res.status(500).json({ error: "Failed to get votes" });
+    }
+  });
+
+  // Short URL redirect: /p/:shortId -> /poll/:id
+  app.get("/p/:shortId", async (req, res) => {
+    try {
+      const poll = await storage.getPollByShortId(req.params.shortId);
+      if (!poll) {
+        return res.status(404).send("Poll not found");
+      }
+      res.redirect(301, `/poll/${poll.id}`);
+    } catch (error) {
+      console.error("Error redirecting poll short URL:", error);
+      res.status(500).send("Internal server error");
+    }
+  });
+
+  // Short URL redirect: /pv/:shortId -> /poll/:id/results
+  app.get("/pv/:shortId", async (req, res) => {
+    try {
+      const poll = await storage.getPollByShortId(req.params.shortId);
+      if (!poll) {
+        return res.status(404).send("Poll not found");
+      }
+      res.redirect(301, `/poll/${poll.id}/results`);
+    } catch (error) {
+      console.error("Error redirecting poll results short URL:", error);
+      res.status(500).send("Internal server error");
     }
   });
 

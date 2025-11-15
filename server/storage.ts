@@ -5,9 +5,18 @@ import {
   type InsertTimeSlot,
   type Response,
   type InsertResponse,
+  type Poll,
+  type InsertPoll,
+  type PollOption,
+  type InsertPollOption,
+  type Vote,
+  type InsertVote,
   events,
   timeSlots,
-  responses
+  responses,
+  polls,
+  pollOptions,
+  votes
 } from "@shared/schema";
 import { db } from "./db";
 import { eq } from "drizzle-orm";
@@ -22,7 +31,7 @@ function generateShortId(): string {
   return result;
 }
 
-// Generate a unique short ID (check for duplicates)
+// Generate a unique short ID for events (check for duplicates)
 async function generateUniqueShortId(): Promise<string> {
   let shortId = generateShortId();
   let attempts = 0;
@@ -38,6 +47,24 @@ async function generateUniqueShortId(): Promise<string> {
   }
   
   throw new Error("Failed to generate unique short ID after " + maxAttempts + " attempts");
+}
+
+// Generate a unique short ID for polls (check for duplicates)
+async function generateUniquePollShortId(): Promise<string> {
+  let shortId = generateShortId();
+  let attempts = 0;
+  const maxAttempts = 10;
+  
+  while (attempts < maxAttempts) {
+    const [existing] = await db.select().from(polls).where(eq(polls.shortId, shortId));
+    if (!existing) {
+      return shortId;
+    }
+    shortId = generateShortId();
+    attempts++;
+  }
+  
+  throw new Error("Failed to generate unique poll short ID after " + maxAttempts + " attempts");
 }
 
 export interface IStorage {
@@ -58,6 +85,16 @@ export interface IStorage {
   // Responses
   createResponse(response: InsertResponse): Promise<Response>;
   getResponsesByEvent(eventId: string): Promise<Response[]>;
+  
+  // Polls
+  createPollWithOptions(poll: InsertPoll, options: InsertPollOption[]): Promise<{ poll: Poll; options: PollOption[] }>;
+  getPoll(id: string): Promise<Poll | undefined>;
+  getPollByShortId(shortId: string): Promise<Poll | undefined>;
+  getPollOptions(pollId: string): Promise<PollOption[]>;
+  
+  // Votes
+  createVote(vote: InsertVote): Promise<Vote>;
+  getVotesByPoll(pollId: string): Promise<Vote[]>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -178,6 +215,58 @@ export class DatabaseStorage implements IStorage {
       
       return { event, timeSlots: slots };
     });
+  }
+
+  // Poll methods
+  async createPollWithOptions(insertPoll: InsertPoll, insertOptions: InsertPollOption[]): Promise<{ poll: Poll; options: PollOption[] }> {
+    return await db.transaction(async (tx) => {
+      // Generate unique short ID
+      const shortId = await generateUniquePollShortId();
+      
+      const [poll] = await tx
+        .insert(polls)
+        .values({ ...insertPoll, shortId })
+        .returning();
+      
+      if (insertOptions.length === 0) {
+        throw new Error("Poll must have at least one option");
+      }
+
+      const options = await tx
+        .insert(pollOptions)
+        .values(insertOptions.map(option => ({ ...option, pollId: poll.id })))
+        .returning();
+      
+      return { poll, options };
+    });
+  }
+
+  async getPoll(id: string): Promise<Poll | undefined> {
+    const [poll] = await db.select().from(polls).where(eq(polls.id, id));
+    return poll || undefined;
+  }
+
+  async getPollByShortId(shortId: string): Promise<Poll | undefined> {
+    const [poll] = await db.select().from(polls).where(eq(polls.shortId, shortId));
+    return poll || undefined;
+  }
+
+  async getPollOptions(pollId: string): Promise<PollOption[]> {
+    const options = await db.select().from(pollOptions).where(eq(pollOptions.pollId, pollId));
+    return options;
+  }
+
+  async createVote(insertVote: InsertVote): Promise<Vote> {
+    const [vote] = await db
+      .insert(votes)
+      .values(insertVote)
+      .returning();
+    return vote;
+  }
+
+  async getVotesByPoll(pollId: string): Promise<Vote[]> {
+    const voteList = await db.select().from(votes).where(eq(votes.pollId, pollId));
+    return voteList;
   }
 }
 
