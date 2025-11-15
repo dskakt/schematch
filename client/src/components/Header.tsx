@@ -7,20 +7,20 @@ export default function Header() {
         <div className="flex items-center justify-between">
           <Link 
             href="/" 
-            className="flex items-center gap-2 hover-elevate active-elevate-2 transition-colors cursor-pointer group"
+            className="flex items-start gap-2 hover-elevate active-elevate-2 transition-colors cursor-pointer group"
             data-testid="link-schematch"
           >
             <img 
               src="/favicon.svg" 
               alt="スケマッチ！" 
-              className="w-6 h-6" 
+              className="w-6 h-6 mt-1" 
               data-testid="icon-schematch-logo" 
             />
             <div>
-              <div className="text-2xl font-semibold group-hover:text-primary transition-colors">
+              <div className="text-2xl font-semibold leading-none group-hover:text-primary transition-colors">
                 スケマッチ！
               </div>
-              <div className="text-xs text-muted-foreground">
+              <div className="text-xs text-muted-foreground mt-1">
                 カンタン日程調整
               </div>
             </div>
@@ -28,20 +28,20 @@ export default function Header() {
           
           <Link 
             href="/poll/create" 
-            className="flex items-center gap-2 hover-elevate active-elevate-2 transition-colors cursor-pointer group"
+            className="flex items-start gap-2 hover-elevate active-elevate-2 transition-colors cursor-pointer group"
             data-testid="link-sorematch"
           >
             <img 
               src="/sorematch-favicon.svg" 
               alt="ソレマッチ！" 
-              className="w-6 h-6" 
+              className="w-6 h-6 mt-1" 
               data-testid="icon-sorematch-logo" 
             />
             <div>
-              <div className="text-2xl font-semibold group-hover:text-green-600 transition-colors">
+              <div className="text-2xl font-semibold leading-none group-hover:text-green-600 transition-colors">
                 ソレマッチ！
               </div>
-              <div className="text-xs text-muted-foreground">
+              <div className="text-xs text-muted-foreground mt-1">
                 シンプル投票
               </div>
             </div>
