@@ -42,7 +42,7 @@ export default function Header() {
                 ソレマッチ！
               </div>
             </div>
-            <div className="text-xs text-muted-foreground ml-8">
+            <div className="text-muted-foreground ml-8 text-[13px]">
               シンプル投票
             </div>
           </Link>
