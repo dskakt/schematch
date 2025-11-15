@@ -191,7 +191,7 @@ export default function CreatePoll() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="description" className="text-[18px] font-semibold">② 説明（任意）</Label>
+                  <Label htmlFor="description" className="text-[14px] font-medium">② 説明（任意）</Label>
                   <Textarea
                     id="description"
                     placeholder="投票の詳細や補足情報があれば入力してください"
