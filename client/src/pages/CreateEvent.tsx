@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { apiRequest } from "@/lib/queryClient";
 import { format } from "date-fns";
+import { CalendarDays, Mail, CalendarCheck } from "lucide-react";
 
 export default function CreateEvent() {
   const [, setLocation] = useLocation();
@@ -133,10 +134,11 @@ export default function CreateEvent() {
                   <div className="space-y-2">
                     <Label
                       htmlFor="title"
-                      className="text-lg font-semibold"
+                      className="text-lg font-semibold flex items-center gap-2"
                       data-testid="label-title"
                     >
                       ① イベント名
+                      <CalendarDays className="h-5 w-5 text-blue-600" />
                     </Label>
                     <Input
                       id="title"
@@ -150,10 +152,11 @@ export default function CreateEvent() {
                   <div className="space-y-2">
                     <Label
                       htmlFor="email"
-                      className="text-lg font-semibold"
+                      className="text-lg font-semibold flex items-center gap-2"
                       data-testid="label-email"
                     >
                       ② メールアドレス（主催者）
+                      <Mail className="h-5 w-5 text-blue-600" />
                     </Label>
                     <Input
                       id="email"
@@ -176,10 +179,11 @@ export default function CreateEvent() {
                 <div className="space-y-3">
                   <div>
                     <h3
-                      className="text-lg font-semibold"
+                      className="text-lg font-semibold flex items-center gap-2"
                       data-testid="text-time-selection-title"
                     >
                       ③ 候補日時を選択
+                      <CalendarCheck className="h-5 w-5 text-blue-600" />
                     </h3>
                     <p
                       className="text-sm text-muted-foreground mt-1"
