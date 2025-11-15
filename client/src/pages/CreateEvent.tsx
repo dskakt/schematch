@@ -15,7 +15,9 @@ export default function CreateEvent() {
   const [, setLocation] = useLocation();
   const [title, setTitle] = useState("");
   const [email, setEmail] = useState("");
-  const [selectedSlots, setSelectedSlots] = useState<{ date: Date; time: string }[]>([]);
+  const [selectedSlots, setSelectedSlots] = useState<
+    { date: Date; time: string }[]
+  >([]);
   const [createdEvent, setCreatedEvent] = useState<{
     eventId: string;
     eventTitle: string;
@@ -26,12 +28,12 @@ export default function CreateEvent() {
   const handleCreateEvent = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title || !email || selectedSlots.length === 0) return;
-    
+
     setIsCreating(true);
-    
+
     try {
-      const flattenedSlots = selectedSlots.map(slot => ({
-        date: format(slot.date, 'yyyy-MM-dd'),
+      const flattenedSlots = selectedSlots.map((slot) => ({
+        date: format(slot.date, "yyyy-MM-dd"),
         time: slot.time,
       }));
 
@@ -41,8 +43,11 @@ export default function CreateEvent() {
         timeSlots: flattenedSlots,
         origin: window.location.origin,
       });
-      
-      const response = await res.json() as { event: { id: string; title: string; shortId: string }; editToken: string };
+
+      const response = (await res.json()) as {
+        event: { id: string; title: string; shortId: string };
+        editToken: string;
+      };
 
       const baseUrl = import.meta.env.VITE_BASE_URL || window.location.origin;
       const participantLink = `${baseUrl}/e/${response.event.shortId}`;
@@ -52,7 +57,7 @@ export default function CreateEvent() {
         eventTitle: response.event.title,
         participantLink,
       });
-      
+
       window.scrollTo(0, 0);
     } catch (error) {
       console.error("Failed to create event:", error);
@@ -64,7 +69,10 @@ export default function CreateEvent() {
 
   if (createdEvent) {
     return (
-      <div className="min-h-screen bg-background flex flex-col" data-testid="page-create-event">
+      <div
+        className="min-h-screen bg-background flex flex-col"
+        data-testid="page-create-event"
+      >
         <Header />
         <main className="py-12 px-6 flex-1">
           <div className="max-w-5xl mx-auto">
@@ -81,23 +89,47 @@ export default function CreateEvent() {
   }
 
   return (
-    <div className="min-h-screen bg-background flex flex-col" data-testid="page-create-event">
+    <div
+      className="min-h-screen bg-background flex flex-col"
+      data-testid="page-create-event"
+    >
       <Header />
       <main className="pt-4 pb-12 px-4 md:px-6 flex-1">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-4">
-            <p className="text-lg text-muted-foreground" data-testid="text-page-tagline">登録不要・仕事も飲み会もカンタン日程調整</p>
+            <p
+              className="text-lg text-muted-foreground"
+              data-testid="text-page-tagline"
+            >
+              登録不要・仕事も飲み会もカンタン日程調整
+            </p>
           </div>
           <Card>
             <CardContent className="pt-6">
               <form onSubmit={handleCreateEvent} className="space-y-6">
                 <div className="space-y-1 mb-6">
-                  <h2 className="text-xl font-semibold" data-testid="text-form-heading">日程調整を始めよう！</h2>
-                  <p className="text-sm text-muted-foreground" data-testid="text-form-description">以下の順番で入力してください</p>
+                  <h2
+                    className="text-xl font-semibold"
+                    data-testid="text-form-heading"
+                  >
+                    日程調整を始めよう！
+                  </h2>
+                  <p
+                    className="text-sm text-muted-foreground"
+                    data-testid="text-form-description"
+                  >
+                    以下の順番で入力してください
+                  </p>
                 </div>
                 <div className="grid md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="title" className="text-lg font-semibold" data-testid="label-title">① イベント名</Label>
+                    <Label
+                      htmlFor="title"
+                      className="text-lg font-semibold"
+                      data-testid="label-title"
+                    >
+                      ① イベント名
+                    </Label>
                     <Input
                       id="title"
                       value={title}
@@ -108,7 +140,13 @@ export default function CreateEvent() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email" className="text-lg font-semibold" data-testid="label-email">② メールアドレス（主催者）</Label>
+                    <Label
+                      htmlFor="email"
+                      className="text-lg font-semibold"
+                      data-testid="label-email"
+                    >
+                      ② メールアドレス（主催者）
+                    </Label>
                     <Input
                       id="email"
                       type="email"
@@ -118,7 +156,10 @@ export default function CreateEvent() {
                       required
                       data-testid="input-email"
                     />
-                    <p className="text-sm text-muted-foreground" data-testid="text-email-description">
+                    <p
+                      className="text-sm text-muted-foreground"
+                      data-testid="text-email-description"
+                    >
                       参加者に送るリンクや集計結果を送信します
                     </p>
                   </div>
@@ -126,11 +167,18 @@ export default function CreateEvent() {
 
                 <div className="space-y-3">
                   <div>
-                    <h3 className="text-lg font-semibold" data-testid="text-time-selection-title">
+                    <h3
+                      className="text-lg font-semibold"
+                      data-testid="text-time-selection-title"
+                    >
                       ③ 候補日時を選択
                     </h3>
-                    <p className="text-sm text-muted-foreground mt-1" data-testid="text-time-selection-description">
-                      カレンダーをクリックして、候補となる日時を選択してください。時間を指定しない場合は、<strong>「時間指定なし」</strong>の行を選択してください。
+                    <p
+                      className="text-sm text-muted-foreground mt-1"
+                      data-testid="text-time-selection-description"
+                    >
+                      カレンダーをクリックして、候補となる日時を選択してください。　時間を指定しない場合は、
+                      <strong>「時間指定なし」</strong>の行を選択してください。
                     </p>
                   </div>
 
@@ -150,7 +198,10 @@ export default function CreateEvent() {
                   >
                     {isCreating ? "作成中..." : "イベントを作成"}
                   </Button>
-                  <p className="text-xs text-center text-muted-foreground" data-testid="text-data-retention">
+                  <p
+                    className="text-xs text-center text-muted-foreground"
+                    data-testid="text-data-retention"
+                  >
                     入力したデータはすべて１年後に自動的に削除されます。
                   </p>
                 </div>
