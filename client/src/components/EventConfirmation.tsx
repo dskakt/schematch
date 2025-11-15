@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Check, Copy, Mail, Link as LinkIcon } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { QRCodeSVG } from "qrcode.react";
 
 interface EventConfirmationProps {
   eventId: string;
@@ -59,7 +60,7 @@ export default function EventConfirmation({
             このリンクを参加者に送信してください
           </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-3">
+        <CardContent className="space-y-4">
           <div className="flex gap-2">
             <Input
               value={participantLink}
@@ -78,6 +79,20 @@ export default function EventConfirmation({
               )}
             </Button>
           </div>
+          
+          <div className="flex justify-center pt-2">
+            <div className="p-4 bg-white rounded-lg border" data-testid="qrcode-container">
+              <QRCodeSVG 
+                value={participantLink}
+                size={200}
+                level="M"
+                data-testid="qrcode-participant"
+              />
+            </div>
+          </div>
+          <p className="text-sm text-muted-foreground text-center">
+            QRコードをスキャンしても参加できます
+          </p>
         </CardContent>
       </Card>
 
