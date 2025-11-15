@@ -31,7 +31,13 @@ export default function Header() {
             className="flex items-center gap-2 hover-elevate active-elevate-2 transition-colors cursor-pointer group"
             data-testid="link-sorematch"
           >
-            <div className="text-right">
+            <img 
+              src="/sorematch-favicon.svg" 
+              alt="ソレマッチ！" 
+              className="w-6 h-6" 
+              data-testid="icon-sorematch-logo" 
+            />
+            <div>
               <div className="text-2xl font-semibold group-hover:text-green-600 transition-colors">
                 ソレマッチ！
               </div>
@@ -39,12 +45,6 @@ export default function Header() {
                 シンプル投票
               </div>
             </div>
-            <img 
-              src="/sorematch-favicon.svg" 
-              alt="ソレマッチ！" 
-              className="w-6 h-6" 
-              data-testid="icon-sorematch-logo" 
-            />
           </Link>
         </div>
       </div>
