@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Share2 } from "lucide-react";
+import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 interface Poll {
   id: string;
@@ -93,6 +94,18 @@ export default function PollResultsPage() {
 
   votesByOption.sort((a, b) => b.count - a.count);
 
+  // 円グラフ用のデータとカラーパレット
+  const chartData = votesByOption.map(item => ({
+    name: item.option.optionText,
+    value: item.count,
+  }));
+
+  const COLORS = ['#16a34a', '#22c55e', '#4ade80', '#86efac', '#bbf7d0', '#dcfce7'];
+  
+  const renderCustomLabel = ({ name, percent }: any) => {
+    return `${(percent * 100).toFixed(1)}%`;
+  };
+
   const handleShare = () => {
     const baseUrl = import.meta.env.VITE_BASE_URL || window.location.origin;
     const shareUrl = `${baseUrl}/poll/${pollId}`;
@@ -149,56 +162,83 @@ export default function PollResultsPage() {
             </CardContent>
           </Card>
 
-          <div className="space-y-4">
-            {votesByOption.map((item, index) => (
-              <Card key={item.option.id} data-testid={`result-option-${index}`}>
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-lg" data-testid={`text-option-${index}`}>
-                      {item.option.optionText}
-                    </CardTitle>
-                    <div className="text-right">
-                      <p className="text-2xl font-bold" data-testid={`text-count-${index}`}>
-                        {item.count}
-                      </p>
-                      <p className="text-sm text-muted-foreground" data-testid={`text-percentage-${index}`}>
-                        {item.percentage.toFixed(1)}%
-                      </p>
-                    </div>
-                  </div>
+          {totalVotes > 0 ? (
+            <>
+              <Card className="mb-6">
+                <CardHeader>
+                  <CardTitle className="text-center">投票結果</CardTitle>
                 </CardHeader>
-                <CardContent className="pt-0">
-                  <div className="mb-3">
-                    <div className="h-3 bg-muted rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-green-600 transition-all duration-500"
-                        style={{ width: `${item.percentage}%` }}
-                      />
-                    </div>
-                  </div>
-                  
-                  {item.votes.length > 0 && (
-                    <div>
-                      <p className="text-sm text-muted-foreground mb-2">投票者:</p>
-                      <div className="flex flex-wrap gap-2">
-                        {item.votes.map((vote, voteIndex) => (
-                          <span
-                            key={vote.id}
-                            className="text-sm bg-muted px-3 py-1 rounded-full"
-                            data-testid={`voter-${index}-${voteIndex}`}
-                          >
-                            {vote.voterName}
-                          </span>
+                <CardContent>
+                  <ResponsiveContainer width="100%" height={400}>
+                    <PieChart>
+                      <Pie
+                        data={chartData}
+                        cx="50%"
+                        cy="50%"
+                        labelLine={false}
+                        label={renderCustomLabel}
+                        outerRadius={130}
+                        fill="#8884d8"
+                        dataKey="value"
+                      >
+                        {chartData.map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
-                      </div>
-                    </div>
-                  )}
+                      </Pie>
+                      <Tooltip />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
                 </CardContent>
               </Card>
-            ))}
-          </div>
 
-          {totalVotes === 0 && (
+              <div className="space-y-4">
+                {votesByOption.map((item, index) => (
+                  <Card key={item.option.id} data-testid={`result-option-${index}`}>
+                    <CardHeader className="pb-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div 
+                            className="w-4 h-4 rounded-sm"
+                            style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                          />
+                          <CardTitle className="text-lg" data-testid={`text-option-${index}`}>
+                            {item.option.optionText}
+                          </CardTitle>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-2xl font-bold" data-testid={`text-count-${index}`}>
+                            {item.count}
+                          </p>
+                          <p className="text-sm text-muted-foreground" data-testid={`text-percentage-${index}`}>
+                            {item.percentage.toFixed(1)}%
+                          </p>
+                        </div>
+                      </div>
+                    </CardHeader>
+                    {item.votes.length > 0 && (
+                      <CardContent className="pt-0">
+                        <div>
+                          <p className="text-sm text-muted-foreground mb-2">投票者:</p>
+                          <div className="flex flex-wrap gap-2">
+                            {item.votes.map((vote, voteIndex) => (
+                              <span
+                                key={vote.id}
+                                className="text-sm bg-muted px-3 py-1 rounded-full"
+                                data-testid={`voter-${index}-${voteIndex}`}
+                              >
+                                {vote.voterName}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      </CardContent>
+                    )}
+                  </Card>
+                ))}
+              </div>
+            </>
+          ) : (
             <Card>
               <CardContent className="py-12 text-center">
                 <p className="text-muted-foreground">まだ投票がありません</p>
