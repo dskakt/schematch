@@ -8,6 +8,9 @@ import NotFound from "@/pages/not-found";
 import CreateEvent from "@/pages/CreateEvent";
 import EventPage from "@/pages/EventPage";
 import ResultsPage from "@/pages/ResultsPage";
+import CreatePoll from "@/pages/CreatePoll";
+import PollPage from "@/pages/PollPage";
+import PollResultsPage from "@/pages/PollResultsPage";
 import TermsOfService from "@/pages/TermsOfService";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import Contact from "@/pages/Contact";
@@ -28,6 +31,9 @@ function Router() {
       <Route path="/" component={CreateEvent} />
       <Route path="/event/:id/results" component={ResultsPage} />
       <Route path="/event/:id" component={EventPage} />
+      <Route path="/poll/create" component={CreatePoll} />
+      <Route path="/poll/:id/results" component={PollResultsPage} />
+      <Route path="/poll/:id" component={PollPage} />
       <Route path="/terms" component={TermsOfService} />
       <Route path="/privacy" component={PrivacyPolicy} />
       <Route path="/contact" component={Contact} />

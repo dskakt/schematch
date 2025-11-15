@@ -383,7 +383,9 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!poll) {
         return res.status(404).json({ error: "Poll not found" });
       }
-      res.json(poll);
+      // Remove sensitive fields before sending to client
+      const { editToken, organizerEmail, ...publicPoll } = poll;
+      res.json(publicPoll);
     } catch (error) {
       console.error("Error getting poll:", error);
       res.status(500).json({ error: "Failed to get poll" });
