@@ -66,13 +66,14 @@ const createPollRequestSchema = z.object({
   title: z.string().min(1),
   description: z.string().optional(),
   organizerEmail: z.string().email(),
+  allowMultiple: z.string().optional(),
   options: z.array(z.string().min(1)).min(2),
   origin: z.string().url().optional(),
 });
 
 const createVoteRequestSchema = z.object({
   voterName: z.string().min(1),
-  selectedOptionId: z.string(),
+  selectedOptionIds: z.array(z.string()).min(1),
   origin: z.string().url().optional(),
 });
 
@@ -331,6 +332,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
           title: data.title,
           description: data.description,
           organizerEmail: data.organizerEmail,
+          allowMultiple: data.allowMultiple || "false",
           editToken,
         },
         data.options.map(optionText => ({
@@ -408,13 +410,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const data = createVoteRequestSchema.parse(req.body);
       
-      const vote = await storage.createVote({
+      // Create votes for all selected options
+      const votesToCreate = data.selectedOptionIds.map(optionId => ({
         pollId: req.params.id,
         voterName: data.voterName,
-        selectedOptionId: data.selectedOptionId,
-      });
+        selectedOptionId: optionId,
+      }));
       
-      res.json(vote);
+      const createdVotes = await storage.createVotes(votesToCreate);
+      
+      res.json(createdVotes);
     } catch (error) {
       if (error instanceof z.ZodError) {
         res.status(400).json({ error: "Invalid request data", details: error.errors });

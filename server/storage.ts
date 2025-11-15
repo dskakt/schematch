@@ -94,6 +94,7 @@ export interface IStorage {
   
   // Votes
   createVote(vote: InsertVote): Promise<Vote>;
+  createVotes(votes: InsertVote[]): Promise<Vote[]>;
   getVotesByPoll(pollId: string): Promise<Vote[]>;
 }
 
@@ -262,6 +263,17 @@ export class DatabaseStorage implements IStorage {
       .values(insertVote)
       .returning();
     return vote;
+  }
+
+  async createVotes(insertVotes: InsertVote[]): Promise<Vote[]> {
+    if (insertVotes.length === 0) {
+      return [];
+    }
+    const createdVotes = await db
+      .insert(votes)
+      .values(insertVotes)
+      .returning();
+    return createdVotes;
   }
 
   async getVotesByPoll(pollId: string): Promise<Vote[]> {

@@ -8,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { BarChart3 } from "lucide-react";
@@ -16,6 +17,7 @@ interface Poll {
   id: string;
   title: string;
   description?: string | null;
+  allowMultiple: string;
   shortId: string;
 }
 
@@ -32,6 +34,7 @@ export default function PollPage() {
   const pollId = params.id;
   const [voterName, setVoterName] = useState("");
   const [selectedOptionId, setSelectedOptionId] = useState<string>("");
+  const [selectedOptionIds, setSelectedOptionIds] = useState<string[]>([]);
 
   const { data: pollData, isLoading: isPollLoading } = useQuery<Poll>({
     queryKey: ["/api/polls", pollId],
@@ -44,10 +47,10 @@ export default function PollPage() {
   });
 
   const submitVoteMutation = useMutation({
-    mutationFn: async (voteData: { voterName: string; selectedOptionId: string }) => {
+    mutationFn: async (voteData: { voterName: string; selectedOptionIds: string[] }) => {
       const res = await apiRequest("POST", `/api/polls/${pollId}/votes`, {
         voterName: voteData.voterName,
-        selectedOptionId: voteData.selectedOptionId,
+        selectedOptionIds: voteData.selectedOptionIds,
         origin: window.location.origin,
       });
       return res.json();
@@ -74,9 +77,21 @@ export default function PollPage() {
     },
   });
 
+  const handleCheckboxChange = (optionId: string, checked: boolean) => {
+    if (checked) {
+      setSelectedOptionIds([...selectedOptionIds, optionId]);
+    } else {
+      setSelectedOptionIds(selectedOptionIds.filter(id => id !== optionId));
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!voterName || !selectedOptionId) {
+    
+    const isMultiple = pollData?.allowMultiple === "true";
+    const optionsToSubmit = isMultiple ? selectedOptionIds : [selectedOptionId];
+    
+    if (!voterName || optionsToSubmit.length === 0) {
       toast({
         title: "入力エラー",
         description: "名前と選択肢を入力してください。",
@@ -85,7 +100,7 @@ export default function PollPage() {
       return;
     }
 
-    submitVoteMutation.mutate({ voterName, selectedOptionId });
+    submitVoteMutation.mutate({ voterName, selectedOptionIds: optionsToSubmit });
   };
 
   const isLoading = isPollLoading || isOptionsLoading;
@@ -160,28 +175,58 @@ export default function PollPage() {
                 </div>
 
                 <div className="space-y-3">
-                  <Label>選択肢を選んでください</Label>
-                  <RadioGroup
-                    value={selectedOptionId}
-                    onValueChange={setSelectedOptionId}
-                  >
-                    {optionsData.map((option) => (
-                      <div
-                        key={option.id}
-                        className="flex items-center space-x-2 border rounded-lg p-4 hover-elevate active-elevate-2 cursor-pointer"
-                        onClick={() => setSelectedOptionId(option.id)}
-                        data-testid={`option-${option.id}`}
-                      >
-                        <RadioGroupItem value={option.id} id={option.id} />
-                        <Label
-                          htmlFor={option.id}
-                          className="flex-1 cursor-pointer"
+                  <Label>
+                    選択肢を選んでください
+                    {pollData.allowMultiple === "true" && (
+                      <span className="text-sm text-muted-foreground ml-2">（複数選択可）</span>
+                    )}
+                  </Label>
+                  
+                  {pollData.allowMultiple === "true" ? (
+                    <div className="space-y-2">
+                      {optionsData.map((option) => (
+                        <div
+                          key={option.id}
+                          className="flex items-center space-x-2 border rounded-lg p-4 hover-elevate active-elevate-2"
+                          data-testid={`option-${option.id}`}
                         >
-                          {option.optionText}
-                        </Label>
-                      </div>
-                    ))}
-                  </RadioGroup>
+                          <Checkbox
+                            id={option.id}
+                            checked={selectedOptionIds.includes(option.id)}
+                            onCheckedChange={(checked) => handleCheckboxChange(option.id, checked === true)}
+                          />
+                          <Label
+                            htmlFor={option.id}
+                            className="flex-1 cursor-pointer"
+                          >
+                            {option.optionText}
+                          </Label>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <RadioGroup
+                      value={selectedOptionId}
+                      onValueChange={setSelectedOptionId}
+                    >
+                      {optionsData.map((option) => (
+                        <div
+                          key={option.id}
+                          className="flex items-center space-x-2 border rounded-lg p-4 hover-elevate active-elevate-2 cursor-pointer"
+                          onClick={() => setSelectedOptionId(option.id)}
+                          data-testid={`option-${option.id}`}
+                        >
+                          <RadioGroupItem value={option.id} id={option.id} />
+                          <Label
+                            htmlFor={option.id}
+                            className="flex-1 cursor-pointer"
+                          >
+                            {option.optionText}
+                          </Label>
+                        </div>
+                      ))}
+                    </RadioGroup>
+                  )}
                 </div>
 
                 <div className="flex gap-3">
