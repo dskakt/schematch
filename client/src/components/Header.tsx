@@ -21,7 +21,7 @@ export default function Header() {
                 スケマッチ！
               </div>
             </div>
-            <div className="text-xs text-muted-foreground ml-8">
+            <div className="text-muted-foreground ml-8 text-[13px]">
               カンタン日程調整
             </div>
           </Link>
