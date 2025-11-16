@@ -114,7 +114,7 @@ export default function CreateEvent() {
             </p>
           </div>
           <Card>
-            <CardContent className="pt-6">
+            <CardContent className="pt-6 bg-blue-50 dark:bg-blue-950/30">
               <form onSubmit={handleCreateEvent} className="space-y-6">
                 <div className="space-y-1 mb-6">
                   <h2
