@@ -102,6 +102,8 @@ export default function CreateEvent() {
               <img 
                 src="/favicon.svg" 
                 alt="スケマッチ！" 
+                width="64"
+                height="64"
                 className="w-16 h-16" 
                 data-testid="logo-schematch" 
               />

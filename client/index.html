@@ -49,13 +49,14 @@
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=4" />
+    <link rel="icon" type="image/webp" sizes="313x313" href="/favicon.webp?v=4" />
     <link rel="icon" type="image/png" sizes="512x512" href="/favicon.png?v=4" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png?v=4" />
     <link rel="shortcut icon" href="/favicon.svg?v=4" />
 
     <!-- Google AdSense -->
     <script
-      async
+      defer
       src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5973726120778166"
       crossorigin="anonymous"
     ></script>
@@ -152,9 +153,22 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
+      rel="preload"
+      as="style"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    />
+    <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
   </head>
   <body>
     <div id="root"></div>
