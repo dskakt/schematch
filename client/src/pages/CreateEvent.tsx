@@ -118,7 +118,7 @@ export default function CreateEvent() {
               <form onSubmit={handleCreateEvent} className="space-y-6">
                 <div className="space-y-1 mb-6">
                   <h2
-                    className="text-xl font-semibold bg-blue-50 dark:bg-blue-950/30 p-3 rounded-md"
+                    className="text-xl font-semibold"
                     data-testid="text-form-heading"
                   >
                     日程調整を始めよう！
