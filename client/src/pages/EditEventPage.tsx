@@ -208,7 +208,7 @@ export default function EditEventPage() {
                     className="flex-1"
                     data-testid="button-view-results"
                   >
-                    回答せず集計結果を見る
+                    集計結果を見る
                   </Button>
                   <Button
                     type="submit"
