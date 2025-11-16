@@ -198,13 +198,13 @@ export default function CreatePoll() {
           </div>
 
           <Card>
-            <CardHeader>
+            <CardHeader className="bg-green-50 dark:bg-green-950/30">
               <CardTitle className="font-semibold tracking-tight text-left text-[20px]">投票を準備しよう！</CardTitle>
               <p className="text-sm text-muted-foreground mt-2 text-left">
                 以下の順番で入力してください
               </p>
             </CardHeader>
-            <CardContent>
+            <CardContent className="bg-green-50 dark:bg-green-950/30">
               <form onSubmit={handleCreatePoll} className="space-y-6">
                 <div className="space-y-2">
                   <Label htmlFor="title" className="text-[18px] font-semibold flex items-center gap-2">
