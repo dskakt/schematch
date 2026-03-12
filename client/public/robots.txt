@@ -1,0 +1,6 @@
+# robots.txt for スケマッチ！
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://schematch.com/sitemap.xml
