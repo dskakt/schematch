@@ -114,6 +114,12 @@ export default function CreateEvent() {
             >
               登録不要・仕事も飲み会もカンタン日程調整
             </p>
+            <p
+              className="text-sm text-muted-foreground"
+              data-testid="text-email-notice"
+            >
+              回答があるたびにメールでお知らせ！
+            </p>
           </div>
           <Card>
             <CardContent className="pt-6 bg-blue-50 dark:bg-blue-950/30">
