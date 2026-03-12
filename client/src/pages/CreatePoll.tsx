@@ -194,7 +194,7 @@ export default function CreatePoll() {
               />
             </div>
             <p
-              className="text-lg text-muted-foreground"
+              className="text-lg text-[#171717]"
               data-testid="text-page-tagline"
             >登録不要・秒でシンプル投票</p>
           </div>
