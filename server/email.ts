@@ -77,7 +77,7 @@ ${participantLink}
     const resend = new Resend(apiKey);
     
     await resend.emails.send({
-      from: 'スケマッチ！ <onboarding@resend.dev>',
+      from: 'スケマッチ！ <noreply@schematch.com>',
       to: organizerEmail,
       subject: `イベント「${eventTitle}」を作成しました`,
       html: emailContent,
@@ -148,7 +148,7 @@ ${resultsLink}
     const resend = new Resend(apiKey);
     
     await resend.emails.send({
-      from: 'スケマッチ！ <onboarding@resend.dev>',
+      from: 'スケマッチ！ <noreply@schematch.com>',
       to: organizerEmail,
       subject: `${eventTitle} - 新しい回答が届きました`,
       html: emailContent,
@@ -218,7 +218,7 @@ ${resultsLink}
     const resend = new Resend(apiKey);
     
     await resend.emails.send({
-      from: 'ソレマッチ！ <onboarding@resend.dev>',
+      from: 'ソレマッチ！ <noreply@schematch.com>',
       to: organizerEmail,
       subject: `投票「${pollTitle}」を作成しました`,
       html: emailContent,
@@ -289,7 +289,7 @@ ${resultsLink}
     const resend = new Resend(apiKey);
     
     await resend.emails.send({
-      from: 'ソレマッチ！ <onboarding@resend.dev>',
+      from: 'ソレマッチ！ <noreply@schematch.com>',
       to: organizerEmail,
       subject: `${pollTitle} - 新しい投票が届きました`,
       html: emailContent,
