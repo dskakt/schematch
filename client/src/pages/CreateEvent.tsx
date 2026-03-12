@@ -116,10 +116,16 @@ export default function CreateEvent() {
             </p>
             <p
               className="text-muted-foreground text-[18px]"
+              data-testid="text-feature-no-input"
+            >面倒な時間帯の手入力は不要！</p>
+            <p
+              className="text-muted-foreground text-[18px]"
               data-testid="text-email-notice"
-            >面倒な時間帯の手入力は不要！
-            回答があるたびにメールでお知らせ！
-            見やすい集計結果！</p>
+            >回答があるたびにメールでお知らせ！</p>
+            <p
+              className="text-muted-foreground text-[18px]"
+              data-testid="text-feature-results"
+            >見やすい集計結果！</p>
           </div>
           <Card>
             <CardContent className="pt-6 bg-blue-50 dark:bg-blue-950/30">
