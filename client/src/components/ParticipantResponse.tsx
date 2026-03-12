@@ -82,7 +82,7 @@ export default function ParticipantResponse({
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="space-y-2">
               <Label htmlFor="name" className="text-base font-semibold" data-testid="label-name">
-                ① お名前
+                Step 1 お名前
               </Label>
               <Input
                 id="name"
@@ -96,7 +96,7 @@ export default function ParticipantResponse({
 
             <div className="space-y-3">
               <Label className="text-base font-semibold">
-                {allSlotsNoTime ? "② 参加可能な日を選択" : "② 参加可能な日時を選択"}
+                {allSlotsNoTime ? "Step 2 参加可能な日を選択" : "Step 2 参加可能な日時を選択"}
               </Label>
               <p className="text-sm text-muted-foreground mb-3">
                 {allSlotsNoTime ? "参加できる日をクリックしてください" : "参加できる日時をクリックしてください"}

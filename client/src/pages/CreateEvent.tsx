@@ -139,7 +139,7 @@ export default function CreateEvent() {
                       className="text-lg font-semibold flex items-center gap-2"
                       data-testid="label-title"
                     >
-                      ①
+                      Step 1
                       <CalendarDays className="h-5 w-5 text-blue-600" />
                       イベント名
                     </Label>
@@ -158,7 +158,7 @@ export default function CreateEvent() {
                       className="text-lg font-semibold flex items-center gap-2"
                       data-testid="label-email"
                     >
-                      ②
+                      Step 2
                       <Mail className="h-5 w-5 text-blue-600" />
                       メールアドレス（主催者）
                     </Label>
@@ -186,7 +186,7 @@ export default function CreateEvent() {
                       className="text-lg font-semibold flex items-center gap-2"
                       data-testid="text-time-selection-title"
                     >
-                      ③
+                      Step 3
                       <CalendarCheck className="h-5 w-5 text-blue-600" />
                       候補日時を選択
                     </h3>
