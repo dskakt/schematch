@@ -14,6 +14,7 @@ import PollResultsPage from "@/pages/PollResultsPage";
 import TermsOfService from "@/pages/TermsOfService";
 import PrivacyPolicy from "@/pages/PrivacyPolicy";
 import Contact from "@/pages/Contact";
+import FAQ from "@/pages/FAQ";
 import { useEffect } from "react";
 import { initGA } from "./lib/analytics";
 import { useAnalytics } from "./hooks/use-analytics";
@@ -36,6 +37,7 @@ function Router() {
       <Route path="/poll/:id" component={PollPage} />
       <Route path="/terms" component={TermsOfService} />
       <Route path="/privacy" component={PrivacyPolicy} />
+      <Route path="/faq" component={FAQ} />
       <Route path="/contact" component={Contact} />
       <Route component={NotFound} />
     </Switch>

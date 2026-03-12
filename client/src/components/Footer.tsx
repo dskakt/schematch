@@ -11,6 +11,9 @@ export function Footer() {
           <Link href="/privacy" className="hover:text-foreground transition-colors" data-testid="link-privacy">
             プライバシーポリシー
           </Link>
+          <Link href="/faq" className="hover:text-foreground transition-colors" data-testid="link-faq">
+            よくある質問
+          </Link>
           <Link href="/contact" className="hover:text-foreground transition-colors" data-testid="link-contact">
             お問い合わせ・ご要望
           </Link>
