@@ -109,7 +109,7 @@ export default function CreateEvent() {
               />
             </div>
             <p
-              className="text-lg text-[#171717]"
+              className="text-lg text-[#171717] font-semibold"
               data-testid="text-page-tagline"
             >
               登録不要・仕事も飲み会もカンタン日程調整
