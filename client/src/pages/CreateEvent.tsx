@@ -125,7 +125,7 @@ export default function CreateEvent() {
             <p
               className="text-muted-foreground text-[18px]"
               data-testid="text-feature-results"
-            >見やすい集計結果！</p>
+            >スマホでも使いやすい！</p>
           </div>
           <Card>
             <CardContent className="pt-6 bg-blue-50 dark:bg-blue-950/30">
