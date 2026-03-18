@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent } from "@/components/ui/card";
 import { apiRequest } from "@/lib/queryClient";
 import { format } from "date-fns";
-import { CalendarDays, Mail, CalendarCheck } from "lucide-react";
+import { CalendarDays, Mail, CalendarCheck, Check } from "lucide-react";
 
 export default function CreateEvent() {
   const [, setLocation] = useLocation();
@@ -114,18 +114,20 @@ export default function CreateEvent() {
             >
               登録不要・仕事も飲み会もカンタン日程調整
             </p>
-            <p
-              className="text-muted-foreground text-[18px]"
-              data-testid="text-feature-no-input"
-            >面倒な時間帯の手入力は不要！</p>
-            <p
-              className="text-muted-foreground text-[18px]"
-              data-testid="text-email-notice"
-            >回答があるたびにメールでお知らせ！</p>
-            <p
-              className="text-muted-foreground text-[18px]"
-              data-testid="text-feature-results"
-            >見やすい集計結果！</p>
+            <div className="inline-flex flex-col items-start gap-1 text-left">
+              <div className="flex items-center gap-2 text-muted-foreground text-[18px]">
+                <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                <span data-testid="text-feature-no-input">面倒な時間帯の手入力は不要！</span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground text-[18px]">
+                <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                <span data-testid="text-email-notice">回答があるたびにメールでお知らせ！</span>
+              </div>
+              <div className="flex items-center gap-2 text-muted-foreground text-[18px]">
+                <Check className="w-4 h-4 text-primary flex-shrink-0" />
+                <span data-testid="text-feature-results">見やすい集計結果！</span>
+              </div>
+            </div>
           </div>
           <Card>
             <CardContent className="pt-6 bg-blue-50 dark:bg-blue-950/30">
