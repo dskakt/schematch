@@ -202,17 +202,31 @@ export default function WeeklyCalendar({
               {weekDays.map((day, index) => {
                 const isSunday = day.getDay() === 0;
                 const isSaturday = day.getDay() === 6;
+                const isToday = isSameDay(day, new Date());
                 return (
                   <div
                     key={day.toISOString()}
-                    className="bg-muted p-1 text-center sticky top-0 z-10"
+                    className={`p-1 text-center sticky top-0 z-10 ${isToday ? 'bg-primary/10' : 'bg-muted'}`}
                     data-testid={`header-day-${format(day, 'yyyy-MM-dd')}`}
                   >
-                    <div className={`text-xs ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : 'text-muted-foreground'}`}>
+                    <div className={`text-xs ${
+                      isToday ? 'text-primary font-semibold' :
+                      isSunday ? 'text-red-600 dark:text-red-400' :
+                      isSaturday ? 'text-blue-600 dark:text-blue-400' :
+                      'text-muted-foreground'
+                    }`}>
                       {format(day, 'E', { locale: ja })}
                     </div>
-                    <div className={`text-sm font-medium ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : ''}`}>
-                      {day.getDate() === 1 ? format(day, 'M月d日') : format(day, 'd日')}
+                    <div className="flex items-center justify-center">
+                      {isToday ? (
+                        <span className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold">
+                          {day.getDate()}
+                        </span>
+                      ) : (
+                        <span className={`text-sm font-medium ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : ''}`}>
+                          {day.getDate() === 1 ? format(day, 'M月d日') : format(day, 'd日')}
+                        </span>
+                      )}
                     </div>
                   </div>
                 );
@@ -289,17 +303,31 @@ export default function WeeklyCalendar({
               {weekDays.map((day, index) => {
                 const isSunday = day.getDay() === 0;
                 const isSaturday = day.getDay() === 6;
+                const isToday = isSameDay(day, new Date());
                 return (
                   <div
                     key={day.toISOString()}
-                    className="bg-muted p-2 text-center sticky top-0 z-10"
+                    className={`p-2 text-center sticky top-0 z-10 ${isToday ? 'bg-primary/10' : 'bg-muted'}`}
                     data-testid={`header-day-${format(day, 'yyyy-MM-dd')}`}
                   >
-                    <div className={`text-xs ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : 'text-muted-foreground'}`}>
+                    <div className={`text-xs ${
+                      isToday ? 'text-primary font-semibold' :
+                      isSunday ? 'text-red-600 dark:text-red-400' :
+                      isSaturday ? 'text-blue-600 dark:text-blue-400' :
+                      'text-muted-foreground'
+                    }`}>
                       {format(day, 'E', { locale: ja })}
                     </div>
-                    <div className={`font-medium ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : ''}`}>
-                      {day.getDate() === 1 ? format(day, 'M月d日') : format(day, 'd日')}
+                    <div className="flex items-center justify-center">
+                      {isToday ? (
+                        <span className="bg-primary text-primary-foreground rounded-full w-7 h-7 flex items-center justify-center text-sm font-bold">
+                          {day.getDate()}
+                        </span>
+                      ) : (
+                        <span className={`font-medium ${isSunday ? 'text-red-600 dark:text-red-400' : isSaturday ? 'text-blue-600 dark:text-blue-400' : ''}`}>
+                          {day.getDate() === 1 ? format(day, 'M月d日') : format(day, 'd日')}
+                        </span>
+                      )}
                     </div>
                   </div>
                 );

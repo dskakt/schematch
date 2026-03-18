@@ -115,17 +115,23 @@ function MonthGrid({
               `}
               data-testid={`date-${format(date, 'yyyy-MM-dd')}`}
             >
-              <div className={`text-sm ${
-                isSunday && !selected
-                  ? 'text-red-600 dark:text-red-400'
-                  : isSaturday && !selected
-                  ? 'text-blue-600 dark:text-blue-400'
-                  : !selected
-                  ? 'text-foreground'
-                  : ''
-              }`}>
-                {format(date, 'd')}
-              </div>
+              {isToday && !selected ? (
+                <span className="bg-primary text-primary-foreground rounded-full w-6 h-6 flex items-center justify-center text-xs font-bold mx-auto">
+                  {format(date, 'd')}
+                </span>
+              ) : (
+                <div className={`text-sm ${
+                  isSunday && !selected
+                    ? 'text-red-600 dark:text-red-400'
+                    : isSaturday && !selected
+                    ? 'text-blue-600 dark:text-blue-400'
+                    : !selected
+                    ? 'text-foreground'
+                    : ''
+                }`}>
+                  {format(date, 'd')}
+                </div>
+              )}
               {selected && mode === "respond" && (
                 <div className="absolute inset-0 flex items-center justify-center text-sm font-bold">
                   ○
