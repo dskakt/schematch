@@ -286,7 +286,9 @@ export default function WeeklyCalendar({
                       `}
                       data-testid={`slot-${format(day, 'yyyy-MM-dd')}-${time.replace(/[:\s]/g, '-')}`}
                     >
-                      {selected && mode === "respond" && '○'}
+                      {selected && mode === "respond" && (
+                        <div className="rounded-full border-[3px] border-current w-5 h-5 flex-shrink-0" />
+                      )}
                     </button>
                   );
                 })}
@@ -388,7 +390,9 @@ export default function WeeklyCalendar({
                       `}
                       data-testid={`slot-${format(day, 'yyyy-MM-dd')}-${time.replace(/[:\s]/g, '-')}`}
                     >
-                      {selected && mode === "respond" && '○'}
+                      {selected && mode === "respond" && (
+                        <div className="rounded-full border-[3px] border-current w-6 h-6 flex-shrink-0" />
+                      )}
                     </button>
                   );
                 })}
