@@ -263,6 +263,7 @@ export default function WeeklyCalendar({
                   const isSunday = day.getDay() === 0;
                   const isSaturday = day.getDay() === 6;
                   const isNoTimeSlot = time === "時間指定なし";
+                  const isTodayCol = isSameDay(day, today);
 
                   return (
                     <button
@@ -281,7 +282,7 @@ export default function WeeklyCalendar({
                         ${isPast && !isUnavailable && 'cursor-not-allowed'}
                         ${!selected && !isUnavailable && available && mode === "respond" && 'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700'}
                         ${!selected && !isUnavailable && !available && mode === "respond" && 'bg-background'}
-                        ${!selected && mode === "create" && (isSunday ? 'bg-red-50 dark:bg-red-950/20' : isSaturday ? 'bg-blue-50 dark:bg-blue-950/20' : 'bg-background')}
+                        ${!selected && mode === "create" && (isTodayCol ? 'bg-primary/10' : isSunday ? 'bg-red-50 dark:bg-red-950/20' : isSaturday ? 'bg-blue-50 dark:bg-blue-950/20' : 'bg-background')}
                       `}
                       data-testid={`slot-${format(day, 'yyyy-MM-dd')}-${time.replace(/[:\s]/g, '-')}`}
                     >
@@ -364,6 +365,7 @@ export default function WeeklyCalendar({
                   const isSunday = day.getDay() === 0;
                   const isSaturday = day.getDay() === 6;
                   const isNoTimeSlot = time === "時間指定なし";
+                  const isTodayCol = isSameDay(day, today);
 
                   return (
                     <button
@@ -382,7 +384,7 @@ export default function WeeklyCalendar({
                         ${isPast && !isUnavailable && 'cursor-not-allowed'}
                         ${!selected && !isUnavailable && available && mode === "respond" && 'bg-green-100 dark:bg-green-900/30 border-green-300 dark:border-green-700'}
                         ${!selected && !isUnavailable && !available && mode === "respond" && 'bg-background'}
-                        ${!selected && mode === "create" && (isSunday ? 'bg-red-50 dark:bg-red-950/20' : isSaturday ? 'bg-blue-50 dark:bg-blue-950/20' : 'bg-background')}
+                        ${!selected && mode === "create" && (isTodayCol ? 'bg-primary/10' : isSunday ? 'bg-red-50 dark:bg-red-950/20' : isSaturday ? 'bg-blue-50 dark:bg-blue-950/20' : 'bg-background')}
                       `}
                       data-testid={`slot-${format(day, 'yyyy-MM-dd')}-${time.replace(/[:\s]/g, '-')}`}
                     >
