@@ -133,7 +133,7 @@ function MonthGrid({
                 </div>
               )}
               {selected && mode === "respond" && (
-                <div className="absolute inset-0 flex items-center justify-center text-sm font-bold">
+                <div className="absolute inset-0 flex items-center justify-center text-base font-extrabold">
                   ○
                 </div>
               )}

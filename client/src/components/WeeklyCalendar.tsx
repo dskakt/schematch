@@ -272,7 +272,7 @@ export default function WeeklyCalendar({
                       onClick={() => toggleSlot(day, time)}
                       disabled={isClickDisabled}
                       className={`
-                        p-1 transition-colors flex items-center justify-center font-bold text-sm leading-none
+                        p-1 transition-colors flex items-center justify-center font-extrabold text-base leading-none
                         ${isNoTimeSlot ? 'min-h-[40px]' : 'min-h-[28px]'}
                         ${mode === "respond" ? 'border border-white dark:border-white' : ''}
                         ${isNoTimeSlot ? 'border-b-4 border-b-border' : ''}
@@ -374,7 +374,7 @@ export default function WeeklyCalendar({
                       onClick={() => toggleSlot(day, time)}
                       disabled={isClickDisabled}
                       className={`
-                        p-1 transition-colors flex items-center justify-center font-bold text-base leading-none
+                        p-1 transition-colors flex items-center justify-center font-extrabold text-lg leading-none
                         ${isNoTimeSlot ? 'min-h-[48px]' : 'min-h-[32px]'}
                         ${mode === "respond" ? 'border border-white dark:border-white' : ''}
                         ${isNoTimeSlot ? 'border-b-4 border-b-border' : ''}
