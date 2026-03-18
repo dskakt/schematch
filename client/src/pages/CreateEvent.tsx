@@ -125,7 +125,7 @@ export default function CreateEvent() {
               </div>
               <div className="flex items-center gap-2 text-muted-foreground text-[18px]">
                 <Check className="w-4 h-4 text-primary flex-shrink-0" />
-                <span data-testid="text-feature-results">見やすい集計結果！</span>
+                <span data-testid="text-feature-results">スマホでも使いやすい！</span>
               </div>
             </div>
           </div>
