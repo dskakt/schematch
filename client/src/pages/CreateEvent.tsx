@@ -112,7 +112,7 @@ export default function CreateEvent() {
               className="text-lg text-[#171717] font-semibold"
               data-testid="text-page-tagline"
             >
-              登録不要・仕事も飲み会もカンタン日程調整
+              登録不要・仕事も遊びもカンタン日程調整
             </p>
             <div className="inline-flex flex-col items-start gap-1 text-left">
               <div className="flex items-center gap-2 text-muted-foreground text-[18px]">
