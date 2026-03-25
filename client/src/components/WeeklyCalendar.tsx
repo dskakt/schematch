@@ -181,8 +181,8 @@ export default function WeeklyCalendar({
 
   const renderTimeSlots = (isMobile: boolean) => {
     const colTemplate = isMobile
-      ? `95px repeat(${weekDays.length}, minmax(32px, 1fr))`
-      : `115px repeat(${weekDays.length}, minmax(45px, 1fr))`;
+      ? `76px repeat(${weekDays.length}, minmax(32px, 1fr))`
+      : `92px repeat(${weekDays.length}, minmax(45px, 1fr))`;
 
     return (
       <div className={`grid gap-px ${isMobile ? 'sm:hidden' : 'hidden sm:grid'}`} style={{ gridTemplateColumns: colTemplate }}>
@@ -304,7 +304,7 @@ export default function WeeklyCalendar({
             style={{ overflowX: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}
           >
             {/* Mobile header */}
-            <div className="grid gap-px sm:hidden" style={{ gridTemplateColumns: `95px repeat(${weekDays.length}, minmax(32px, 1fr))` }}>
+            <div className="grid gap-px sm:hidden" style={{ gridTemplateColumns: `76px repeat(${weekDays.length}, minmax(32px, 1fr))` }}>
               <div className="bg-muted p-0 font-medium text-sm sticky left-0 z-10 relative" data-testid="header-time">
                 <div className="absolute inset-0" style={{ background: diagonalBg }}></div>
                 {weekDays.length > 0 && <span className="absolute top-1 right-1 text-base">{format(weekDays[0], 'M月')}</span>}
@@ -314,7 +314,7 @@ export default function WeeklyCalendar({
               {weekDays.map(day => renderDayHeader(day, 'p-1'))}
             </div>
             {/* PC header */}
-            <div className="hidden sm:grid gap-px" style={{ gridTemplateColumns: `115px repeat(${weekDays.length}, minmax(45px, 1fr))` }}>
+            <div className="hidden sm:grid gap-px" style={{ gridTemplateColumns: `92px repeat(${weekDays.length}, minmax(45px, 1fr))` }}>
               <div className="bg-muted p-0 font-medium text-sm sticky left-0 z-10 relative" data-testid="header-time">
                 <div className="absolute inset-0" style={{ background: diagonalBg }}></div>
                 {weekDays.length > 0 && <span className="absolute top-1 right-1 text-base">{format(weekDays[0], 'M月')}</span>}
