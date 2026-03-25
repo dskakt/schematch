@@ -187,7 +187,7 @@ export default function WeeklyCalendar({
         </div>
       )}
 
-      <div className="border rounded-lg bg-border overflow-hidden relative">
+      <div className="border rounded-lg bg-border relative">
         <div ref={scrollContainerRef} className="overflow-x-auto">
           <div className="inline-block min-w-full">
             <div className="grid gap-px sm:hidden" style={{ gridTemplateColumns: `95px repeat(${weekDays.length}, minmax(32px, 1fr))` }}>
