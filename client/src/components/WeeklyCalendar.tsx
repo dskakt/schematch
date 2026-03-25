@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { format, addDays, startOfWeek, isSameDay, parse, startOfDay, eachDayOfInterval, isAfter, isBefore } from "date-fns";
 import { ja } from "date-fns/locale";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft, ChevronRight, ChevronDown } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 interface WeeklyCalendarProps {
   selectedSlots: { date: Date; time: string }[];
@@ -63,7 +63,6 @@ export default function WeeklyCalendar({
     getInitialWeekStart(mode, availableSlots, selectedSlots)
   );
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [showVerticalScrollIndicator, setShowVerticalScrollIndicator] = useState(false);
   const [showHorizontalScrollIndicator, setShowHorizontalScrollIndicator] = useState(false);
 
   useEffect(() => {
@@ -75,8 +74,7 @@ export default function WeeklyCalendar({
   useEffect(() => {
     const checkScroll = () => {
       if (scrollContainerRef.current) {
-        const { scrollTop, scrollHeight, clientHeight, scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-        setShowVerticalScrollIndicator(scrollHeight > clientHeight && scrollTop < scrollHeight - clientHeight - 10);
+        const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
         setShowHorizontalScrollIndicator(scrollWidth > clientWidth && scrollLeft < scrollWidth - clientWidth - 10);
       }
     };
@@ -190,7 +188,7 @@ export default function WeeklyCalendar({
       )}
 
       <div className="border rounded-lg bg-border overflow-hidden relative">
-        <div ref={scrollContainerRef} className="overflow-auto max-h-[600px]">
+        <div ref={scrollContainerRef} className="overflow-x-auto">
           <div className="inline-block min-w-full">
             <div className="grid gap-px sm:hidden" style={{ gridTemplateColumns: `95px repeat(${weekDays.length}, minmax(32px, 1fr))` }}>
               <div className="bg-muted p-0 font-medium text-sm sticky left-0 top-0 z-20 relative" data-testid="header-time">
@@ -402,14 +400,6 @@ export default function WeeklyCalendar({
             </div>
           </div>
         </div>
-        {showVerticalScrollIndicator && (
-          <div className="absolute bottom-0 left-0 right-0 h-20 pointer-events-none z-30 flex items-end justify-center pb-2" style={{ background: 'linear-gradient(to top, hsl(var(--background)), transparent)' }}>
-            <div className="flex flex-col items-center gap-1">
-              <ChevronDown className="w-5 h-5 text-primary" />
-              <span className="text-xs font-medium text-primary">下にスクロール</span>
-            </div>
-          </div>
-        )}
         {showHorizontalScrollIndicator && (
           <div className="absolute top-0 right-0 h-full w-20 pointer-events-none z-30 flex items-center justify-end pr-2" style={{ background: 'linear-gradient(to left, hsl(var(--background)), transparent)' }}>
             <div className="flex flex-col items-center gap-1 pointer-events-none">
