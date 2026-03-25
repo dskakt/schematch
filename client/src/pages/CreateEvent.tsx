@@ -213,11 +213,13 @@ export default function CreateEvent() {
                     </p>
                   </div>
 
-                  <WeeklyCalendar
-                    selectedSlots={selectedSlots}
-                    onSlotsChange={setSelectedSlots}
-                    mode="create"
-                  />
+                  <div className="-mx-6">
+                    <WeeklyCalendar
+                      selectedSlots={selectedSlots}
+                      onSlotsChange={setSelectedSlots}
+                      mode="create"
+                    />
+                  </div>
                 </div>
 
                 <div className="space-y-2">
